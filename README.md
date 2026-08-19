@@ -1,4 +1,32 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# PharmaMobil - actividad práctica de dominio KMP
+
+Proyecto Kotlin Multiplatform para Android e iOS, adaptado a la estructura desarrollada en clase.
+
+## Actividad implementada
+
+- `Cliente` con null-safety y `obtenerTelefono()` usando el operador Elvis.
+- `Producto` inmutable y actualización de stock mediante `copy()`.
+- Consultas de colecciones con `filter`, `map` y `find`.
+- `Pedido`, `DetallePedido` y estados modelados con `sealed class`.
+- Repositorio asíncrono con función `suspend` y emisiones reactivas mediante `Flow`.
+- Caso de uso para observar productos sin acoplar la UI al repositorio.
+- Seis pruebas del dominio compartido en `commonTest`.
+
+## Actividad autónoma
+
+Se añadió el procesamiento reactivo de pedidos e inventario como ampliación autónoma de la sesión:
+
+- validación de existencia y disponibilidad de productos;
+- suma de cantidades repetidas antes de descontar stock;
+- resultados de negocio exhaustivos mediante `sealed class`;
+- actualización inmutable y segura del inventario con `Mutex`;
+- observación del inventario mediante `StateFlow`;
+- seis pruebas adicionales de reglas de negocio y flujo reactivo.
+
+La explicación, las reglas y los casos comprobados están en
+[ACTIVIDAD_AUTONOMA.md](./ACTIVIDAD_AUTONOMA.md).
+
+## Estructura original del proyecto
 
 * [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
   you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
@@ -25,6 +53,13 @@ Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
 
 - Android tests: `./gradlew :shared:testAndroidHostTest`
 - iOS tests: `./gradlew :shared:iosSimulatorArm64Test`
+
+En Windows, valida toda la actividad compartida con:
+
+```powershell
+.\gradlew.bat :shared:testAndroidHostTest
+.\gradlew.bat :androidApp:assembleDebug
+```
 
 ---
 
