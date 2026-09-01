@@ -40,11 +40,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import pe.edu.upeu.pharmamobil.domain.model.Cliente
+import pe.edu.upeu.pharmamobil.domain.model.Pedido
 import pe.edu.upeu.pharmamobil.domain.model.Producto
 import pe.edu.upeu.pharmamobil.navigation.Screen
 import pe.edu.upeu.pharmamobil.presentation.cliente.ClienteScreen
+import pe.edu.upeu.pharmamobil.presentation.cliente.clientesSimulados
 import pe.edu.upeu.pharmamobil.presentation.inicio.InicioScreen
 import pe.edu.upeu.pharmamobil.presentation.pedido.PedidoScreen
+import pe.edu.upeu.pharmamobil.presentation.pedido.pedidosSimulados
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoScreen
 import pe.edu.upeu.pharmamobil.presentation.producto.productosSimulados
 import pe.edu.upeu.pharmamobil.theme.PharmaMobilTheme
@@ -73,6 +77,10 @@ private fun PharmaMobilApp(
 ) {
     var pantallaActual by remember { mutableStateOf<Screen>(Screen.Inicio) }
     var inventario by remember { mutableStateOf(productosSimulados) }
+    var clientes by remember { mutableStateOf(clientesSimulados) }
+    var pedidos by remember {
+        mutableStateOf(pedidosSimulados(clientesSimulados, productosSimulados))
+    }
     val saveableStateHolder = rememberSaveableStateHolder()
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
@@ -95,6 +103,10 @@ private fun PharmaMobilApp(
                                     pantallaActual = pantallaActual,
                                     productos = inventario,
                                     onInventarioChange = { inventario = it },
+                                    clientes = clientes,
+                                    onClientesChange = { clientes = it },
+                                    pedidos = pedidos,
+                                    onPedidosChange = { pedidos = it },
                                     onPantallaSeleccionada = { pantallaActual = it },
                                 )
                             }
@@ -120,6 +132,10 @@ private fun PharmaMobilApp(
                                     pantallaActual = pantallaActual,
                                     productos = inventario,
                                     onInventarioChange = { inventario = it },
+                                    clientes = clientes,
+                                    onClientesChange = { clientes = it },
+                                    pedidos = pedidos,
+                                    onPedidosChange = { pedidos = it },
                                     onPantallaSeleccionada = { pantallaActual = it },
                                 )
                             }
@@ -151,6 +167,10 @@ private fun PharmaMobilApp(
                                 pantallaActual = pantallaActual,
                                 productos = inventario,
                                 onInventarioChange = { inventario = it },
+                                clientes = clientes,
+                                onClientesChange = { clientes = it },
+                                pedidos = pedidos,
+                                onPedidosChange = { pedidos = it },
                                 onPantallaSeleccionada = { pantallaActual = it },
                             )
                         }
@@ -330,6 +350,10 @@ private fun PantallaActiva(
     pantallaActual: Screen,
     productos: List<Producto>,
     onInventarioChange: (List<Producto>) -> Unit,
+    clientes: List<Cliente>,
+    onClientesChange: (List<Cliente>) -> Unit,
+    pedidos: List<Pedido>,
+    onPedidosChange: (List<Pedido>) -> Unit,
     onPantallaSeleccionada: (Screen) -> Unit,
 ) {
     when (pantallaActual) {
@@ -338,7 +362,15 @@ private fun PantallaActiva(
             productos = productos,
             onInventarioChange = onInventarioChange,
         )
-        Screen.Clientes -> ClienteScreen()
-        Screen.Pedidos -> PedidoScreen()
+        Screen.Clientes -> ClienteScreen(
+            clientes = clientes,
+            onClientesChange = onClientesChange,
+        )
+        Screen.Pedidos -> PedidoScreen(
+            clientes = clientes,
+            productos = productos,
+            pedidos = pedidos,
+            onPedidosChange = onPedidosChange,
+        )
     }
 }
