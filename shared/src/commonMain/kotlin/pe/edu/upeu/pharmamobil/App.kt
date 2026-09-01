@@ -40,11 +40,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import pe.edu.upeu.pharmamobil.domain.model.Producto
 import pe.edu.upeu.pharmamobil.navigation.Screen
 import pe.edu.upeu.pharmamobil.presentation.cliente.ClienteScreen
 import pe.edu.upeu.pharmamobil.presentation.inicio.InicioScreen
 import pe.edu.upeu.pharmamobil.presentation.pedido.PedidoScreen
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoScreen
+import pe.edu.upeu.pharmamobil.presentation.producto.productosSimulados
 import pe.edu.upeu.pharmamobil.theme.PharmaMobilTheme
 
 private val anchoMediano = 600.dp
@@ -70,6 +72,7 @@ private fun PharmaMobilApp(
     onDarkThemeChange: (Boolean) -> Unit,
 ) {
     var pantallaActual by remember { mutableStateOf<Screen>(Screen.Inicio) }
+    var inventario by remember { mutableStateOf(productosSimulados) }
     val saveableStateHolder = rememberSaveableStateHolder()
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
@@ -90,6 +93,8 @@ private fun PharmaMobilApp(
                             saveableStateHolder.SaveableStateProvider(pantallaActual.id) {
                                 PantallaActiva(
                                     pantallaActual = pantallaActual,
+                                    productos = inventario,
+                                    onInventarioChange = { inventario = it },
                                     onPantallaSeleccionada = { pantallaActual = it },
                                 )
                             }
@@ -113,6 +118,8 @@ private fun PharmaMobilApp(
                             saveableStateHolder.SaveableStateProvider(pantallaActual.id) {
                                 PantallaActiva(
                                     pantallaActual = pantallaActual,
+                                    productos = inventario,
+                                    onInventarioChange = { inventario = it },
                                     onPantallaSeleccionada = { pantallaActual = it },
                                 )
                             }
@@ -142,6 +149,8 @@ private fun PharmaMobilApp(
                         saveableStateHolder.SaveableStateProvider(pantallaActual.id) {
                             PantallaActiva(
                                 pantallaActual = pantallaActual,
+                                productos = inventario,
+                                onInventarioChange = { inventario = it },
                                 onPantallaSeleccionada = { pantallaActual = it },
                             )
                         }
@@ -319,11 +328,16 @@ private fun DestinoIcono(screen: Screen) {
 @Composable
 private fun PantallaActiva(
     pantallaActual: Screen,
+    productos: List<Producto>,
+    onInventarioChange: (List<Producto>) -> Unit,
     onPantallaSeleccionada: (Screen) -> Unit,
 ) {
     when (pantallaActual) {
         Screen.Inicio -> InicioScreen(onPantallaSeleccionada)
-        Screen.Productos -> ProductoScreen()
+        Screen.Productos -> ProductoScreen(
+            productos = productos,
+            onInventarioChange = onInventarioChange,
+        )
         Screen.Clientes -> ClienteScreen()
         Screen.Pedidos -> PedidoScreen()
     }

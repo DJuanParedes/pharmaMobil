@@ -4,7 +4,8 @@ data class Producto(
     val id: Long,
     val nombre: String,
     val precio: Double,
-    val stock: Int
+    val stock: Int,
+    val activo: Boolean = true,
 ) {
     init {
         require(id > 0) { "El id del producto debe ser positivo" }

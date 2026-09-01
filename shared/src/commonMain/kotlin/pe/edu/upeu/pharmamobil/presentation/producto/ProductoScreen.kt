@@ -2,6 +2,7 @@ package pe.edu.upeu.pharmamobil.presentation.producto
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +12,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PrimaryScrollableTabRow
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlin.math.roundToInt
 import pe.edu.upeu.pharmamobil.domain.model.Producto
 
 private const val MENSAJE_REGISTRO_EXITOSO = "Producto registrado correctamente."
@@ -43,6 +50,7 @@ internal enum class CampoProducto {
 
 internal sealed interface ResultadoRegistroProducto {
     data class Exito(val producto: Producto) : ResultadoRegistroProducto
+
     data class Error(
         val campo: CampoProducto,
         val mensaje: String,
@@ -102,7 +110,11 @@ internal fun validarProductoRegistro(
 }
 
 @Composable
-fun ProductoScreen() {
+fun ProductoScreen(
+    productos: List<Producto>,
+    onInventarioChange: (List<Producto>) -> Unit,
+) {
+    var tabSeleccionada by rememberSaveable { mutableStateOf(FiltroInventario.ACTIVOS.ordinal) }
     var nombre by rememberSaveable { mutableStateOf("") }
     var precio by rememberSaveable { mutableStateOf("") }
     var stock by rememberSaveable { mutableStateOf("") }
@@ -111,6 +123,8 @@ fun ProductoScreen() {
     var registroExitoso by rememberSaveable { mutableStateOf(false) }
     var intentoRegistrar by rememberSaveable { mutableStateOf(false) }
 
+    val filtroActual = FiltroInventario.entries[tabSeleccionada]
+    val productosFiltrados = filtrarInventario(productos, filtroActual)
     val errorActual = if (intentoRegistrar) {
         validarProductoRegistro(nombre, precio, stock) as? ResultadoRegistroProducto.Error
     } else {
@@ -144,27 +158,66 @@ fun ProductoScreen() {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp, vertical = 32.dp),
+            .padding(horizontal = 20.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "Registro de Producto",
+            text = "Inventario de Productos",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
         )
+        Text(
+            text = "Consulta el inventario por estado y registra nuevos productos.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+
+        PrimaryScrollableTabRow(
+            selectedTabIndex = tabSeleccionada,
+            edgePadding = 0.dp,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            FiltroInventario.entries.forEachIndexed { index, filtro ->
+                Tab(
+                    selected = tabSeleccionada == index,
+                    onClick = { tabSeleccionada = index },
+                    text = { Text(filtro.titulo) },
+                )
+            }
+        }
 
         Text(
-            text = "Complete los datos del producto para agregarlo al inventario.",
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.fillMaxWidth(),
+            text = "${filtroActual.titulo}: ${productosFiltrados.size}",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        if (productosFiltrados.isEmpty()) {
+            Surface(
+                color = MaterialTheme.colorScheme.surfaceContainer,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    text = "No hay productos en esta categoría.",
+                    modifier = Modifier.padding(20.dp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        } else {
+            productosFiltrados.forEach { producto ->
+                ProductoInventarioCard(producto)
+            }
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+
+        Text(
+            text = "Registrar producto",
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
+        )
 
         OutlinedTextField(
             value = nombre,
@@ -191,7 +244,7 @@ fun ProductoScreen() {
                 actualizarRetroalimentacion(nuevoPrecio = it)
             },
             label = { Text("Precio") },
-            placeholder = { Text("Ej. 8.50") },
+            placeholder = { Text("Ej. 15.50") },
             prefix = { Text("S/ ") },
             isError = errorActual?.campo == CampoProducto.PRECIO,
             supportingText = if (errorActual?.campo == CampoProducto.PRECIO) {
@@ -234,8 +287,19 @@ fun ProductoScreen() {
                     }
 
                     is ResultadoRegistroProducto.Exito -> {
+                        val inventarioActualizado = agregarProductoAlInventario(
+                            productos = productos,
+                            producto = resultado.producto,
+                        )
+                        val productoAgregado = inventarioActualizado.last()
+                        onInventarioChange(inventarioActualizado)
+                        tabSeleccionada = if (esProductoDeBajoStock(productoAgregado)) {
+                            FiltroInventario.BAJO_STOCK.ordinal
+                        } else {
+                            FiltroInventario.ACTIVOS.ordinal
+                        }
                         mensaje = MENSAJE_REGISTRO_EXITOSO
-                        productoRegistrado = resultado.producto
+                        productoRegistrado = productoAgregado
                         registroExitoso = true
                         nombre = ""
                         precio = ""
@@ -267,11 +331,83 @@ fun ProductoScreen() {
         productoRegistrado?.let { producto ->
             Text(
                 text = "ID: ${producto.id} | ${producto.nombre} | " +
-                    "S/ ${producto.precio} | Stock: ${producto.stock}",
+                    "S/ ${formatearPrecio(producto.precio)} | Stock: ${producto.stock}",
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
     }
+}
+
+@Composable
+private fun ProductoInventarioCard(producto: Producto) {
+    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = producto.nombre,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f),
+                )
+                Text(
+                    text = "S/ ${formatearPrecio(producto.precio)}",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "Stock: ${producto.stock}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                EstadoProducto(producto)
+            }
+        }
+    }
+}
+
+@Composable
+private fun EstadoProducto(producto: Producto) {
+    val (texto, color) = when {
+        !producto.activo -> "Inactivo" to MaterialTheme.colorScheme.secondary
+        esProductoDeBajoStock(producto) -> "Bajo stock" to MaterialTheme.colorScheme.error
+        else -> "Activo" to MaterialTheme.colorScheme.primary
+    }
+
+    Surface(
+        color = color.copy(alpha = 0.12f),
+        contentColor = color,
+        shape = MaterialTheme.shapes.small,
+    ) {
+        Text(
+            text = texto,
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+        )
+    }
+}
+
+private fun formatearPrecio(precio: Double): String {
+    val centimos = (precio * 100).roundToInt()
+    val parteEntera = centimos / 100
+    val parteDecimal = (centimos % 100).toString().padStart(2, '0')
+    return "$parteEntera.$parteDecimal"
 }
