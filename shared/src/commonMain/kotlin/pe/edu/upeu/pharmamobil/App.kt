@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +41,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.compose.KoinContext
+import org.koin.compose.viewmodel.koinViewModel
 import pe.edu.upeu.pharmamobil.domain.model.Cliente
 import pe.edu.upeu.pharmamobil.domain.model.Pedido
 import pe.edu.upeu.pharmamobil.domain.model.Producto
@@ -50,6 +54,8 @@ import pe.edu.upeu.pharmamobil.presentation.inicio.InicioScreen
 import pe.edu.upeu.pharmamobil.presentation.pedido.PedidoScreen
 import pe.edu.upeu.pharmamobil.presentation.pedido.pedidosSimulados
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoScreen
+import pe.edu.upeu.pharmamobil.presentation.producto.ProductoFase
+import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 import pe.edu.upeu.pharmamobil.presentation.producto.productosSimulados
 import pe.edu.upeu.pharmamobil.theme.PharmaMobilTheme
 
@@ -62,11 +68,13 @@ private val anchoDrawer = 320.dp
 fun App() {
     var darkTheme by remember { mutableStateOf(false) }
 
-    PharmaMobilTheme(darkTheme = darkTheme) {
-        PharmaMobilApp(
-            darkTheme = darkTheme,
-            onDarkThemeChange = { darkTheme = it },
-        )
+    KoinContext {
+        PharmaMobilTheme(darkTheme = darkTheme) {
+            PharmaMobilApp(
+                darkTheme = darkTheme,
+                onDarkThemeChange = { darkTheme = it },
+            )
+        }
     }
 }
 
@@ -358,10 +366,27 @@ private fun PantallaActiva(
 ) {
     when (pantallaActual) {
         Screen.Inicio -> InicioScreen(onPantallaSeleccionada)
-        Screen.Productos -> ProductoScreen(
-            productos = productos,
-            onInventarioChange = onInventarioChange,
-        )
+        Screen.Productos -> {
+            val viewModel = koinViewModel<ProductoViewModel>()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+            LaunchedEffect(uiState.fase) {
+                val fase = uiState.fase
+                if (fase is ProductoFase.ConProductos) {
+                    onInventarioChange(fase.productos)
+                }
+            }
+
+            ProductoScreen(
+                uiState = uiState,
+                onFiltroChange = viewModel::cambiarFiltro,
+                onNombreChange = viewModel::cambiarNombre,
+                onPrecioChange = viewModel::cambiarPrecio,
+                onStockChange = viewModel::cambiarStock,
+                onRegistrar = viewModel::registrar,
+                onReintentar = viewModel::cargarProductos,
+            )
+        }
         Screen.Clientes -> ClienteScreen(
             clientes = clientes,
             onClientesChange = onClientesChange,

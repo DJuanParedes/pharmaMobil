@@ -1,6 +1,43 @@
-# PharmaMobil - actividad práctica de dominio KMP
+# PharmaMobil - Clean Architecture, MVVM y Koin
 
 Proyecto Kotlin Multiplatform para Android e iOS, adaptado a la estructura desarrollada en clase.
+
+## Sesión 5 - Módulo de Productos por capas
+
+La rama `feature/clean-mvvm` reorganiza el flujo completo de Productos con Clean Architecture y MVVM:
+
+- `ProductoRepository` se declara como contrato de dominio;
+- `ProductoRepositoryEnMemoria` implementa operaciones `suspend`, latencia visible y asignación interna de ID;
+- `RegistrarProductoUseCase` concentra las reglas de nombre, precio y stock y devuelve `Result<Producto>`;
+- `ProductoViewModel` expone un `StateFlow` de solo lectura y ejecuta operaciones con `viewModelScope`;
+- `ProductoUiState` representa de forma exclusiva carga, lista vacía, productos o error;
+- `ProductoScreen` es declarativa: recibe estado y eventos, sin validaciones ni datos de negocio con `remember`;
+- Koin enlaza repositorio, caso de uso y ViewModel para Android e iOS;
+- Android inicia Koin desde `MainApplication` e iOS desde `initKoinIos()`;
+- la regla `Producto.requiereReposicion()` usa `STOCK_MINIMO = 5`;
+- el formulario conserva mensajes por campo y confirma el producto con el ID asignado.
+
+Las evidencias, el procedimiento y el resultado de las pruebas están en
+[`output/pdf/evidencias-s5.pdf`](./output/pdf/evidencias-s5.pdf). Las capturas originales de Android se conservan en
+[`evidencias/s5/android`](./evidencias/s5/android).
+
+Estructura principal del flujo:
+
+```text
+presentation/producto/ProductoScreen
+              │ eventos / UiState
+              ▼
+presentation/producto/ProductoViewModel
+              │
+              ▼
+domain/usecase/RegistrarProductoUseCase
+              │
+              ▼
+domain/repository/ProductoRepository
+              ▲
+              │ implementación
+data/repository/ProductoRepositoryEnMemoria
+```
 
 ## Sesión 4 - Navegación y estructura visual
 
@@ -42,15 +79,15 @@ La entrega de la actividad autónoma está documentada en
 [`evidencias/actividad-autonoma-sesion3`](./evidencias/actividad-autonoma-sesion3). Las respuestas de reflexión están en
 [`RESPUESTAS_REFLEXION_SESION_3.md`](./RESPUESTAS_REFLEXION_SESION_3.md).
 
-## Actividad implementada
+## Base de dominio implementada
 
 - `Cliente` con null-safety y `obtenerTelefono()` usando el operador Elvis.
 - `Producto` inmutable y actualización de stock mediante `copy()`.
 - Consultas de colecciones con `filter`, `map` y `find`.
 - `Pedido`, `DetallePedido` y estados modelados con `sealed class`.
-- Repositorio asíncrono con función `suspend` y emisiones reactivas mediante `Flow`.
-- Caso de uso para observar productos sin acoplar la UI al repositorio.
-- Seis pruebas del dominio compartido en `commonTest`.
+- Repositorio de Productos con funciones `suspend` y contrato ubicado en dominio.
+- Caso de uso de registro sin acoplar la UI al repositorio concreto.
+- Pruebas del dominio, repositorio, caso de uso, ViewModel, navegación, clientes y pedidos en `commonTest`.
 
 ## Actividad autónoma
 

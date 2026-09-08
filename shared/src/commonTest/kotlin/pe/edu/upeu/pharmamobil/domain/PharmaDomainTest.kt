@@ -1,15 +1,11 @@
 package pe.edu.upeu.pharmamobil.domain
 
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.runTest
-import pe.edu.upeu.pharmamobil.data.repository.ProductoRepositoryMemoria
 import pe.edu.upeu.pharmamobil.domain.model.Cliente
 import pe.edu.upeu.pharmamobil.domain.model.DetallePedido
 import pe.edu.upeu.pharmamobil.domain.model.EstadoPedido
 import pe.edu.upeu.pharmamobil.domain.model.Pedido
 import pe.edu.upeu.pharmamobil.domain.model.Producto
 import pe.edu.upeu.pharmamobil.domain.service.ProductoService
-import pe.edu.upeu.pharmamobil.domain.usecase.ObservarProductosUseCase
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -77,17 +73,25 @@ class PharmaDomainTest {
     }
 
     @Test
-    fun flowEmiteVacioYLuegoProductosRemotos() = runTest {
-        val repository = ProductoRepositoryMemoria(
-            productosRemotos = productos,
-            latenciaMillis = 1_000
+    fun detallePedidoRechazaCantidadIgualACero() {
+        assertFailsWith<IllegalArgumentException> {
+            DetallePedido(productos.first(), cantidad = 0)
+        }
+    }
+
+    @Test
+    fun reglaDeReposicionConsideraStockMinimoYEstadoActivo() {
+        assertEquals(true, productos[1].requiereReposicion())
+        assertEquals(false, productos[2].requiereReposicion())
+        assertEquals(
+            false,
+            Producto(
+                id = 4L,
+                nombre = "Producto inactivo",
+                precio = 5.0,
+                stock = 0,
+                activo = false,
+            ).requiereReposicion(),
         )
-        val useCase = ObservarProductosUseCase(repository)
-
-        val emisiones = useCase().toList()
-
-        assertEquals(2, emisiones.size)
-        assertEquals(emptyList(), emisiones.first())
-        assertEquals(productos, emisiones.last())
     }
 }

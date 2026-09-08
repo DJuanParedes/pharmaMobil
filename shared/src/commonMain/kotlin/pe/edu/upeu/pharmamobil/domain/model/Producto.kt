@@ -7,6 +7,10 @@ data class Producto(
     val stock: Int,
     val activo: Boolean = true,
 ) {
+    companion object {
+        const val STOCK_MINIMO = 5
+    }
+
     init {
         require(id > 0) { "El id del producto debe ser positivo" }
         require(nombre.isNotBlank()) { "El nombre del producto es obligatorio" }
@@ -18,4 +22,6 @@ data class Producto(
         require(nuevoStock >= 0) { "El stock no puede ser negativo" }
         return copy(stock = nuevoStock)
     }
+
+    fun requiereReposicion(): Boolean = activo && stock <= STOCK_MINIMO
 }

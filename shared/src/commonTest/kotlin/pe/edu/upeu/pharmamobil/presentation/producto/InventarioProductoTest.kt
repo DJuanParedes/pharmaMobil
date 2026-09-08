@@ -31,20 +31,7 @@ class InventarioProductoTest {
         val bajoStock = filtrarInventario(productosSimulados, FiltroInventario.BAJO_STOCK)
 
         assertEquals(listOf("Amoxicilina", "Diclofenaco"), bajoStock.map { it.nombre })
-        assertTrue(bajoStock.all { it.stock <= LIMITE_BAJO_STOCK })
+        assertTrue(bajoStock.all { it.stock <= Producto.STOCK_MINIMO })
         assertFalse(bajoStock.any { it.nombre == "Loratadina" })
-    }
-
-    @Test
-    fun registroAgregaProductoActivoConIdConsecutivo() {
-        val nuevo = Producto(id = 1L, nombre = "Naproxeno", precio = 11.90, stock = 4)
-
-        val actualizado = agregarProductoAlInventario(productosSimulados, nuevo)
-        val agregado = actualizado.last()
-
-        assertEquals(6, actualizado.size)
-        assertEquals(6L, agregado.id)
-        assertTrue(agregado.activo)
-        assertTrue(esProductoDeBajoStock(agregado))
     }
 }
