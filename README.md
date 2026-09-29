@@ -2,6 +2,33 @@
 
 Proyecto Kotlin Multiplatform para Android e iOS, adaptado a la estructura desarrollada en clase.
 
+## Sesión 8 - CRUD REST de productos
+
+La rama `feature/crud-productos-paredes` conecta el módulo de Productos con el backend
+[PharmaSoft](https://github.com/dreyna/pharmaSoft) mediante Ktor Client:
+
+- listado paginado con `GET /api/v1/productos`;
+- consulta por identificador con `GET /api/v1/productos/{id}`;
+- creación con `POST`, actualización con `PUT` y eliminación con `DELETE`;
+- DTO genérico `PaginaResponseDto<T>` y mapeo entre datos y dominio;
+- implementación REST de `ProductoRepository` registrada en Koin;
+- traducción centralizada de errores HTTP, conexión, tiempo de espera y serialización;
+- estados independientes para la fase de la pantalla y la operación en curso;
+- validaciones por campo para nombre, precio y stock;
+- recarga del listado después de crear, actualizar o eliminar;
+- pruebas con `MockEngine` para los cinco endpoints y el error HTTP 400.
+
+El emulador Android consume `http://10.0.2.2:8080/api/v1/`. La aplicación iOS usa
+`http://localhost:8080/api/v1/` y debe ejecutarse en macOS con Xcode. Las capturas reales
+de la verificación Android se encuentran en [`evidencias/sesion8/android`](./evidencias/sesion8/android).
+
+Para verificar la entrega en Windows:
+
+```powershell
+.\gradlew.bat :shared:testAndroidHostTest
+.\gradlew.bat :androidApp:assembleDebug
+```
+
 ## Sesión 5 - Módulo de Productos por capas
 
 La rama `feature/clean-mvvm` reorganiza el flujo completo de Productos con Clean Architecture y MVVM:
