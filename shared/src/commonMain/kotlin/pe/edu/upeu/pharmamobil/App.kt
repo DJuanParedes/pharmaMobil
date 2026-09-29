@@ -383,7 +383,11 @@ private fun PantallaActiva(
                 onNombreChange = viewModel::cambiarNombre,
                 onPrecioChange = viewModel::cambiarPrecio,
                 onStockChange = viewModel::cambiarStock,
-                onRegistrar = viewModel::registrar,
+                onGuardar = viewModel::guardar,
+                onEditar = viewModel::iniciarEdicion,
+                onCancelarEdicion = viewModel::cancelarEdicion,
+                onEliminar = viewModel::eliminar,
+                onLimpiarMensaje = viewModel::limpiarMensaje,
                 onReintentar = viewModel::cargarProductos,
             )
         }

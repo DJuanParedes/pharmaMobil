@@ -22,47 +22,52 @@ class RegistrarProductoUseCase(
         precio: String,
         stock: String,
     ): Result<Producto> {
-        val nombreNormalizado = nombre.trim()
-        val precioNumerico = precio.toDoubleOrNull()
-        val stockNumerico = stock.toIntOrNull()
-
-        val error = when {
-            nombreNormalizado.isBlank() -> ValidacionProductoException(
-                CampoProducto.NOMBRE,
-                "Nombre obligatorio",
-            )
-
-            precioNumerico == null -> ValidacionProductoException(
-                CampoProducto.PRECIO,
-                "Precio inválido",
-            )
-
-            precioNumerico <= 0.0 -> ValidacionProductoException(
-                CampoProducto.PRECIO,
-                "El precio debe ser mayor a 0",
-            )
-
-            stockNumerico == null -> ValidacionProductoException(
-                CampoProducto.STOCK,
-                "Stock debe ser un número entero",
-            )
-
-            stockNumerico < 0 -> ValidacionProductoException(
-                CampoProducto.STOCK,
-                "Stock no puede ser negativo",
-            )
-
-            else -> null
-        }
-
-        if (error != null) return Result.failure(error)
-
-        return runCatching {
+        val datos = validarProducto(nombre, precio, stock)
+            .getOrElse { return Result.failure(it) }
+        return resultadoDe {
             repository.registrar(
+                nombre = datos.nombre,
+                precio = datos.precio,
+                stock = datos.stock,
+            )
+        }
+    }
+}
+
+internal data class DatosProductoValidos(
+    val nombre: String,
+    val precio: Double,
+    val stock: Int,
+)
+
+internal fun validarProducto(nombre: String, precio: String, stock: String): Result<DatosProductoValidos> {
+    val nombreNormalizado = nombre.trim()
+    val precioNumerico = precio.toDoubleOrNull()
+    val stockNumerico = stock.toIntOrNull()
+    val error = when {
+        nombreNormalizado.length !in 3..150 -> ValidacionProductoException(
+            CampoProducto.NOMBRE,
+            "El nombre debe tener entre 3 y 150 caracteres",
+        )
+        precioNumerico == null || precioNumerico < 0.01 -> ValidacionProductoException(
+            CampoProducto.PRECIO,
+            "El precio debe ser mayor o igual a 0.01",
+        )
+        stockNumerico == null || stockNumerico < 0 -> ValidacionProductoException(
+            CampoProducto.STOCK,
+            "El stock debe ser un número entero no negativo",
+        )
+        else -> null
+    }
+    return if (error != null) {
+        Result.failure(error)
+    } else {
+        Result.success(
+            DatosProductoValidos(
                 nombre = nombreNormalizado,
                 precio = checkNotNull(precioNumerico),
                 stock = checkNotNull(stockNumerico),
-            )
-        }
+            ),
+        )
     }
 }
