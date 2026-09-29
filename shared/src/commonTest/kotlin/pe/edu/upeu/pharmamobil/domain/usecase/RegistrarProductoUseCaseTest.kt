@@ -26,12 +26,12 @@ class RegistrarProductoUseCaseTest {
 
     @Test
     fun rechazaNombreVacio() = runTest {
-        verificarError("", "8.50", "100", CampoProducto.NOMBRE, "Nombre obligatorio")
+        verificarError("", "8.50", "100", CampoProducto.NOMBRE, "El nombre debe tener entre 3 y 150 caracteres")
     }
 
     @Test
     fun rechazaPrecioConTexto() = runTest {
-        verificarError("Ibuprofeno", "abc", "50", CampoProducto.PRECIO, "Precio inválido")
+        verificarError("Ibuprofeno", "abc", "50", CampoProducto.PRECIO, "El precio debe ser mayor o igual a 0.01")
     }
 
     @Test
@@ -41,7 +41,7 @@ class RegistrarProductoUseCaseTest {
             "0",
             "50",
             CampoProducto.PRECIO,
-            "El precio debe ser mayor a 0",
+            "El precio debe ser mayor o igual a 0.01",
         )
     }
 
@@ -52,7 +52,7 @@ class RegistrarProductoUseCaseTest {
             "18.50",
             "abc",
             CampoProducto.STOCK,
-            "Stock debe ser un número entero",
+            "El stock debe ser un número entero no negativo",
         )
     }
 
@@ -63,7 +63,7 @@ class RegistrarProductoUseCaseTest {
             "18.50",
             "-5",
             CampoProducto.STOCK,
-            "Stock no puede ser negativo",
+            "El stock debe ser un número entero no negativo",
         )
     }
 
@@ -106,4 +106,17 @@ private class ProductoRepositoryPrueba : ProductoRepository {
     ).also(productos::add)
 
     override suspend fun listar(): List<Producto> = productos.toList()
+
+    override suspend fun obtener(id: Long): Producto =
+        productos.first { it.id == id }
+
+    override suspend fun actualizar(producto: Producto): Producto {
+        val indice = productos.indexOfFirst { it.id == producto.id }
+        productos[indice] = producto
+        return producto
+    }
+
+    override suspend fun eliminar(id: Long) {
+        productos.removeAll { it.id == id }
+    }
 }
