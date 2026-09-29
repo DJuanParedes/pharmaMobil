@@ -53,7 +53,9 @@ validación por campo, eliminación con estado `EnCurso`, recarga del listado, c
 .\gradlew.bat :shared:testAndroidHostTest
 ```
 
-La entrega se desarrolla en la rama `actividad-autonoma-sesion-8`.
+La entrega se desarrolla en la rama `actividad-autonoma-sesion-8`. Las capturas del
+emulador, el resultado de `commonTest` y el extracto de Logcat se encuentran en
+[`evidencias/sesion8-autonoma/android`](./evidencias/sesion8-autonoma/android).
 
 ## Sesión 5 - Módulo de Productos por capas
 
