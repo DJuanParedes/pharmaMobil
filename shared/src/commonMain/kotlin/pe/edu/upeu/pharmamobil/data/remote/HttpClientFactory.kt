@@ -16,6 +16,9 @@ import kotlinx.serialization.json.Json
 internal fun crearHttpClientComun(
     engine: HttpClientEngine,
     baseUrl: String,
+    requestTimeoutMillis: Long = 15_000,
+    connectTimeoutMillis: Long = 10_000,
+    socketTimeoutMillis: Long = 15_000,
 ): HttpClient = HttpClient(engine) {
     expectSuccess = true
     defaultRequest {
@@ -32,9 +35,9 @@ internal fun crearHttpClientComun(
         )
     }
     install(HttpTimeout) {
-        requestTimeoutMillis = 15_000
-        connectTimeoutMillis = 10_000
-        socketTimeoutMillis = 15_000
+        this.requestTimeoutMillis = requestTimeoutMillis
+        this.connectTimeoutMillis = connectTimeoutMillis
+        this.socketTimeoutMillis = socketTimeoutMillis
     }
     install(Logging) {
         logger = object : Logger {

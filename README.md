@@ -29,6 +29,32 @@ Para verificar la entrega en Windows:
 .\gradlew.bat :androidApp:assembleDebug
 ```
 
+## Manejo de errores
+
+La actividad autónoma de la sesión 8 comprueba que los fallos de red y del servidor se
+traduzcan a tipos de dominio antes de llegar a la interfaz:
+
+| Situación | Representación | Comportamiento visible |
+| --- | --- | --- |
+| HTTP 400 | `ErrorApi.Validacion` | El mensaje aparece debajo de `nombre`, `precio` o `stock`. |
+| HTTP 404 | `ErrorApi.NoEncontrado` | Se informa que el producto ya no existe. |
+| HTTP 409 | `ErrorApi.Conflicto` | Se conserva y muestra el mensaje enviado por PharmaSoft. |
+| HTTP 5xx | `ErrorApi.Servidor` | Se permite reintentar sin cerrar la pantalla. |
+| Backend detenido | `ErrorApi.SinConexion` | Se pide verificar la red y el servicio. |
+| Tiempo de espera | `ErrorApi.TiempoAgotado` | Se informa que la operación tardó demasiado. |
+| JSON no válido | `ErrorApi.RespuestaInvalida` | Se muestra una respuesta inesperada del servidor. |
+| Cancelación de corrutina | No se convierte en `ErrorApi` | La cancelación se propaga y no genera un mensaje falso. |
+
+Las pruebas de la actividad están en `commonTest`. Incluyen carga con datos, listado vacío,
+validación por campo, eliminación con estado `EnCurso`, recarga del listado, códigos 404 y
+409, desconexión, timeout y cancelación. En Windows se ejecutan con:
+
+```powershell
+.\gradlew.bat :shared:testAndroidHostTest
+```
+
+La entrega se desarrolla en la rama `actividad-autonoma-sesion-8`.
+
 ## Sesión 5 - Módulo de Productos por capas
 
 La rama `feature/clean-mvvm` reorganiza el flujo completo de Productos con Clean Architecture y MVVM:

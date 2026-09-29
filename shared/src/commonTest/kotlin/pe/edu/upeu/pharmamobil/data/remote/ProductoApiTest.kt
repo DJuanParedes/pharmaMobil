@@ -7,6 +7,9 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
+import io.ktor.utils.io.errors.IOException
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import pe.edu.upeu.pharmamobil.data.remote.dto.ProductoRequestDto
 import pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioRest
@@ -73,6 +76,77 @@ class ProductoApiTest {
         val error = assertIs<ErrorApi.Validacion>(exception.error)
         assertEquals("El nombre ya existe", error.porCampo["nombre"])
         client.close()
+    }
+
+    @Test
+    fun traduceRespuesta404ANoEncontrado() = runTest {
+        val engine = MockEngine {
+            respondError(HttpStatusCode.NotFound, """{"message":"Producto no encontrado"}""", jsonHeaders)
+        }
+        val client = crearHttpClientComun(engine, "https://pharma.test/api/v1/")
+        val repository = ProductoRepositorioRest(ProductoApi(client), categoriaPorDefecto = 1)
+
+        val exception = assertFailsWith<ErrorApiException> { repository.obtener(999) }
+
+        assertIs<ErrorApi.NoEncontrado>(exception.error)
+        client.close()
+    }
+
+    @Test
+    fun traduceRespuesta409AConflictoConMensajeDelServidor() = runTest {
+        val engine = MockEngine {
+            respondError(
+                HttpStatusCode.Conflict,
+                """{"message":"El producto tiene ventas asociadas"}""",
+                jsonHeaders,
+            )
+        }
+        val client = crearHttpClientComun(engine, "https://pharma.test/api/v1/")
+        val repository = ProductoRepositorioRest(ProductoApi(client), categoriaPorDefecto = 1)
+
+        val exception = assertFailsWith<ErrorApiException> { repository.eliminar(1) }
+        val error = assertIs<ErrorApi.Conflicto>(exception.error)
+
+        assertEquals("El producto tiene ventas asociadas", error.mensaje)
+        client.close()
+    }
+
+    @Test
+    fun traduceFalloDeRedASinConexion() = runTest {
+        val engine = MockEngine { throw IOException("Servidor detenido") }
+        val client = crearHttpClientComun(engine, "https://pharma.test/api/v1/")
+        val repository = ProductoRepositorioRest(ProductoApi(client), categoriaPorDefecto = 1)
+
+        val exception = assertFailsWith<ErrorApiException> { repository.listar() }
+
+        assertIs<ErrorApi.SinConexion>(exception.error)
+        client.close()
+    }
+
+    @Test
+    fun traduceTiempoAgotadoSinPerderElTipoDeError() = runTest {
+        val engine = MockEngine {
+            delay(250)
+            respond(paginaJson, headers = jsonHeaders)
+        }
+        val client = crearHttpClientComun(
+            engine = engine,
+            baseUrl = "https://pharma.test/api/v1/",
+            requestTimeoutMillis = 25,
+        )
+        val repository = ProductoRepositorioRest(ProductoApi(client), categoriaPorDefecto = 1)
+
+        val exception = assertFailsWith<ErrorApiException> { repository.listar() }
+
+        assertIs<ErrorApi.TiempoAgotado>(exception.error)
+        client.close()
+    }
+
+    @Test
+    fun cancellationExceptionSePropagaSinTransformarseEnErrorApi() = runTest {
+        assertFailsWith<CancellationException> {
+            ejecutarLlamada<Unit> { throw CancellationException("Pantalla cerrada") }
+        }
     }
 
     private fun productoJson(id: Long, nombre: String) =
