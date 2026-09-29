@@ -40,6 +40,30 @@ class ProductoRepositoryEnMemoria(
         delay(latenciaMillis)
         return mutex.withLock { productos.toList() }
     }
+
+    override suspend fun obtener(id: Long): Producto {
+        delay(latenciaMillis)
+        return mutex.withLock {
+            productos.firstOrNull { it.id == id } ?: error("Producto no encontrado")
+        }
+    }
+
+    override suspend fun actualizar(producto: Producto): Producto {
+        delay(latenciaMillis)
+        return mutex.withLock {
+            val indice = productos.indexOfFirst { it.id == producto.id }
+            require(indice >= 0) { "Producto no encontrado" }
+            productos[indice] = producto
+            producto
+        }
+    }
+
+    override suspend fun eliminar(id: Long) {
+        delay(latenciaMillis)
+        mutex.withLock {
+            require(productos.removeAll { it.id == id }) { "Producto no encontrado" }
+        }
+    }
 }
 
 fun productosInicialesPharmaMobil(): List<Producto> = listOf(

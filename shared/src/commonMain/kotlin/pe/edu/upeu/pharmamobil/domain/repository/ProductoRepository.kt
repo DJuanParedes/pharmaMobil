@@ -10,4 +10,10 @@ interface ProductoRepository {
     ): Producto
 
     suspend fun listar(): List<Producto>
+
+    suspend fun obtener(id: Long): Producto
+
+    suspend fun actualizar(producto: Producto): Producto
+
+    suspend fun eliminar(id: Long)
 }
