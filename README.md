@@ -56,6 +56,11 @@ validación por campo, eliminación con estado `EnCurso`, recarga del listado, c
 La entrega se desarrolla en la rama `actividad-autonoma-sesion-8`. Las capturas del
 emulador, el resultado de `commonTest` y el extracto de Logcat se encuentran en
 [`evidencias/sesion8-autonoma/android`](./evidencias/sesion8-autonoma/android).
+El informe final con la matriz CRUD, la bitácora de ocho escenarios, las pruebas y las
+conclusiones está disponible en
+[`S08_ActividadAutonoma_Paredes_Cardenas.pdf`](./output/pdf/S08_ActividadAutonoma_Paredes_Cardenas.pdf).
+La evidencia iOS queda identificada como pendiente porque requiere una ejecución real en
+macOS con Xcode; no se incluyen capturas simuladas.
 
 ## Sesión 5 - Módulo de Productos por capas
 
