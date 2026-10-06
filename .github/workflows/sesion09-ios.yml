@@ -1,0 +1,60 @@
+name: Sesion 9 - iOS real
+on:
+  push:
+    branches: [feature/expect-actual-paredes]
+  pull_request:
+    branches: [develop]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ios:
+    runs-on: macos-26
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v6
+        with:
+          distribution: zulu
+          java-version: '21'
+      - name: Backend oficial con datos de laboratorio
+        run: |
+          mkdir -p evidencias-ci
+          git clone https://github.com/dreyna/pharmaSoft.git "$RUNNER_TEMP/pharmaSoft"
+          git -C "$RUNNER_TEMP/pharmaSoft" checkout 6bc94e321f993c194789e9ce9d008a48813e0bf2
+          python3 ci/preparar_backend.py "$RUNNER_TEMP/pharmaSoft" "$RUNNER_TEMP/backend"
+          mvn -B -f "$RUNNER_TEMP/backend/pom.xml" package -DskipTests > evidencias-ci/backend-build.txt 2>&1
+          java -jar "$RUNNER_TEMP/backend/target/PharmaBackend-0.0.1-SNAPSHOT.jar" --spring.datasource.url='jdbc:h2:mem:pharma;MODE=Oracle;DB_CLOSE_DELAY=-1' --spring.datasource.driver-class-name=org.h2.Driver --spring.datasource.username=sa --spring.datasource.password= --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect --spring.jpa.hibernate.ddl-auto=create-drop --spring.flyway.enabled=false > evidencias-ci/backend.txt 2>&1 &
+          python3 ci/seed_backend.py
+      - name: Pruebas Kotlin en simulador iOS
+        run: |
+          chmod +x gradlew
+          ./gradlew :shared:iosSimulatorArm64Test --console=plain > evidencias-ci/kotlin-ios.txt 2>&1
+      - name: Preparar Xcode y simulador
+        run: |
+          gem install --user-install xcodeproj --no-document
+          ruby ci/ios/preparar_pruebas.rb
+          UDID=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for group in d["devices"].values() for x in group if x["isAvailable"] and x["name"].startswith("iPhone 17")))')
+          echo "SIMULATOR_UDID=$UDID" >> "$GITHUB_ENV"
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
+      - name: Compilar Swift y comprobar listado y compartir
+        run: |
+          xcodebuild test -project iosApp/iosApp.xcodeproj -scheme Sesion09 -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" -derivedDataPath "$RUNNER_TEMP/DerivedData" -resultBundlePath "$RUNNER_TEMP/Sesion09.xcresult" CODE_SIGNING_ALLOWED=NO > evidencias-ci/xcode.txt 2>&1
+          xcrun simctl pbpaste "$SIMULATOR_UDID" > evidencias-ci/texto-compartido.txt
+          python3 -c 'from pathlib import Path; t=Path("evidencias-ci/texto-compartido.txt").read_text(); assert "Paracetamol 500 mg" in t and "15.50" in t and "Stock: 100" in t, repr(t)'
+      - name: Exportar evidencias reales y cabecera Swift
+        if: always()
+        run: |
+          if [ -d "$RUNNER_TEMP/Sesion09.xcresult" ]; then
+            xcrun xcresulttool export attachments --path "$RUNNER_TEMP/Sesion09.xcresult" --output-path evidencias-ci/capturas
+          fi
+          find shared/build -name Shared.h -exec cp {} evidencias-ci/Shared.h \; || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sesion09-ios-real
+          path: |
+            evidencias-ci/
+            shared/build/test-results/
+          retention-days: 30
