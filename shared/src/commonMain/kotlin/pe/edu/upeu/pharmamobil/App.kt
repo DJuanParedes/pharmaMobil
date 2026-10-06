@@ -41,6 +41,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import kotlinx.coroutines.launch
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.KoinContext
@@ -61,6 +63,7 @@ import pe.edu.upeu.pharmamobil.presentation.producto.productosSimulados
 import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoScreen
 import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel
 import pe.edu.upeu.pharmamobil.theme.PharmaMobilTheme
+import pe.edu.upeu.pharmamobil.presentation.acerca.AcercaDeScreen
 
 private val anchoMediano = 600.dp
 private val anchoAmpliado = 840.dp
@@ -321,7 +324,10 @@ private fun ContenidoPrincipal(
                 title = { Text(pantallaActual.titulo) },
                 navigationIcon = {
                     if (onAbrirMenu != null) {
-                        IconButton(onClick = onAbrirMenu) {
+                        IconButton(
+                            onClick = onAbrirMenu,
+                            modifier = Modifier.semantics { contentDescription = "Abrir menú" },
+                        ) {
                             Text(
                                 text = "☰",
                                 style = MaterialTheme.typography.titleLarge,
@@ -368,6 +374,7 @@ private fun PantallaActiva(
     onPantallaSeleccionada: (Screen) -> Unit,
 ) {
     when (pantallaActual) {
+        Screen.AcercaDe -> AcercaDeScreen()
         Screen.Inicio -> InicioScreen(onPantallaSeleccionada)
         Screen.Productos -> {
             var productoDetalleId by rememberSaveable { mutableStateOf<Long?>(null) }

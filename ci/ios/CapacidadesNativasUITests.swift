@@ -24,6 +24,13 @@ final class CapacidadesNativasUITests: XCTestCase {
         XCTAssertTrue(accionCopiar.waitForExistence(timeout: 15), app.debugDescription)
         guardarCaptura("compartir-ios")
         accionCopiar.tap()
+        app.buttons["Abrir menú"].tap()
+        let acerca = app.buttons["Acerca de"]
+        XCTAssertTrue(acerca.waitForExistence(timeout: 10), app.debugDescription)
+        acerca.tap()
+        XCTAssertTrue(app.staticTexts["Sistema operativo: iOS"].waitForExistence(timeout: 10), app.debugDescription)
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Versión:")).firstMatch.exists)
+        guardarCaptura("acerca-ios")
     }
 
     private func guardarCaptura(_ nombre: String) {
