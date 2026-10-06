@@ -13,6 +13,15 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/cache/restore@v4
+        id: dependencias
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.konan
+            ~/.m2/repository
+          key: macos-s09-${{ hashFiles('gradle/libs.versions.toml', 'gradle/wrapper/gradle-wrapper.properties') }}
       - uses: actions/setup-java@v6
         with:
           distribution: zulu
@@ -58,3 +67,12 @@ jobs:
             evidencias-ci/
             shared/build/test-results/
           retention-days: 30
+      - uses: actions/cache/save@v4
+        if: always() && steps.dependencias.outputs.cache-hit != 'true'
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.konan
+            ~/.m2/repository
+          key: ${{ steps.dependencias.outputs.cache-primary-key }}

@@ -12,6 +12,8 @@ tests.add_file_references([file])
 tests.build_configurations.each do |configuration|
   configuration.build_settings.merge!({
     'PRODUCT_BUNDLE_IDENTIFIER' => 'pe.edu.upeu.pharmamobil.Sesion09UITests',
+    'PRODUCT_NAME' => 'Sesion09UITests',
+    'PRODUCT_MODULE_NAME' => 'Sesion09UITests',
     'SWIFT_VERSION' => '5.0',
     'GENERATE_INFOPLIST_FILE' => 'YES',
     'CODE_SIGNING_ALLOWED' => 'NO',
