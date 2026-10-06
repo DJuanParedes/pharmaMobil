@@ -85,8 +85,9 @@ iPhone físico configura tu equipo de firma y una URL del backend accesible desd
 ```
 
 El proyecto conserva la selección de JDK 21 Azul en `gradle/gradle-daemon-jvm.properties`.
-La validación Windows utilizó temporalmente el JBR 25 instalado, compatible con el
-wrapper Gradle 9.1; ese ajuste se restauró y no se incluye como cambio del proyecto.
+La verificación final de Windows pasó con Zulu JDK 21.0.11, ya disponible en la caché
+de Gradle, y el wrapper Gradle 9.1, sin cambiar los criterios del proyecto. En las
+comprobaciones iniciales se utilizó temporalmente JBR 25; ese ajuste se restauró.
 
 ## Sesión 8 - CRUD REST de productos
 

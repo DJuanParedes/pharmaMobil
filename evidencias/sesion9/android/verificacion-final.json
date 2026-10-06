@@ -1,0 +1,14 @@
+{
+  "commonMain_imports_nativos": 0,
+  "tests": 59,
+  "failures": 0,
+  "errors": 0,
+  "apk_sha256": "01476b817ea93c33d153dd91b11d5df02b8cd99ddee9d83eb58d37b174b5efa8",
+  "sistema": "Android",
+  "version": "17",
+  "producto": "Paracetamol 500 mg",
+  "precio_literal": "S/ 15.50",
+  "capturas": "ADB del APK final",
+  "jdk": "Zulu 21.0.11",
+  "gradle": "9.1.0"
+}
