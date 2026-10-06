@@ -23,13 +23,13 @@ jobs:
           git clone https://github.com/dreyna/pharmaSoft.git "$RUNNER_TEMP/pharmaSoft"
           git -C "$RUNNER_TEMP/pharmaSoft" checkout 6bc94e321f993c194789e9ce9d008a48813e0bf2
           python3 ci/preparar_backend.py "$RUNNER_TEMP/pharmaSoft" "$RUNNER_TEMP/backend"
-          mvn -B -f "$RUNNER_TEMP/backend/pom.xml" package -DskipTests > evidencias-ci/backend-build.txt 2>&1
+          mvn -B -f "$RUNNER_TEMP/backend/pom.xml" package -DskipTests > evidencias-ci/backend-build.txt 2>&1 || { tail -80 evidencias-ci/backend-build.txt; exit 1; }
           java -jar "$RUNNER_TEMP/backend/target/PharmaBackend-0.0.1-SNAPSHOT.jar" --spring.datasource.url='jdbc:h2:mem:pharma;MODE=Oracle;DB_CLOSE_DELAY=-1' --spring.datasource.driver-class-name=org.h2.Driver --spring.datasource.username=sa --spring.datasource.password= --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect --spring.jpa.hibernate.ddl-auto=create-drop --spring.flyway.enabled=false > evidencias-ci/backend.txt 2>&1 &
-          python3 ci/seed_backend.py
+          python3 ci/seed_backend.py || { tail -80 evidencias-ci/backend.txt; exit 1; }
       - name: Pruebas Kotlin en simulador iOS
         run: |
           chmod +x gradlew
-          ./gradlew :shared:iosSimulatorArm64Test --console=plain > evidencias-ci/kotlin-ios.txt 2>&1
+          ./gradlew :shared:iosSimulatorArm64Test --console=plain > evidencias-ci/kotlin-ios.txt 2>&1 || { tail -100 evidencias-ci/kotlin-ios.txt; exit 1; }
       - name: Preparar Xcode y simulador
         run: |
           gem install --user-install xcodeproj --no-document
@@ -40,7 +40,7 @@ jobs:
           xcrun simctl bootstatus "$UDID" -b
       - name: Compilar Swift y comprobar listado y compartir
         run: |
-          xcodebuild test -project iosApp/iosApp.xcodeproj -scheme Sesion09 -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" -derivedDataPath "$RUNNER_TEMP/DerivedData" -resultBundlePath "$RUNNER_TEMP/Sesion09.xcresult" CODE_SIGNING_ALLOWED=NO > evidencias-ci/xcode.txt 2>&1
+          xcodebuild test -project iosApp/iosApp.xcodeproj -scheme Sesion09 -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" -derivedDataPath "$RUNNER_TEMP/DerivedData" -resultBundlePath "$RUNNER_TEMP/Sesion09.xcresult" CODE_SIGNING_ALLOWED=NO > evidencias-ci/xcode.txt 2>&1 || { tail -100 evidencias-ci/xcode.txt; exit 1; }
           xcrun simctl pbpaste "$SIMULATOR_UDID" > evidencias-ci/texto-compartido.txt
           python3 -c 'from pathlib import Path; t=Path("evidencias-ci/texto-compartido.txt").read_text(); assert "Paracetamol 500 mg" in t and "15.50" in t and "Stock: 100" in t, repr(t)'
       - name: Exportar evidencias reales y cabecera Swift

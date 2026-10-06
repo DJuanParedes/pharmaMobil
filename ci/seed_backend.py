@@ -19,6 +19,6 @@ def post(path, payload):
     with urlopen(request) as response:
         return json.load(response)
 
-post('categorias', {'nombre': 'Medicamentos'})
+post('categorias', {'nombre': 'Medicamentos', 'estado': True})
 for nombre, precio, stock in [('Paracetamol 500 mg', 15.5, 100), ('Vitamina C 1 g', 1234.56, 4)]:
     post('productos', {'nombre': nombre, 'precio': precio, 'stock': stock, 'estado': True, 'categoriaId': 1})
