@@ -1,6 +1,6 @@
 # Sesión 9 — expect/actual y capacidades nativas
 
-**Integrante:** Juan Paredes Cardenas · **Cuenta:** DJuanParedes  
+**Integrante:** Juan Paredes Cárdenas · **Cuenta:** DJuanParedes  
 **Fuente:** Guía Práctica N.º 09, 12 páginas, proporcionada por el estudiante.  
 **Fecha de actividad autónoma indicada:** 12 de octubre de 2026, 23:59.
 
@@ -69,7 +69,17 @@ Studio. El mensaje no fue recreado ni editado.
 **Punto de control 2.** Tras los actual se compiló Android y se mostró el listado con
 `S/ 15.50`. Ambos archivos actual conservan la firma y el paquete del expect.
 
-**Punto de control 3.** Se ejecutó el detalle y el selector Android. El árbol de interfaz
+**Punto de control 3.** `Compartidor` y `comoTextoParaCompartir()` se compilan como código
+común, sin importar APIs Android ni iOS.
+
+**Punto de control 4.** Android resolvió el Compartidor registrado en Koin al ejecutar el
+botón del detalle. En iOS, XCTest comprueba la misma resolución al abrir la hoja nativa.
+`MainApplication` conserva el registro de `androidContext()`.
+
+**Punto de control 5.** La búsqueda de imports nativos en todo presentation no produjo
+coincidencias. Ambas pantallas comunes se conectan exclusivamente al ViewModel.
+
+**Verificación del paso 6.** Se ejecutó el detalle y el selector Android. El árbol de interfaz
 capturado contiene `Paracetamol 500 mg — S/ 15.50 · Stock: 100`, con espacio no separable
 introducido por el formateador. La prueba iOS realiza el mismo recorrido y copia el texto
 de la hoja nativa para verificar nombre, precio y stock.
@@ -110,6 +120,7 @@ Para inspeccionar interoperabilidad, revisar la cabecera `Shared.h` exportada en
 artefacto y los archivos Swift de iosApp. Las decisiones de estado permanecen en Kotlin;
 Swift se limita a inicializar Koin y alojar el controlador Compose.
 
-La ficha autónoma separada mencionada al final de la guía no fue proporcionada; se
-cubren las diferencias y evidencias que exige la guía recibida. No se atribuyen requisitos
-adicionales a un documento no disponible.
+Se localizó y revisó también la ficha `sesion09_actividad_autonoma_diferencias_qkoyb3gpig.pdf`
+(8 páginas) en Descargas. Su alcance adicional incluye el inventario completo, un informe
+de 600 a 900 palabras, una tercera capacidad conectada a la interfaz y un único PDF.
+La tercera capacidad elegida es información del dispositivo en la pantalla Acerca de.

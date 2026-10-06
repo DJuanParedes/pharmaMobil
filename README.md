@@ -14,7 +14,7 @@ formatea soles. Compartir utiliza una interfaz de dominio, inyectada con Koin.
 | Formato PEN | `platform/Formato.kt`: `expect fun formatearSoles(valor: Double): String` | `platform/Formato.android.kt`: `NumberFormat`, `Locale("es", "PE")` | `platform/Formato.ios.kt`: `NSNumberFormatter`, `NSLocale("es_PE")` |
 | Contrato para compartir | `domain/platform/Compartidor.kt` | `platform/CompartidorAndroid.kt`: `ACTION_SEND`, MIME `text/plain`, `EXTRA_TEXT` | `platform/CompartidorIos.kt`: `UIActivityViewController` |
 | Texto compartido | `domain/usecase/TextoParaCompartir.kt` | Consume el mismo texto común | Consume el mismo texto común |
-| Inyección | `di/PlatformModule.kt` declara el módulo esperado | `di/PlatformModule.android.kt` registra `CompartidorAndroid(androidContext())` | `di/PlatformModule.ios.kt` registra `CompartidorIos()` |
+| Inyección | `di/AppModule.kt` declara el módulo esperado | `di/PlatformModule.android.kt` registra `CompartidorAndroid(androidContext())` | `di/PlatformModule.ios.kt` registra `CompartidorIos()` |
 | Presentación | `presentation/producto/ProductoUi.kt`, `presentation/detalle/DetalleProductoViewModel.kt` y `DetalleProductoScreen.kt` | Pantallas Compose comunes | Pantallas Compose comunes |
 
 Las rutas de esta tabla son relativas a
@@ -49,8 +49,18 @@ la sintaxis de desestructuración Kotlin ni parámetros predeterminados de `copy
 métodos generados pueden aparecer en la cabecera, según el exportador. Los tipos
 anulables llegan como opcionales; los primitivos anulables pueden utilizar envoltorios
 Kotlin. Por ello los estados y decisiones de la aplicación permanecen en Kotlin.
+Referencia: [interoperabilidad oficial Kotlin/Objective-C y Swift](https://kotlinlang.org/docs/native-objc-interop.html).
 
-### Verificación y entregables
+### Código específico de plataforma
+
+El [inventario completo](docs/sesion9-inventario.md) registra todos los expect del
+proyecto y el contrato Compartidor, con firmas y rutas exactas. Además del formato y
+compartir, la actividad autónoma incorpora `InfoDispositivo`: Android utiliza
+`Build.VERSION.RELEASE` e iOS `UIDevice.currentDevice.systemVersion`. La pantalla
+**Acerca de**, accesible desde el menú, muestra el sistema operativo y la versión real.
+La tercera capacidad tiene un expect class y dos actual class con el mismo paquete.
+
+### Verificación y entregables de la sesión 9
 
 Consulta [la actividad autónoma y la trazabilidad](docs/sesion9-actividad-autonoma.md)
 para los diez criterios, capturas, procedencia del backend y limitaciones de entrega.
