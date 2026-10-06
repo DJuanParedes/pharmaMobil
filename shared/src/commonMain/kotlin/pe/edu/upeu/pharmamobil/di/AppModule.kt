@@ -15,6 +15,7 @@ import pe.edu.upeu.pharmamobil.domain.usecase.ActualizarProductoUseCase
 import pe.edu.upeu.pharmamobil.domain.usecase.EliminarProductoUseCase
 import pe.edu.upeu.pharmamobil.domain.usecase.ListarProductosUseCase
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
+import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel
 
 private const val CATEGORIA_POR_DEFECTO = 1L
 
@@ -33,6 +34,7 @@ val domainModule = module {
 
 val presentationModule = module {
     viewModelOf(::ProductoViewModel)
+    viewModelOf(::DetalleProductoViewModel)
 }
 
 expect val platformModule: Module

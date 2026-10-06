@@ -52,6 +52,7 @@ fun ProductoScreen(
     onEliminar: (Long) -> Unit,
     onLimpiarMensaje: () -> Unit,
     onReintentar: () -> Unit,
+    onVerDetalle: (Producto) -> Unit,
 ) {
     val formulario = uiState.formulario
     val operando = uiState.operacion is ProductoOperacion.EnCurso
@@ -133,6 +134,7 @@ fun ProductoScreen(
                             eliminando = eliminando,
                             onEditar = { onEditar(producto) },
                             onEliminar = { productoAEliminar = producto },
+                            onVerDetalle = { onVerDetalle(producto) },
                         )
                     }
                 }
@@ -312,6 +314,7 @@ private fun ProductoInventarioCard(
     eliminando: Boolean,
     onEditar: () -> Unit,
     onEliminar: () -> Unit,
+    onVerDetalle: () -> Unit,
 ) {
     ElevatedCard(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -330,6 +333,9 @@ private fun ProductoInventarioCard(
                 Button(onClick = onEliminar, enabled = habilitado, modifier = Modifier.weight(1f)) {
                     Text(if (eliminando) "Eliminando..." else "Eliminar")
                 }
+            }
+            TextButton(onClick = onVerDetalle, enabled = habilitado, modifier = Modifier.fillMaxWidth()) {
+                Text("Ver detalle")
             }
         }
     }

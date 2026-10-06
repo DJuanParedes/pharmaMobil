@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,6 +58,8 @@ import pe.edu.upeu.pharmamobil.presentation.producto.ProductoScreen
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoFase
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 import pe.edu.upeu.pharmamobil.presentation.producto.productosSimulados
+import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoScreen
+import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel
 import pe.edu.upeu.pharmamobil.theme.PharmaMobilTheme
 
 private val anchoMediano = 600.dp
@@ -367,6 +370,7 @@ private fun PantallaActiva(
     when (pantallaActual) {
         Screen.Inicio -> InicioScreen(onPantallaSeleccionada)
         Screen.Productos -> {
+            var productoDetalleId by rememberSaveable { mutableStateOf<Long?>(null) }
             val viewModel = koinViewModel<ProductoViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -377,7 +381,18 @@ private fun PantallaActiva(
                 }
             }
 
-            ProductoScreen(
+            val detalleId = productoDetalleId
+            if (detalleId != null) {
+                val detalleViewModel = koinViewModel<DetalleProductoViewModel>()
+                val detalleUiState by detalleViewModel.uiState.collectAsStateWithLifecycle()
+                LaunchedEffect(detalleId) { detalleViewModel.cargar(detalleId) }
+                DetalleProductoScreen(
+                    uiState = detalleUiState,
+                    onCompartir = { detalleViewModel.compartir() },
+                    onVolver = { productoDetalleId = null },
+                    onReintentar = { detalleViewModel.cargar(detalleId) },
+                )
+            } else ProductoScreen(
                 uiState = uiState,
                 onFiltroChange = viewModel::cambiarFiltro,
                 onNombreChange = viewModel::cambiarNombre,
@@ -389,6 +404,7 @@ private fun PantallaActiva(
                 onEliminar = viewModel::eliminar,
                 onLimpiarMensaje = viewModel::limpiarMensaje,
                 onReintentar = viewModel::cargarProductos,
+                onVerDetalle = { productoDetalleId = it.id },
             )
         }
         Screen.Clientes -> ClienteScreen(
