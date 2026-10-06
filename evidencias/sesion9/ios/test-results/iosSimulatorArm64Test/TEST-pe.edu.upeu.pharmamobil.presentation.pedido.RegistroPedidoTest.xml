@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.presentation.pedido.RegistroPedidoTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-06T21:24:30.894Z" hostname="sat12-dp150-86a31831-f8b0-4c17-b2ae-82860112328d-DE1F8517F51B.local" time="0.006">
+  <properties/>
+  <testcase name="se carga un pedido de ejemplo[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.presentation.pedido.RegistroPedidoTest" time="0.0"/>
+  <testcase name="un pedido valido conserva cliente producto y cantidad[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.presentation.pedido.RegistroPedidoTest" time="0.005"/>
+  <testcase name="no se permite superar el stock disponible[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.presentation.pedido.RegistroPedidoTest" time="0.0"/>
+  <testcase name="el nuevo pedido recibe un id consecutivo[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.presentation.pedido.RegistroPedidoTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

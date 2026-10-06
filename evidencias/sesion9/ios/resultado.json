@@ -1,0 +1,20 @@
+{
+  "conclusion": "partial",
+  "kotlin_tests": {
+    "tests": 59,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "run_url": "https://github.com/DJuanParedes/pharmaMobil/actions/runs/37532482314",
+  "source_commit": "a9081656fdd49dc10309011742598571c84e652f",
+  "artifact_id": 11446275390,
+  "artifact_sha256": "76d005d67cb96c9483d14e443a1f5855a72de9126b34e7dad69cd397c857e83e",
+  "visual_ios": "pending_user_requested_no_simulator",
+  "swift_app": "not_verified",
+  "captures": [],
+  "cancel_requested_run": "https://github.com/DJuanParedes/pharmaMobil/actions/runs/37534478744",
+  "cancel_action": "https://github.com/DJuanParedes/pharmaMobil/actions/runs/37535414793",
+  "cancel_requested_run_conclusion": "cancelled",
+  "cancel_action_force": "https://github.com/DJuanParedes/pharmaMobil/actions/runs/37535571878"
+}

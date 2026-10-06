@@ -63,12 +63,20 @@ La tercera capacidad tiene un expect class y dos actual class con el mismo paque
 ### Verificación y entregables de la sesión 9
 
 Consulta [la actividad autónoma y la trazabilidad](docs/sesion9-actividad-autonoma.md)
-para los diez criterios, capturas, procedencia del backend y limitaciones de entrega.
+para los diez criterios, capturas, procedencia del backend y estado de entrega.
+El [PDF de sesión 9](output/pdf/S09_ActividadAutonoma_Paredes_Cardenas.pdf) y el
+[informe de 734 palabras](docs/sesion9-informe-comparativo.md) reúnen los cuatro productos.
+La entrega es individual: Juan Paredes Cárdenas.
 En Windows se verificaron `:shared:testAndroidHostTest` y `:androidApp:assembleDebug`.
 La comprobación macOS se encuentra en
 [GitHub Actions](https://github.com/DJuanParedes/pharmaMobil/actions/workflows/sesion09-ios.yml):
-compila Kotlin/Native y Swift, ejecuta el flujo en un iPhone simulado y exporta las
-capturas de XCTest, el texto copiado y la cabecera `Shared.h`.
+está preparada para compilar Kotlin/Native y Swift y exportar evidencias XCTest.
+Se desactivaron sus arranques automáticos: sólo tiene `workflow_dispatch` con la opción
+`ejecutar_simulador` desactivada por defecto. No abrir iOS Simulator hasta que el
+estudiante lo solicite. Android pasó 59 pruebas y sus tres capacidades se observaron
+en ejecución. Las 59 pruebas Kotlin iOS previas también pasaron, pero Swift y el flujo
+visual iOS siguen pendientes; no hay capturas iOS ni resultado monetario literal inventado.
+Consulta [el resultado iOS](evidencias/sesion9/ios/resultado.json).
 
 En Android Studio abre la carpeta raíz del proyecto, espera la sincronización y ejecuta
 `androidApp`. Inicia antes PharmaSoft en el puerto 8080. El emulador consume

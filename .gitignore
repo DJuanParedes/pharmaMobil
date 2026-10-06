@@ -36,3 +36,6 @@ google-services.json
 # Generated reports and logs
 *.log
 reports/
+
+# Intermediate PDF renders
+tmp/pdfs/

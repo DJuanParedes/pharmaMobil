@@ -18,12 +18,10 @@ Como no existía `develop`, se creó desde esa base; la funcionalidad previa se 
 | [113d424](https://github.com/DJuanParedes/pharmaMobil/commit/113d4242a745c69d718faf09fabc047bbb695b21) | Contrato, implementaciones, Koin, detalle y botón Compartir |
 | [7505bde](https://github.com/DJuanParedes/pharmaMobil/commit/7505bde2f9bea95c08d33cb55fceb7b0c3cebc01) | Verificación macOS Kotlin/Swift y capturas XCTest |
 
-Los commits publicados pertenecen a la cuenta autenticada DJuanParedes. Sus identificadores
-difieren de los commits locales por la fecha y autoría del servicio de publicación; el
-contenido implementado es el mismo. La guía pide una rama y tres commits de **cada**
-integrante: este documento acredita a Juan. No se inventó un segundo integrante ni sus
-commits. La entrega en el aula virtual requiere que el estudiante adjunte el enlace y
-que su pareja aporte su propia rama, si corresponde.
+Los commits publicados pertenecen a la cuenta autenticada DJuanParedes. La entrega es
+individual, según la indicación explícita del estudiante: incluye su nombre, su rama y
+sus commits. El proyecto local se sincroniza con la historia publicada. Para el aula
+virtual se adjunta el PDF y el enlace de esta rama.
 
 ## Diferencias de plataforma
 
@@ -47,18 +45,19 @@ El error de compartir se muestra conservando el detalle y se limpia si un reinte
 | --- | --- | --- |
 | 1 | expect y dos actual | Tres archivos Formato del mismo paquete |
 | 2 | Paquete y firma idénticos | pe.edu.upeu.pharmamobil.platform; formatearSoles(Double): String |
-| 3 | Precio en ambas plataformas | Captura Android; verificación iOS en Actions y sus artefactos |
+| 3 | Precio en ambas plataformas | Captura Android; implementación iOS y pruebas Kotlin aprobadas; precio literal visual iOS pendiente |
 | 4 | Formato en presentación | Producto.toUi(); ProductoUi.precio es String |
 | 5 | Interfaz en domain sin plataformas | domain/platform/Compartidor.kt |
 | 6 | Dos implementaciones nativas | CompartidorAndroid y CompartidorIos |
-| 7 | Koin en ambos módulos | single<Compartidor> en ambos PlatformModule; resolución Android ejecutada; iOS verificado por flujo XCTest |
-| 8 | Botón y texto común | DetalleProductoScreen → ViewModel → comoTextoParaCompartir → Compartidor |
+| 7 | Koin en ambos módulos | single<Compartidor> en ambos PlatformModule; resolución Android ejecutada; recorrido visual iOS pendiente |
+| 8 | Botón y texto común | DetalleProductoScreen → ViewModel → comoTextoParaCompartir → Compartidor; selector Android observado, hoja iOS pendiente |
 | 9 | Sin imports nativos en presentation | Búsqueda de imports android.* y platform.UIKit.* sin coincidencias |
-| 10 | Capturas Android/iOS | Android capturado localmente; capturas iOS generadas por XCTest en macOS |
+| 10 | Capturas Android/iOS | Android capturado localmente; capturas iOS pendientes por indicación de no abrir el simulador |
 
-No debe marcarse la comprobación iOS como aprobada si el workflow falla: revisar su
-resultado y artefactos antes de enviar la actividad. El código de iOS no puede validarse
-con el compilador Windows.
+El estudiante indicó no abrir el simulador de iOS. Se detuvo su ejecución visual y el
+workflow ahora sólo permite una ejecución manual con opción explícita, desactivada
+por defecto. Antes de esa indicación pasaron 59 pruebas Kotlin iOS en macOS; esto no
+acredita la compilación Swift ni reemplaza las capturas de su interfaz.
 
 **Punto de control 1.** Se compiló después del primer commit, antes de crear actual:
 `Expected formatearSoles has no actual declaration in module <commonMain> for JVM`.
@@ -73,7 +72,7 @@ Studio. El mensaje no fue recreado ni editado.
 común, sin importar APIs Android ni iOS.
 
 **Punto de control 4.** Android resolvió el Compartidor registrado en Koin al ejecutar el
-botón del detalle. En iOS, XCTest comprueba la misma resolución al abrir la hoja nativa.
+botón del detalle. En iOS, XCTest está preparado para comprobar esa resolución, pero el recorrido visual queda pendiente.
 `MainApplication` conserva el registro de `androidContext()`.
 
 **Punto de control 5.** La búsqueda de imports nativos en todo presentation no produjo
@@ -81,8 +80,8 @@ coincidencias. Ambas pantallas comunes se conectan exclusivamente al ViewModel.
 
 **Verificación del paso 6.** Se ejecutó el detalle y el selector Android. El árbol de interfaz
 capturado contiene `Paracetamol 500 mg — S/ 15.50 · Stock: 100`, con espacio no separable
-introducido por el formateador. La prueba iOS realiza el mismo recorrido y copia el texto
-de la hoja nativa para verificar nombre, precio y stock.
+introducido por el formateador. La prueba iOS está preparada para ese recorrido y para copiar el texto
+de la hoja; no se da por ejecutada ni se inventa su contenido.
 
 ## Evidencias Android
 
@@ -108,19 +107,36 @@ Medicamentos y los productos Paracetamol 500 mg (15.50, stock 100) y Vitamina C 
 (1234.56, stock 4). Son datos sintéticos, no un inventario de producción.
 
 `ci/preparar_backend.py` y `ci/seed_backend.py` reproducen ese entorno. La verificación
-macOS compila el framework y la aplicación Swift, ejecuta XCTest, exporta sus adjuntos
-y guarda el texto compartido. Las capturas del listado y la hoja iOS deben tomarse de
-esos adjuntos; si la ejecución falla, sus registros explican qué debe corregirse.
+macOS puede compilar el framework y la aplicación Swift, ejecutar XCTest y exportar
+sus adjuntos cuando el estudiante solicite esa verificación. La comprobación visual
+iOS se detuvo por su indicación; las pruebas Kotlin previas están conservadas en
+`evidencias/sesion9/ios`, con un resumen que diferencia los resultados pendientes.
 
 Las pruebas comunes del detalle cubren carga, mantenimiento del precio numérico,
 texto con separadores exactos, ausencia de compartir durante carga, producto inexistente
 y recuperación ante fallo nativo. Se ejecutan junto a las pruebas CRUD preexistentes.
 
-Para inspeccionar interoperabilidad, revisar la cabecera `Shared.h` exportada en el
-artefacto y los archivos Swift de iosApp. Las decisiones de estado permanecen en Kotlin;
+Para inspeccionar interoperabilidad, revisar los archivos Swift de iosApp. La cabecera
+`Shared.h` podrá comprobarse al construir la aplicación iOS; esa verificación está pendiente. Las decisiones de estado permanecen en Kotlin;
 Swift se limita a inicializar Koin y alojar el controlador Compose.
 
 Se localizó y revisó también la ficha `sesion09_actividad_autonoma_diferencias_qkoyb3gpig.pdf`
 (8 páginas) en Descargas. Su alcance adicional incluye el inventario completo, un informe
 de 600 a 900 palabras, una tercera capacidad conectada a la interfaz y un único PDF.
 La tercera capacidad elegida es información del dispositivo en la pantalla Acerca de.
+
+## Entrega individual y estado final
+
+- [Inventario completo](sesion9-inventario.md).
+- [Informe comparativo: 734 palabras](sesion9-informe-comparativo.md).
+- [PDF de entrega](../output/pdf/S09_ActividadAutonoma_Paredes_Cardenas.pdf).
+- [Acerca de en Android](../evidencias/sesion9/android/acerca-dispositivo.png).
+- [Actual comentado: error real](../evidencias/sesion9/control-autonomo/error-actual-comentado.png).
+- [59 pruebas Kotlin iOS: resumen y procedencia](../evidencias/sesion9/ios/resultado.json).
+
+Android: las tres capacidades ejecutadas y capturadas; 59 pruebas, cero fallos y errores.
+iOS: fuentes comunes y actual compilados y 59 pruebas aprobadas; compilación Swift,
+hoja de compartir, Acerca de y capturas visuales pendientes por indicación del estudiante.
+El resultado literal iOS de la primera pregunta tampoco se declara observado.
+La entrega no se ha enviado al aula virtual y no se presenta como rúbrica completamente
+satisfecha mientras falten esas evidencias.
