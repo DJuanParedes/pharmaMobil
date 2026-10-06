@@ -11,6 +11,8 @@ jobs:
   ios:
     runs-on: macos-26
     timeout-minutes: 45
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.5.app/Contents/Developer
     steps:
       - uses: actions/checkout@v5
       - uses: actions/cache/restore@v4
@@ -43,10 +45,14 @@ jobs:
         run: |
           gem install --user-install xcodeproj --no-document
           ruby ci/ios/preparar_pruebas.rb
-          UDID=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for group in d["devices"].values() for x in group if x["isAvailable"] and x["name"].startswith("iPhone 17")))')
+          xcodebuild -version > evidencias-ci/entorno-xcode.txt
+          xcrun simctl list runtimes >> evidencias-ci/entorno-xcode.txt
+          xcrun simctl list devices available -j > evidencias-ci/simuladores.json
+          UDID=$(python3 -c 'import json; d=json.load(open("evidencias-ci/simuladores.json")); print(next(x["udid"] for runtime,group in d["devices"].items() if runtime.endswith("iOS-26-5") for x in group if x["isAvailable"] and x["name"] == "iPhone 17"))')
           echo "SIMULATOR_UDID=$UDID" >> "$GITHUB_ENV"
           xcrun simctl boot "$UDID" || true
           xcrun simctl bootstatus "$UDID" -b
+          xcodebuild -showdestinations -project iosApp/iosApp.xcodeproj -scheme Sesion09 >> evidencias-ci/entorno-xcode.txt
       - name: Compilar Swift y comprobar listado y compartir
         run: |
           xcodebuild test -project iosApp/iosApp.xcodeproj -scheme Sesion09 -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" -derivedDataPath "$RUNNER_TEMP/DerivedData" -resultBundlePath "$RUNNER_TEMP/Sesion09.xcresult" CODE_SIGNING_ALLOWED=NO > evidencias-ci/xcode.txt 2>&1 || { tail -100 evidencias-ci/xcode.txt; exit 1; }
