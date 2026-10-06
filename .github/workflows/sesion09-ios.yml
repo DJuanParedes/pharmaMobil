@@ -1,14 +1,17 @@
 name: Sesion 9 - iOS real
 on:
-  push:
-    branches: [feature/expect-actual-paredes]
-  pull_request:
-    branches: [develop]
   workflow_dispatch:
+    inputs:
+      ejecutar_simulador:
+        description: Ejecutar iOS Simulator solo cuando el estudiante lo solicite
+        type: boolean
+        required: true
+        default: false
 permissions:
   contents: read
 jobs:
   ios:
+    if: inputs.ejecutar_simulador == true
     runs-on: macos-26
     timeout-minutes: 45
     env:
