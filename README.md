@@ -2,6 +2,101 @@
 
 Proyecto Kotlin Multiplatform para Android e iOS, adaptado a la estructura desarrollada en clase.
 
+## Capacidades nativas
+
+La sesión 9 continúa la rama `actividad-autonoma-sesion-8`, conservando el CRUD REST y sus
+errores. Se creó `develop` desde ese trabajo y después `feature/expect-actual-paredes`.
+La función común declara qué necesita la aplicación; cada plataforma implementa cómo
+formatea soles. Compartir utiliza una interfaz de dominio, inyectada con Koin.
+
+| Responsabilidad | Código común | Android | iOS |
+| --- | --- | --- | --- |
+| Formato PEN | `platform/Formato.kt`: `expect fun formatearSoles(valor: Double): String` | `platform/Formato.android.kt`: `NumberFormat`, `Locale("es", "PE")` | `platform/Formato.ios.kt`: `NSNumberFormatter`, `NSLocale("es_PE")` |
+| Contrato para compartir | `domain/platform/Compartidor.kt` | `platform/CompartidorAndroid.kt`: `ACTION_SEND`, MIME `text/plain`, `EXTRA_TEXT` | `platform/CompartidorIos.kt`: `UIActivityViewController` |
+| Texto compartido | `domain/usecase/TextoParaCompartir.kt` | Consume el mismo texto común | Consume el mismo texto común |
+| Inyección | `di/AppModule.kt` declara el módulo esperado | `di/PlatformModule.android.kt` registra `CompartidorAndroid(androidContext())` | `di/PlatformModule.ios.kt` registra `CompartidorIos()` |
+| Presentación | `presentation/producto/ProductoUi.kt`, `presentation/detalle/DetalleProductoViewModel.kt` y `DetalleProductoScreen.kt` | Pantallas Compose comunes | Pantallas Compose comunes |
+
+Las rutas de esta tabla son relativas a
+`shared/src/{commonMain,androidMain,iosMain}/kotlin/pe/edu/upeu/pharmamobil/`.
+`Producto.precio` permanece como `Double`. El mapeo `Producto.toUi()` convierte el precio
+a `String` en presentación; los composables muestran el resultado sin formatearlo.
+El detalle consulta `ProductoRepository.obtener(id)` y el botón **Compartir** invoca el
+ViewModel. El contrato del texto es `nombre — precio en soles · Stock: cantidad`.
+El icono utiliza `material-icons-core` y ninguna clase de presentación importa
+`android.*` ni `platform.UIKit.*`.
+
+Android recibe el contexto de aplicación registrado en `MainApplication`; el selector
+incluye `FLAG_ACTIVITY_NEW_TASK`. iOS obtiene la ventana de una escena activa y el
+controlador visible; también configura el ancla del popover para iPad. Esta adaptación
+evita depender de `UIApplication.keyWindow`, obsoleto. Los espacios monetarios pueden
+ser espacios no separables y la apariencia del selector depende del sistema operativo.
+
+### Kotlin y Swift
+
+`iosApp/iosApp/iOSApp.swift` importa `Shared` e inicializa Koin con
+`KoinIosKt.doInitKoinIos()`. El nombre procede del archivo `di/KoinIos.kt`; el exportador
+evita interpretar `initKoinIos` como un inicializador de Swift.
+`ContentView.swift` llama `MainViewControllerKt.MainViewController()` para integrar
+Compose en SwiftUI. La inicialización de Koin precede a la creación de la interfaz.
+
+Las funciones suspend se exportan con un completion handler que Swift puede importar
+como `async`. `@Throws` define los errores que pueden cruzar la frontera; no debe
+asumirse que cualquier excepción Kotlin se convierte automáticamente en un error Swift.
+Las jerarquías sealed no ofrecen la exhaustividad de un enum Swift; se requiere una
+alternativa en el `switch`. Las data classes se usan como clases exportadas: no ofrecen
+la sintaxis de desestructuración Kotlin ni parámetros predeterminados de `copy`; algunos
+métodos generados pueden aparecer en la cabecera, según el exportador. Los tipos
+anulables llegan como opcionales; los primitivos anulables pueden utilizar envoltorios
+Kotlin. Por ello los estados y decisiones de la aplicación permanecen en Kotlin.
+Referencia: [interoperabilidad oficial Kotlin/Objective-C y Swift](https://kotlinlang.org/docs/native-objc-interop.html).
+
+### Código específico de plataforma
+
+El [inventario completo](docs/sesion9-inventario.md) registra todos los expect del
+proyecto y el contrato Compartidor, con firmas y rutas exactas. Además del formato y
+compartir, la actividad autónoma incorpora `InfoDispositivo`: Android utiliza
+`Build.VERSION.RELEASE` e iOS `UIDevice.currentDevice.systemVersion`. La pantalla
+**Acerca de**, accesible desde el menú, muestra el sistema operativo y la versión real.
+La tercera capacidad tiene un expect class y dos actual class con el mismo paquete.
+
+### Verificación y entregables de la sesión 9
+
+Consulta [la actividad autónoma y la trazabilidad](docs/sesion9-actividad-autonoma.md)
+para los diez criterios, capturas, procedencia del backend y estado de entrega.
+El [PDF de sesión 9](output/pdf/S09_ActividadAutonoma_Paredes_Cardenas.pdf) y el
+[informe de 734 palabras](docs/sesion9-informe-comparativo.md) reúnen los cuatro productos.
+La entrega es individual: Juan Paredes Cárdenas.
+En Windows se verificaron `:shared:testAndroidHostTest` y `:androidApp:assembleDebug`.
+La comprobación macOS se encuentra en
+[GitHub Actions](https://github.com/DJuanParedes/pharmaMobil/actions/workflows/sesion09-ios.yml):
+está preparada para compilar Kotlin/Native y Swift y exportar evidencias XCTest.
+Se desactivaron sus arranques automáticos: sólo tiene `workflow_dispatch` con la opción
+`ejecutar_simulador` desactivada por defecto. No abrir iOS Simulator hasta que el
+estudiante lo solicite. Android pasó 59 pruebas y sus tres capacidades se observaron
+en ejecución. Las 59 pruebas Kotlin iOS previas también pasaron, pero Swift y el flujo
+visual iOS siguen pendientes; no hay capturas iOS ni resultado monetario literal inventado.
+Consulta [el resultado iOS](evidencias/sesion9/ios/resultado.json).
+
+En Android Studio abre la carpeta raíz del proyecto, espera la sincronización y ejecuta
+`androidApp`. Inicia antes PharmaSoft en el puerto 8080. El emulador consume
+`http://10.0.2.2:8080/api/v1/`; iOS Simulator utiliza `http://localhost:8080/api/v1/`.
+En macOS abre `iosApp/iosApp.xcodeproj` y selecciona un simulador ARM64. Para usar un
+iPhone físico configura tu equipo de firma y una URL del backend accesible desde él.
+
+```powershell
+.\gradlew.bat :shared:testAndroidHostTest :androidApp:assembleDebug
+```
+
+```sh
+./gradlew :shared:iosSimulatorArm64Test
+```
+
+El proyecto conserva la selección de JDK 21 Azul en `gradle/gradle-daemon-jvm.properties`.
+La verificación final de Windows pasó con Zulu JDK 21.0.11, ya disponible en la caché
+de Gradle, y el wrapper Gradle 9.1, sin cambiar los criterios del proyecto. En las
+comprobaciones iniciales se utilizó temporalmente JBR 25; ese ajuste se restauró.
+
 ## Sesión 8 - CRUD REST de productos
 
 La rama `feature/crud-productos-paredes` conecta el módulo de Productos con el backend

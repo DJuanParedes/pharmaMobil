@@ -1,0 +1,116 @@
+Starting a Gradle Daemon, 1 incompatible and 1 stopped Daemons could not be reused, use --status for details
+Daemon JVM discovery is an incubating feature.
+Calculating task graph as configuration cache cannot be reused because JVM has changed.
+> Task :androidApp:generateDebugAssets UP-TO-DATE
+> Task :androidApp:preBuild UP-TO-DATE
+> Task :shared:generateAndroidHostTestAssets UP-TO-DATE
+> Task :shared:androidPreBuild UP-TO-DATE
+> Task :shared:generateAndroidMainAssets UP-TO-DATE
+> Task :androidApp:preDebugBuild UP-TO-DATE
+> Task :shared:preAndroidMainBuild UP-TO-DATE
+> Task :shared:preAndroidHostTestBuild UP-TO-DATE
+> Task :shared:processAndroidHostTestJavaRes NO-SOURCE
+> Task :shared:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :shared:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :shared:kmpPartiallyResolvedDependenciesChecker
+> Task :androidApp:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :shared:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :shared:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :shared:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :shared:generateResourceAccessorsForAndroidHostTest NO-SOURCE
+> Task :shared:generateResourceAccessorsForCommonTest NO-SOURCE
+> Task :shared:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :shared:generateComposeResClass UP-TO-DATE
+> Task :androidApp:extractDeepLinksDebug UP-TO-DATE
+> Task :shared:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :shared:androidJar UP-TO-DATE
+> Task :shared:copyNonXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :androidApp:javaPreCompileDebug UP-TO-DATE
+> Task :androidApp:desugarDebugFileDependencies UP-TO-DATE
+> Task :androidApp:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :shared:generateAndroidHostTestResources UP-TO-DATE
+> Task :androidApp:generateDebugResources UP-TO-DATE
+> Task :shared:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :shared:processAndroidMainManifest UP-TO-DATE
+> Task :androidApp:validateSigningDebug UP-TO-DATE
+> Task :androidApp:writeDebugAppMetadata UP-TO-DATE
+> Task :androidApp:writeDebugSigningConfigVersions UP-TO-DATE
+> Task :shared:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :androidApp:mergeDebugJniLibFolders UP-TO-DATE
+> Task :shared:mergeAndroidMainJniLibFolders UP-TO-DATE
+> Task :shared:mergeAndroidMainNativeLibs NO-SOURCE
+> Task :shared:copyAndroidMainJniLibsProjectOnly UP-TO-DATE
+> Task :androidApp:packageDebugResources UP-TO-DATE
+> Task :shared:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :shared:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :shared:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :shared:copyAndroidMainComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :shared:packageAndroidMainResources UP-TO-DATE
+> Task :shared:parseAndroidMainLocalResources UP-TO-DATE
+> Task :shared:generateAndroidMainRFile UP-TO-DATE
+> Task :shared:mergeAndroidMainAssets UP-TO-DATE
+> Task :shared:compileAndroidMainLibraryResources UP-TO-DATE
+> Task :androidApp:checkDebugAarMetadata UP-TO-DATE
+> Task :shared:checkAndroidHostTestAarMetadata UP-TO-DATE
+> Task :androidApp:mergeDebugNativeLibs UP-TO-DATE
+> Task :androidApp:mergeDebugAssets UP-TO-DATE
+> Task :androidApp:compressDebugAssets UP-TO-DATE
+> Task :androidApp:stripDebugDebugSymbols UP-TO-DATE
+> Task :shared:mergeAndroidHostTestAssets UP-TO-DATE
+> Task :androidApp:processDebugNavigationResources UP-TO-DATE
+> Task :androidApp:parseDebugLocalResources UP-TO-DATE
+> Task :androidApp:compileDebugNavigationResources UP-TO-DATE
+> Task :shared:processAndroidHostTestManifest UP-TO-DATE
+> Task :androidApp:processDebugMainManifest UP-TO-DATE
+> Task :androidApp:generateDebugRFile UP-TO-DATE
+> Task :androidApp:processDebugManifest UP-TO-DATE
+> Task :androidApp:processDebugManifestForPackage UP-TO-DATE
+> Task :shared:mapAndroidHostTestSourceSetPaths UP-TO-DATE
+> Task :androidApp:mapDebugSourceSetPaths UP-TO-DATE
+> Task :androidApp:mergeDebugResources UP-TO-DATE
+> Task :shared:mergeAndroidHostTestResources UP-TO-DATE
+> Task :androidApp:checkDebugDuplicateClasses UP-TO-DATE
+> Task :androidApp:mergeExtDexDebug UP-TO-DATE
+> Task :shared:processAndroidHostTestResources UP-TO-DATE
+> Task :androidApp:processDebugResources UP-TO-DATE
+> Task :shared:packageAndroidHostTestForUnitTest UP-TO-DATE
+> Task :shared:generateAndroidHostTestConfig UP-TO-DATE
+
+> Task :shared:compileAndroidMain
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.android.kt:7:38 'constructor(p0: String!, p1: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/InfoDispositivo.android.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/App.kt:77:5 'fun KoinContext(koin: Koin = ..., content: ComposableFunction0<Unit>): Unit' is deprecated. KoinContext is not needed anymore. This can be removed. Compose Koin context is setup with StartKoin().
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/data/remote/EjecutarLlamada.kt:26:13 'typealias IOException = IOException' is deprecated. Use kotlinx.io.IOException instead.
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/platform/InfoDispositivo.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :shared:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :shared:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :shared:processAndroidMainJavaRes UP-TO-DATE
+> Task :shared:bundleLibRuntimeToDirAndroidMain UP-TO-DATE
+> Task :androidApp:mergeLibDexDebug UP-TO-DATE
+> Task :androidApp:compileDebugKotlin
+> Task :androidApp:compileDebugJavaWithJavac NO-SOURCE
+> Task :androidApp:processDebugJavaRes UP-TO-DATE
+> Task :androidApp:dexBuilderDebug UP-TO-DATE
+> Task :androidApp:mergeProjectDexDebug UP-TO-DATE
+> Task :androidApp:mergeDebugJavaResource UP-TO-DATE
+> Task :androidApp:packageDebug UP-TO-DATE
+> Task :androidApp:assembleDebug UP-TO-DATE
+> Task :androidApp:createDebugApkListingFileRedirect UP-TO-DATE
+
+> Task :shared:compileAndroidHostTest
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/commonTest/kotlin/pe/edu/upeu/pharmamobil/data/remote/ProductoApiTest.kt:116:41 'constructor(p0: String!): IOException' is deprecated. Use kotlinx.io.IOException instead.
+
+> Task :shared:testAndroidHostTest
+
+[Incubating] Problems report is available at: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 1m 5s
+70 actionable tasks: 5 executed, 65 up-to-date
+Configuration cache entry stored.
