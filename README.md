@@ -2,6 +2,36 @@
 
 Proyecto Kotlin Multiplatform para Android e iOS, adaptado a la estructura desarrollada en clase.
 
+## Autenticación
+
+La práctica 10 continúa el trabajo anterior en la rama feature/auth-jwt-paredes.
+Implementa login contra POST /api/v1/auth/login, Auth Bearer de Ktor,
+almacenamiento cifrado Android y Keychain iOS, restauración mediante auth/me,
+logout y permisos por rol. Los tokens no se escriben en cabeceras manuales ni se
+registran completos. Logging se desactiva fuera de depuración.
+
+| Usuario de prueba | Contraseña | Rol |
+|---|---|---|
+| admin | Consultar guía del curso | ADMIN |
+| vendedor | Consultar guía del curso | VENDEDOR |
+| almacen | Consultar guía del curso | ALMACENERO |
+
+Un 401 protegido borra la sesión y muestra el login; un 403 conserva la sesión
+y muestra falta de permisos. Vendedor no puede registrar, editar ni eliminar
+productos. Almacén puede escribir catálogo y no ve Clientes ni Pedidos.
+
+Validación: 65 pruebas host y 2 pruebas Android de dispositivo sin fallos,
+matriz completa de roles contra PharmaSoft oficial, capturas Swagger 401 200 403
+y compilación del framework iOS sin simulador.
+
+[Desarrollo y reproducción](docs/sesion10-autenticacion.md) ·
+[Evidencias](evidencias/sesion10) ·
+[Compilación iOS](https://github.com/DJuanParedes/pharmaMobil/actions/runs/38452598406).
+
+**Pendiente:** ejecución y capturas del CRUD iOS por la indicación de no abrir
+simuladores iOS. La validación local del backend usa H2 modo Oracle con Flyway,
+con una adaptación de índices en una copia temporal; no acredita Oracle en producción.
+
 ## Capacidades nativas
 
 La sesión 9 continúa la rama `actividad-autonoma-sesion-8`, conservando el CRUD REST y sus
