@@ -6,6 +6,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
+import androidx.test.uiautomator.BySelector
+import androidx.test.uiautomator.StaleObjectException
 import android.content.Context
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -24,6 +26,17 @@ import pe.edu.upeu.pharmamobil.data.local.AlmacenSeguro
 
 @RunWith(AndroidJUnit4::class)
 class AuthDispositivoTest {
+    private fun pulsar(device: UiDevice, selector: BySelector) {
+        repeat(3) { intento ->
+            device.waitForIdle()
+            val objeto = requireNotNull(device.wait(Until.findObject(selector), 15_000)) {
+                "No apareció el control esperado: $selector"
+            }
+            try { objeto.click(); return } catch (error: StaleObjectException) {
+                if (intento == 2) throw error
+            }
+        }
+    }
     private fun clave(nombre: String): String =
         requireNotNull(InstrumentationRegistry.getArguments().getString(nombre)) { "Falta parámetro de prueba: $nombre" }
     @Test fun permisoDenegadoConservaSesionYTokenEstaCifrado(): Unit = runBlocking {
@@ -36,8 +49,8 @@ class AuthDispositivoTest {
             valores.values.none { it.toString().contains(sesion.token) })
         val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         ActivityScenario.launch(MainActivity::class.java).use { escenario ->
-            device.wait(Until.findObject(By.desc("Abrir menú")), 15_000).click()
-            device.wait(Until.findObject(By.text("Productos")), 5_000).click()
+            pulsar(device, By.desc("Abrir menú"))
+            pulsar(device, By.text("Productos"))
             assertNotNull(device.wait(Until.findObject(By.text("Inventario conectado")), 10_000))
             // Provocación deliberada por instrumentación: la UI oculta esta acción al vendedor.
             escenario.onActivity { actividad ->
@@ -63,8 +76,8 @@ class AuthDispositivoTest {
         repo.iniciarSesion(Credenciales("admin", clave("adminPassword")))
         val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         ActivityScenario.launch(MainActivity::class.java).use { escenario ->
-            device.wait(Until.findObject(By.desc("Abrir menú")), 15_000).click()
-            device.wait(Until.findObject(By.text("Productos")), 5_000).click()
+            pulsar(device, By.desc("Abrir menú"))
+            pulsar(device, By.text("Productos"))
             assertNotNull(device.wait(Until.findObject(By.text("Inventario conectado")), 10_000))
             // JWT inválido deliberado: provoca un 401 real de una ruta protegida.
             GlobalContext.get().get<AlmacenSeguro>().guardarToken("jwt-invalido-del-laboratorio")

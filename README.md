@@ -1,3 +1,7 @@
+## Backend MySQL (actualización)
+
+El backend con JWT ahora usa MySQL 8.4 y conserva los datos al reiniciar. El código, las instrucciones y los comandos están en [backend/pharmaSoft](backend/pharmaSoft/README.md). Las verificaciones están en [evidencias/mysql](evidencias/mysql). La app Android mantiene la misma API. No se ejecutó iOS para esta actualización.
+
 # PharmaMobil - Clean Architecture, MVVM y Koin
 
 Proyecto Kotlin Multiplatform para Android e iOS, adaptado a la estructura desarrollada en clase.
