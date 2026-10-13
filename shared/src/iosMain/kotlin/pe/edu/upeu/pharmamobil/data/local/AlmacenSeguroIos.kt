@@ -7,31 +7,41 @@ import platform.Foundation.*
 import platform.Security.*
 
 class AlmacenSeguroIos : AlmacenSeguro {
+    private fun clave(valor: CFStringRef?): NSCopyingProtocol = CFBridgingRelease(valor) as NSCopyingProtocol
+    private fun objeto(valor: CFTypeRef?): Any = CFBridgingRelease(valor)!!
+    private inline fun <T> conConsulta(diccionario: NSMutableDictionary, bloque: (CFDictionaryRef) -> T): T {
+        val referencia = CFBridgingRetain(diccionario)!!
+        return try { bloque(referencia as CFDictionaryRef) } finally { CFRelease(referencia) }
+    }
     private fun consulta() = NSMutableDictionary().apply {
-        setObject(kSecClassGenericPassword!!, kSecClass as NSCopyingProtocol)
-        setObject("pe.edu.upeu.pharmamobil.sesion", kSecAttrService as NSCopyingProtocol)
-        setObject("jwt", kSecAttrAccount as NSCopyingProtocol)
+        setObject(objeto(kSecClassGenericPassword), clave(kSecClass))
+        setObject("pe.edu.upeu.pharmamobil.sesion", clave(kSecAttrService))
+        setObject("jwt", clave(kSecAttrAccount))
     }
     override fun guardarToken(token: String) {
         val datos = (token as NSString).dataUsingEncoding(NSUTF8StringEncoding)!!
         val atributos = NSMutableDictionary().apply {
-            setObject(datos, kSecValueData as NSCopyingProtocol)
-            setObject(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly!!, kSecAttrAccessible as NSCopyingProtocol)
+            setObject(datos, clave(kSecValueData))
+            setObject(objeto(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly), clave(kSecAttrAccessible))
         }
-        val estado = SecItemUpdate(CFBridgingRetain(consulta()) as CFDictionaryRef,
-            CFBridgingRetain(atributos) as CFDictionaryRef)
+        val estado = conConsulta(consulta()) { consulta ->
+            conConsulta(atributos) { SecItemUpdate(consulta, it) }
+        }
         if (estado == errSecItemNotFound) {
-            val nueva = consulta().apply { addEntriesFromDictionary(atributos) }
-            check(SecItemAdd(CFBridgingRetain(nueva) as CFDictionaryRef, null) == errSecSuccess)
+            val nueva = consulta().apply {
+                setObject(datos, clave(kSecValueData))
+                setObject(objeto(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly), clave(kSecAttrAccessible))
+            }
+            check(conConsulta(nueva) { SecItemAdd(it, null) } == errSecSuccess)
         } else check(estado == errSecSuccess)
     }
     override fun leerToken(): String? = memScoped {
         val consulta = consulta().apply {
-            setObject(kCFBooleanTrue!!, kSecReturnData as NSCopyingProtocol)
-            setObject(kSecMatchLimitOne!!, kSecMatchLimit as NSCopyingProtocol)
+            setObject(objeto(kCFBooleanTrue), clave(kSecReturnData))
+            setObject(objeto(kSecMatchLimitOne), clave(kSecMatchLimit))
         }
         val salida = alloc<CFTypeRefVar>()
-        when (val estado = SecItemCopyMatching(CFBridgingRetain(consulta) as CFDictionaryRef, salida.ptr)) {
+        when (val estado = conConsulta(consulta) { SecItemCopyMatching(it, salida.ptr) }) {
             errSecItemNotFound -> null
             errSecSuccess -> {
                 val datos = CFBridgingRelease(salida.value) as NSData
@@ -41,7 +51,7 @@ class AlmacenSeguroIos : AlmacenSeguro {
         }
     }
     override fun borrarToken() {
-        val estado = SecItemDelete(CFBridgingRetain(consulta()) as CFDictionaryRef)
+        val estado = conConsulta(consulta()) { SecItemDelete(it) }
         check(estado == errSecSuccess || estado == errSecItemNotFound)
     }
 }
