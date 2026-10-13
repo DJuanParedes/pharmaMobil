@@ -65,6 +65,10 @@ import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel
 import pe.edu.upeu.pharmamobil.theme.PharmaMobilTheme
 import pe.edu.upeu.pharmamobil.presentation.acerca.AcercaDeScreen
 
+import pe.edu.upeu.pharmamobil.presentation.sesion.*
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.material3.CircularProgressIndicator
+
 private val anchoMediano = 600.dp
 private val anchoAmpliado = 840.dp
 private val anchoDrawer = 320.dp
@@ -76,10 +80,21 @@ fun App() {
 
     KoinContext {
         PharmaMobilTheme(darkTheme = darkTheme) {
-            PharmaMobilApp(
-                darkTheme = darkTheme,
-                onDarkThemeChange = { darkTheme = it },
-            )
+            val sesionVm = koinViewModel<SesionViewModel>()
+            val state by sesionVm.uiState.collectAsStateWithLifecycle()
+            when {
+                state.restaurando -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+                state.sesion == null -> LoginScreen(state, sesionVm::usuario, sesionVm::clave,
+                    sesionVm::iniciar, sesionVm::restaurar)
+                else -> androidx.compose.runtime.key(state.sesion?.usuario) {
+                    CompositionLocalProvider(LocalSesion provides state.sesion,
+                        LocalCerrarSesion provides sesionVm::cerrar) {
+                        PharmaMobilApp(darkTheme, { darkTheme = it })
+                    }
+                }
+            }
         }
     }
 }
@@ -254,7 +269,7 @@ private fun ContenidoDrawer(
 
         HorizontalDivider()
 
-        Screen.destinos.forEach { screen ->
+        Screen.destinos.filter { permitido(it, LocalSesion.current) }.forEach { screen ->
             NavigationDrawerItem(
                 icon = { DestinoIcono(screen) },
                 label = { Text(screen.titulo) },
@@ -298,7 +313,7 @@ private fun BarraNavegacionMediana(
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(vertical = 20.dp),
         )
-        Screen.destinos.forEach { screen ->
+        Screen.destinos.filter { permitido(it, LocalSesion.current) }.forEach { screen ->
             NavigationRailItem(
                 selected = pantallaActual == screen,
                 onClick = { onPantallaSeleccionada(screen) },
@@ -336,6 +351,8 @@ private fun ContenidoPrincipal(
                     }
                 },
                 actions = {
+                    val cerrar = LocalCerrarSesion.current
+                    TextButton(onClick = cerrar) { Text("Cerrar sesión") }
                     TextButton(onClick = { onDarkThemeChange(!darkTheme) }) {
                         Text(if (darkTheme) "Tema claro" else "Tema oscuro")
                     }
@@ -373,6 +390,10 @@ private fun PantallaActiva(
     onPedidosChange: (List<Pedido>) -> Unit,
     onPantallaSeleccionada: (Screen) -> Unit,
 ) {
+    if (!permitido(pantallaActual, LocalSesion.current)) {
+        Text("No tienes permisos para esta sección.", Modifier.padding(24.dp))
+        return
+    }
     when (pantallaActual) {
         Screen.AcercaDe -> AcercaDeScreen()
         Screen.Inicio -> InicioScreen(onPantallaSeleccionada)
@@ -412,6 +433,7 @@ private fun PantallaActiva(
                 onLimpiarMensaje = viewModel::limpiarMensaje,
                 onReintentar = viewModel::cargarProductos,
                 onVerDetalle = { productoDetalleId = it.id },
+                puedeEscribir = LocalSesion.current?.puede("CATALOGO_ESCRIBIR") == true,
             )
         }
         Screen.Clientes -> ClienteScreen(

@@ -42,6 +42,7 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            implementation("androidx.security:security-crypto:1.1.0")
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
             implementation(libs.koin.android)
@@ -51,6 +52,7 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
         commonMain.dependencies {
+            implementation("io.ktor:ktor-client-auth:${libs.versions.ktor.get()}")
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)

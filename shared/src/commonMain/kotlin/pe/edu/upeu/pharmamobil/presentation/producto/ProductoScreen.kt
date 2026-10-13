@@ -53,6 +53,7 @@ fun ProductoScreen(
     onLimpiarMensaje: () -> Unit,
     onReintentar: () -> Unit,
     onVerDetalle: (Producto) -> Unit,
+    puedeEscribir: Boolean = true,
 ) {
     val formulario = uiState.formulario
     val operando = uiState.operacion is ProductoOperacion.EnCurso
@@ -130,6 +131,7 @@ fun ProductoScreen(
                         } == true
                         ProductoInventarioCard(
                             producto = productosUiPorId.getValue(producto.id),
+                            puedeEscribir = puedeEscribir,
                             habilitado = !operando,
                             eliminando = eliminando,
                             onEditar = { onEditar(producto) },
@@ -142,6 +144,7 @@ fun ProductoScreen(
             is ProductoFase.Error -> EstadoError(fase.mensaje, onReintentar)
         }
 
+        if (puedeEscribir) {
         HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
 
         Text(
@@ -201,6 +204,7 @@ fun ProductoScreen(
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
+        }
     }
 
     productoAEliminar?.let { producto ->
@@ -310,6 +314,7 @@ private fun EstadoError(mensaje: String, onReintentar: () -> Unit) {
 @Composable
 private fun ProductoInventarioCard(
     producto: ProductoUi,
+    puedeEscribir: Boolean,
     habilitado: Boolean,
     eliminando: Boolean,
     onEditar: () -> Unit,
@@ -326,7 +331,7 @@ private fun ProductoInventarioCard(
                 Text("Stock: ${producto.stock}", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 EstadoProducto(producto)
             }
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (puedeEscribir) Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedButton(onClick = onEditar, enabled = habilitado, modifier = Modifier.weight(1f)) {
                     Text("Editar")
                 }

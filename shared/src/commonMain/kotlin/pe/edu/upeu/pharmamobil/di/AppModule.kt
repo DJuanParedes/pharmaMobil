@@ -16,16 +16,23 @@ import pe.edu.upeu.pharmamobil.domain.usecase.EliminarProductoUseCase
 import pe.edu.upeu.pharmamobil.domain.usecase.ListarProductosUseCase
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel
+import pe.edu.upeu.pharmamobil.presentation.sesion.SesionViewModel
 
 private const val CATEGORIA_POR_DEFECTO = 1L
 
 val dataModule = module {
-    single { crearHttpClient() }
+    single { pe.edu.upeu.pharmamobil.data.local.EstadoSesion() }
+    single { crearHttpClient(get(), get()) }
+    single<pe.edu.upeu.pharmamobil.domain.repository.AuthRepository> {
+        pe.edu.upeu.pharmamobil.data.repository.AuthRepositorioRest(get(), get(), get())
+    }
     single { ProductoApi(get()) }
     single<ProductoRepository> { ProductoRepositorioRest(get(), CATEGORIA_POR_DEFECTO) }
 }
 
 val domainModule = module {
+    factory { pe.edu.upeu.pharmamobil.domain.usecase.IniciarSesionUseCase(get()) }
+    factory { pe.edu.upeu.pharmamobil.domain.usecase.CerrarSesionUseCase(get()) }
     factory { RegistrarProductoUseCase(get()) }
     factory { ListarProductosUseCase(get()) }
     factory { ActualizarProductoUseCase(get()) }
@@ -33,6 +40,7 @@ val domainModule = module {
 }
 
 val presentationModule = module {
+    viewModelOf(::SesionViewModel)
     viewModelOf(::ProductoViewModel)
     viewModelOf(::DetalleProductoViewModel)
 }

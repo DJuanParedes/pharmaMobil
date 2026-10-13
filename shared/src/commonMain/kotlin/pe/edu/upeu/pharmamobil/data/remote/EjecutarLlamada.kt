@@ -31,7 +31,8 @@ private suspend fun traducirCliente(error: ClientRequestException): ErrorApi {
     val cuerpo = runCatching { error.response.body<ErrorResponseDto>() }.getOrNull()
     return when (error.response.status.value) {
         400 -> ErrorApi.Validacion(cuerpo?.validationErrors.orEmpty())
-        401, 403 -> ErrorApi.NoAutorizado
+        401 -> ErrorApi.SesionExpirada
+        403 -> ErrorApi.SinPermiso
         404 -> ErrorApi.NoEncontrado
         409 -> ErrorApi.Conflicto(cuerpo?.message?.takeIf(String::isNotBlank) ?: "Operación no permitida")
         else -> ErrorApi.Servidor
