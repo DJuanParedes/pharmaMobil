@@ -1,0 +1,13 @@
+{
+  "ventas": 2,
+  "motor": "MySQL 8.4.11",
+  "usuarios": 3,
+  "prueba_contexto_backend": "PASO",
+  "productos": 3,
+  "reinicio_mysql": "PASO",
+  "hibernate_validate": "PASO",
+  "migraciones": 3,
+  "pruebas_backend": 21,
+  "pruebas_android": 2,
+  "resultado_android": "PASO: 401 limpia la sesión, 403 conserva token cifrado"
+}

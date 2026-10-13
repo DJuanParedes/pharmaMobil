@@ -1,0 +1,29 @@
+server:
+  port: ${SERVER_PORT:8080}
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://127.0.0.1:3306/pharma_s10?connectionTimeZone=UTC}
+    username: ${DB_USER:pharma_app}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/mysql
+    baseline-on-migrate: false
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+app:
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+  jwt:
+    secret: ${JWT_SECRET}
+    expiracion-minutos: 60
+logging:
+  level:
+    root: INFO

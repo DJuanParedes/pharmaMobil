@@ -1,5 +1,5 @@
 """Matriz de roles contra PharmaSoft real. No guarda tokens ni contraseñas."""
-import json,sys,time,os
+import json,sys,time,os,secrets
 from pathlib import Path
 from urllib.request import Request,urlopen
 from urllib.error import HTTPError
@@ -16,17 +16,18 @@ def login(user,pw):
  assert status==200,(user,status)
  return data['token']
 admin=login('admin',os.environ['PHARMA_ADMIN_PASSWORD'])
-status,cat=llamada('categorias',admin,{'nombre':'S10 Medicamentos','estado':True})
+ejecucion=secrets.token_hex(4)
+status,cat=llamada('categorias',admin,{'nombre':'S10 Medicamentos '+ejecucion,'estado':True})
 assert status in (200,201),(status,cat)
 catid=cat['id']
-status,prod=llamada('productos',admin,{'nombre':'S10 Paracetamol','precio':15.5,'stock':100,'estado':True,'categoriaId':catid})
+status,prod=llamada('productos',admin,{'nombre':'S10 Paracetamol '+ejecucion,'precio':15.5,'stock':100,'estado':True,'categoriaId':catid})
 assert status in (200,201),(status,prod)
-status,cliente=llamada('clientes',admin,{'dni':'87654321','nombres':'Cliente','apellidos':'Laboratorio','email':'laboratorio@example.test','telefono':'987654321','direccion':'Datos sintéticos','estado':True})
+status,cliente=llamada('clientes',admin,{'dni':str(10000000+secrets.randbelow(90000000)),'nombres':'Cliente','apellidos':'Laboratorio','email':'laboratorio-'+ejecucion+'@example.test','telefono':'987654321','direccion':'Datos sintéticos','estado':True})
 assert status in (200,201),(status,cliente)
-result={'sin_token':llamada('productos')[0],'usuarios':{},'backend':'dreyna/pharmaSoft@fff44f9','base':'H2 modo Oracle con Flyway V1 V2 V3'}
+result={'sin_token':llamada('productos')[0],'usuarios':{},'backend':'dreyna/pharmaSoft@fff44f9','base':os.environ.get('PHARMA_DB_DESCRIPCION','H2 modo Oracle con Flyway V1 V2 V3')}
 for user,pw,expected in [('admin',os.environ['PHARMA_ADMIN_PASSWORD'],[200,201,200,201,200,200]),('vendedor',os.environ['PHARMA_VENDEDOR_PASSWORD'],[200,403,200,201,403,200]),('almacen',os.environ['PHARMA_ALMACEN_PASSWORD'],[200,201,403,403,403,200])]:
  token=login(user,pw)
- payload={'nombre':'S10 Producto '+user,'precio':12.5,'stock':40,'estado':True,'categoriaId':catid}
+ payload={'nombre':'S10 Producto '+user+' '+ejecucion,'precio':12.5,'stock':40,'estado':True,'categoriaId':catid}
  operations=[('listar_productos','productos',None),('registrar_producto','productos',payload),('listar_clientes','clientes',None),('registrar_venta','ventas',{'clienteId':cliente['id'],'detalles':[{'productoId':prod['id'],'cantidad':1}]}),('reportes','reportes/productos-mas-vendidos',None),('usuario_actual','auth/me',None)]
  row={}
  for (name,path,body),want in zip(operations,expected):
