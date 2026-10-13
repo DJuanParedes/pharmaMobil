@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-06T21:24:30.822Z" hostname="sat12-dp150-86a31831-f8b0-4c17-b2ae-82860112328d-DE1F8517F51B.local" time="0.045">
+  <properties/>
+  <testcase name="ejecutaLosCincoEndpointsDelCrud[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.029"/>
+  <testcase name="traduceRespuesta400AErroresPorCampo[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.002"/>
+  <testcase name="traduceRespuesta404ANoEncontrado[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.004"/>
+  <testcase name="traduceRespuesta409AConflictoConMensajeDelServidor[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.0"/>
+  <testcase name="traduceFalloDeRedASinConexion[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.001"/>
+  <testcase name="traduceTiempoAgotadoSinPerderElTipoDeError[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.001"/>
+  <testcase name="cancellationExceptionSePropagaSinTransformarseEnErrorApi[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.0"/>
+  <system-out><![CDATA[Ktor: REQUEST: https://pharma.test/api/v1/productos?pagina=0&tamanio=20&ordenarPor=nombre&direccion=asc
+METHOD: GET
+COMMON HEADERS
+-> Accept: application/json
+-> Content-Type: application/json
+CONTENT HEADERS
+-> Content-Length: 0
+Ktor: RESPONSE: 200 OK
+METHOD: GET
+FROM: https://pharma.test/api/v1/productos?pagina=0&tamanio=20&ordenarPor=nombre&direccion=asc
+COMMON HEADERS
+-> Content-Type: application/json
+Ktor: REQUEST: https://pharma.test/api/v1/productos/7
+METHOD: GET
+COMMON HEADERS
+-> Accept: application/json
+-> Content-Type: application/json
+CONTENT HEADERS
+-> Content-Length: 0
+Ktor: RESPONSE: 200 OK
+METHOD: GET
+FROM: https://pharma.test/api/v1/productos/7
+COMMON HEADERS
+-> Content-Type: application/json
+Ktor: REQUEST: https://pharma.test/api/v1/productos
+METHOD: POST
+COMMON HEADERS
+-> Accept: application/json
+CONTENT HEADERS
+-> Content-Length: 63
+-> Content-Type: application/json
+Ktor: RESPONSE: 201 Created
+METHOD: POST
+FROM: https://pharma.test/api/v1/productos
+COMMON HEADERS
+-> Content-Type: application/json
+Ktor: REQUEST: https://pharma.test/api/v1/productos/8
+METHOD: PUT
+COMMON HEADERS
+-> Accept: application/json
+CONTENT HEADERS
+-> Content-Length: 63
+-> Content-Type: application/json
+Ktor: RESPONSE: 200 OK
+METHOD: PUT
+FROM: https://pharma.test/api/v1/productos/8
+COMMON HEADERS
+-> Content-Type: application/json
+Ktor: REQUEST: https://pharma.test/api/v1/productos/8
+METHOD: DELETE
+COMMON HEADERS
+-> Accept: application/json
+-> Content-Type: application/json
+CONTENT HEADERS
+-> Content-Length: 0
+Ktor: RESPONSE: 204 No Content
+METHOD: DELETE
+FROM: https://pharma.test/api/v1/productos/8
+COMMON HEADERS
+Ktor: REQUEST: https://pharma.test/api/v1/productos
+METHOD: POST
+COMMON HEADERS
+-> Accept: application/json
+CONTENT HEADERS
+-> Content-Length: 64
+-> Content-Type: application/json
+Ktor: RESPONSE: 400 Bad Request
+METHOD: POST
+FROM: https://pharma.test/api/v1/productos
+COMMON HEADERS
+-> Content-Type: application/json
+Ktor: REQUEST: https://pharma.test/api/v1/productos/999
+METHOD: GET
+COMMON HEADERS
+-> Accept: application/json
+-> Content-Type: application/json
+CONTENT HEADERS
+-> Content-Length: 0
+Ktor: RESPONSE: 404 Not Found
+METHOD: GET
+FROM: https://pharma.test/api/v1/productos/999
+COMMON HEADERS
+-> Content-Type: application/json
+Ktor: REQUEST: https://pharma.test/api/v1/productos/1
+METHOD: DELETE
+COMMON HEADERS
+-> Accept: application/json
+-> Content-Type: application/json
+CONTENT HEADERS
+-> Content-Length: 0
+Ktor: RESPONSE: 409 Conflict
+METHOD: DELETE
+FROM: https://pharma.test/api/v1/productos/1
+COMMON HEADERS
+-> Content-Type: application/json
+Ktor: REQUEST: https://pharma.test/api/v1/productos?pagina=0&tamanio=20&ordenarPor=nombre&direccion=asc
+METHOD: GET
+COMMON HEADERS
+-> Accept: application/json
+-> Content-Type: application/json
+CONTENT HEADERS
+-> Content-Length: 0
+Ktor: REQUEST https://pharma.test/api/v1/productos?pagina=0&tamanio=20&ordenarPor=nombre&direccion=asc failed with exception: kotlinx.io.IOException: Servidor detenido
+Ktor: REQUEST: https://pharma.test/api/v1/productos?pagina=0&tamanio=20&ordenarPor=nombre&direccion=asc
+METHOD: GET
+COMMON HEADERS
+-> Accept: application/json
+-> Content-Type: application/json
+CONTENT HEADERS
+-> Content-Length: 0
+Ktor: REQUEST https://pharma.test/api/v1/productos?pagina=0&tamanio=20&ordenarPor=nombre&direccion=asc failed with exception: kotlin.coroutines.cancellation.CancellationException: Request timeout has expired [url=https://pharma.test/api/v1/productos?pagina=0&tamanio=20&ordenarPor=nombre&direccion=asc, request_timeout=25 ms]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

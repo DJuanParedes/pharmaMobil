@@ -23,6 +23,7 @@ import org.jetbrains.compose.resources.painterResource
 import pharmamobil.shared.generated.resources.Res
 import pharmamobil.shared.generated.resources.pharmamobil_logo
 import pe.edu.upeu.pharmamobil.navigation.Screen
+import pe.edu.upeu.pharmamobil.presentation.sesion.LocalSesion
 
 @Composable
 fun InicioScreen(onPantallaSeleccionada: (Screen) -> Unit) {
@@ -61,14 +62,14 @@ fun InicioScreen(onPantallaSeleccionada: (Screen) -> Unit) {
                 descripcion = "Registra y valida el inventario.",
                 modifier = Modifier.weight(1f),
             )
-            ResumenCard(
+            if (LocalSesion.current?.puede("CLIENTES_LEER") == true) ResumenCard(
                 titulo = "Operaciones",
                 descripcion = "Consulta clientes y pedidos.",
                 modifier = Modifier.weight(1f),
             )
         }
 
-        Button(
+        if (LocalSesion.current?.puede("CATALOGO_ESCRIBIR") == true) Button(
             onClick = { onPantallaSeleccionada(Screen.Productos) },
             modifier = Modifier.fillMaxWidth(),
         ) {

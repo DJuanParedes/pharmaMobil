@@ -1,0 +1,114 @@
+Calculating task graph as no cached configuration is available for tasks: :shared:testAndroidHostTest :androidApp:assembleDebug
+> Task :shared:androidPreBuild UP-TO-DATE
+> Task :shared:generateAndroidMainAssets UP-TO-DATE
+> Task :shared:generateAndroidHostTestAssets UP-TO-DATE
+> Task :androidApp:preBuild UP-TO-DATE
+> Task :androidApp:generateDebugAssets UP-TO-DATE
+> Task :shared:preAndroidMainBuild UP-TO-DATE
+> Task :shared:kmpPartiallyResolvedDependenciesChecker
+> Task :shared:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :shared:convertXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :shared:preAndroidHostTestBuild UP-TO-DATE
+> Task :shared:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :androidApp:preDebugBuild UP-TO-DATE
+> Task :shared:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :shared:processAndroidHostTestJavaRes NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForAndroidHostTest NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :androidApp:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :shared:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForAndroidHostTest NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :shared:generateResourceAccessorsForAndroidHostTest NO-SOURCE
+> Task :shared:generateResourceAccessorsForCommonTest NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForCommonMain
+> Task :shared:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForCommonMain
+> Task :shared:androidJar
+> Task :shared:generateAndroidMainEmptyResourceFiles
+> Task :androidApp:desugarDebugFileDependencies
+> Task :shared:copyAndroidMainComposeResourcesToAndroidAssets
+> Task :androidApp:createDebugCompatibleScreenManifests
+> Task :androidApp:extractDeepLinksDebug
+> Task :androidApp:generateDebugResources
+> Task :shared:generateAndroidHostTestResources
+> Task :androidApp:writeDebugAppMetadata
+> Task :shared:writeAndroidMainAarMetadata
+> Task :shared:generateResourceAccessorsForCommonMain
+> Task :shared:generateComposeResClass
+> Task :shared:generateExpectResourceCollectorsForCommonMain
+> Task :androidApp:writeDebugSigningConfigVersions
+> Task :shared:generateActualResourceCollectorsForAndroidMain
+> Task :androidApp:validateSigningDebug
+> Task :shared:packageAndroidMainResources
+> Task :androidApp:packageDebugResources
+> Task :androidApp:mergeDebugJniLibFolders
+> Task :shared:mergeAndroidMainAssets
+> Task :androidApp:javaPreCompileDebug
+> Task :shared:parseAndroidMainLocalResources
+> Task :shared:compileAndroidMainLibraryResources
+> Task :shared:mergeAndroidMainJniLibFolders
+> Task :shared:mergeAndroidMainNativeLibs NO-SOURCE
+> Task :androidApp:mapDebugSourceSetPaths
+> Task :shared:copyAndroidMainJniLibsProjectOnly
+> Task :shared:mapAndroidHostTestSourceSetPaths
+> Task :shared:checkAndroidHostTestAarMetadata
+> Task :androidApp:checkDebugAarMetadata
+> Task :androidApp:processDebugNavigationResources
+> Task :androidApp:parseDebugLocalResources
+> Task :androidApp:checkDebugDuplicateClasses
+> Task :shared:processAndroidMainManifest
+> Task :androidApp:compileDebugNavigationResources
+> Task :shared:mergeAndroidHostTestAssets
+> Task :androidApp:mergeDebugAssets
+> Task :androidApp:generateDebugRFile
+> Task :androidApp:compressDebugAssets
+> Task :shared:generateAndroidMainRFile
+> Task :androidApp:mergeDebugResources
+> Task :shared:mergeAndroidHostTestResources
+> Task :shared:processAndroidHostTestManifest
+> Task :androidApp:processDebugMainManifest
+> Task :androidApp:processDebugManifest
+> Task :androidApp:processDebugManifestForPackage
+> Task :androidApp:mergeDebugNativeLibs
+> Task :androidApp:mergeExtDexDebug
+> Task :shared:processAndroidHostTestResources
+> Task :androidApp:processDebugResources
+> Task :shared:packageAndroidHostTestForUnitTest
+> Task :shared:generateAndroidHostTestConfig
+
+> Task :androidApp:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so. Run with --info option to learn more.
+
+> Task :shared:compileAndroidMain
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.android.kt:7:38 'constructor(p0: String!, p1: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/App.kt:74:5 'fun KoinContext(koin: Koin = ..., content: ComposableFunction0<Unit>): Unit' is deprecated. KoinContext is not needed anymore. This can be removed. Compose Koin context is setup with StartKoin().
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/data/remote/EjecutarLlamada.kt:26:13 'typealias IOException = IOException' is deprecated. Use kotlinx.io.IOException instead.
+
+> Task :shared:processAndroidMainJavaRes
+> Task :shared:bundleAndroidMainClassesToRuntimeJar
+> Task :shared:bundleAndroidMainClassesToCompileJar
+> Task :shared:bundleLibRuntimeToDirAndroidMain
+> Task :androidApp:compileDebugKotlin
+> Task :androidApp:compileDebugJavaWithJavac NO-SOURCE
+> Task :androidApp:processDebugJavaRes
+> Task :androidApp:dexBuilderDebug
+> Task :androidApp:mergeProjectDexDebug
+> Task :androidApp:mergeLibDexDebug
+
+> Task :shared:compileAndroidHostTest
+w: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/shared/src/commonTest/kotlin/pe/edu/upeu/pharmamobil/data/remote/ProductoApiTest.kt:116:41 'constructor(p0: String!): IOException' is deprecated. Use kotlinx.io.IOException instead.
+
+> Task :androidApp:mergeDebugJavaResource
+> Task :androidApp:packageDebug
+> Task :androidApp:assembleDebug
+> Task :androidApp:createDebugApkListingFileRedirect
+> Task :shared:testAndroidHostTest
+
+[Incubating] Problems report is available at: file:///C:/Users/juanp/Documents/Cursos/Sesion09/pharmaMobil-Juan/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 1m 34s
+70 actionable tasks: 70 executed
+Configuration cache entry stored.

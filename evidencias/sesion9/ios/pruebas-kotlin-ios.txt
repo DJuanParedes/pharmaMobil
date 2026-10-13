@@ -1,0 +1,107 @@
+Downloading https://services.gradle.org/distributions/gradle-9.1.0-bin.zip
+............10%.............20%.............30%.............40%.............50%............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 9.1.0!
+
+Here are the highlights of this release:
+ - Full Java 25 support
+ - Native task graph visualization
+ - Enhanced console output
+
+For more details see https://docs.gradle.org/9.1.0/release-notes.html
+
+Starting a Gradle Daemon (subsequent builds will be faster)
+Daemon JVM discovery is an incubating feature.
+Calculating task graph as no cached configuration is available for tasks: :shared:iosSimulatorArm64Test
+> Task :shared:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :shared:kmpPartiallyResolvedDependenciesChecker
+> Task :shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :shared:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :shared:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :shared:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :shared:generateResourceAccessorsForAppleMain NO-SOURCE
+> Task :shared:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :shared:generateResourceAccessorsForIosMain NO-SOURCE
+> Task :shared:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :shared:generateResourceAccessorsForIosSimulatorArm64Main NO-SOURCE
+> Task :shared:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :shared:generateResourceAccessorsForNativeMain NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForCommonMain
+> Task :shared:prepareComposeResourcesTaskForCommonMain
+> Task :shared:generateComposeResClass
+> Task :shared:generateResourceAccessorsForCommonMain
+> Task :shared:generateExpectResourceCollectorsForCommonMain
+> Task :shared:generateActualResourceCollectorsForIosSimulatorArm64Main
+> Task :shared:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :shared:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :shared:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :shared:generateResourceAccessorsForCommonTest NO-SOURCE
+> Task :shared:generateResourceAccessorsForAppleTest NO-SOURCE
+> Task :shared:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :shared:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :shared:generateResourceAccessorsForIosSimulatorArm64Test NO-SOURCE
+> Task :shared:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :shared:generateResourceAccessorsForIosTest NO-SOURCE
+> Task :shared:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :shared:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :shared:generateResourceAccessorsForNativeTest NO-SOURCE
+> Task :shared:assembleIosSimulatorArm64MainResources
+> Task :shared:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :shared:computeLocalPackageDependencyInputFiles
+> Task :shared:generateSyntheticLinkageSwiftPMImportProjectForCinteropsAndLdDump SKIPPED
+> Task :shared:serializeSwiftPMDependenciesMetadataForLockFiles
+> Task :shared:generateUmbrellaPackageIdentifierBasedResolutionForDefault SKIPPED
+> Task :shared:iosSimulatorArm64ResolveResourcesFromDependencies
+> Task :shared:fetchUmbrellaPackageIdentifierForDefault SKIPPED
+> Task :shared:syncPersistedPackageResolvedToSynthetic SKIPPED
+> Task :shared:fetchSyntheticImportProjectPackages SKIPPED
+> Task :shared:iosSimulatorArm64AggregateResources
+> Task :shared:iosSimulatorArm64ProcessResources
+> Task :shared:assembleIosSimulatorArm64TestResources
+> Task :shared:copyTestComposeResourcesForIosSimulatorArm64
+> Task :shared:convertSyntheticImportProjectIntoDefFileIphonesimulator
+
+> Task :shared:downloadKotlinNativeDistribution
+Kotlin/Native bundle directory /Users/runner/.konan/kotlin-native-prebuilt-macos-aarch64-2.4.10 is not empty. Native bundle files will be overwritten.
+Downloading native dependencies (LLVM, sysroot etc). This is a one-time action performed only on the first run of the compiler.
+Downloading dependency https://download.jetbrains.com/kotlin/native/resources/llvm/21-aarch64-macos/llvm-21-aarch64-macos-essentials-97.tar.gz to /Users/runner/.konan/dependencies/cache/llvm-21-aarch64-macos-essentials-97.tar.gz
+Done.
+Extracting dependency: /Users/runner/.konan/dependencies/cache/llvm-21-aarch64-macos-essentials-97.tar.gz into /Users/runner/.konan/dependencies
+Downloading dependency https://download.jetbrains.com/kotlin/native/libffi-3.3-1-macos-arm64.tar.gz to /Users/runner/.konan/dependencies/cache/libffi-3.3-1-macos-arm64.tar.gz
+Done.
+Extracting dependency: /Users/runner/.konan/dependencies/cache/libffi-3.3-1-macos-arm64.tar.gz into /Users/runner/.konan/dependencies
+
+> Task :shared:compileKotlinIosSimulatorArm64
+w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/App.kt:77:5 'fun KoinContext(koin: Koin = ..., content: ComposableFunction0<Unit>): Unit' is deprecated. KoinContext is not needed anymore. This can be removed. Compose Koin context is setup with StartKoin().
+w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/data/remote/EjecutarLlamada.kt:26:13 'typealias IOException = IOException' is deprecated. Use kotlinx.io.IOException instead.
+w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/platform/InfoDispositivo.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/InfoDispositivo.ios.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :shared:iosSimulatorArm64MainKlibrary
+
+> Task :shared:compileTestKotlinIosSimulatorArm64
+w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/commonTest/kotlin/pe/edu/upeu/pharmamobil/data/remote/ProductoApiTest.kt:116:41 'constructor(message: String?): IOException' is deprecated. Use kotlinx.io.IOException instead.
+
+> Task :shared:linkDebugTestIosSimulatorArm64
+w: The number of threads 4 is more than the number of processors 3
+
+> Task :shared:iosSimulatorArm64Test
+
+BUILD SUCCESSFUL in 8m 46s
+24 actionable tasks: 24 executed
+Configuration cache entry stored.

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.domain.PharmaDomainTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-06T21:24:30.869Z" hostname="sat12-dp150-86a31831-f8b0-4c17-b2ae-82860112328d-DE1F8517F51B.local" time="0.003">
+  <properties/>
+  <testcase name="telefonoNuloUsaValorSeguro[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.PharmaDomainTest" time="0.002"/>
+  <testcase name="clienteInvalidoEsRechazado[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.PharmaDomainTest" time="0.001"/>
+  <testcase name="copyActualizaStockSinMutarElProductoOriginal[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.PharmaDomainTest" time="0.0"/>
+  <testcase name="consultasUsanFilterMapYFindConNullSafety[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.PharmaDomainTest" time="0.0"/>
+  <testcase name="pedidoCalculaTotalYExponeEstadoSellado[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.PharmaDomainTest" time="0.0"/>
+  <testcase name="detallePedidoRechazaCantidadIgualACero[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.PharmaDomainTest" time="0.0"/>
+  <testcase name="reglaDeReposicionConsideraStockMinimoYEstadoActivo[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.PharmaDomainTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -5,7 +5,10 @@ import pe.edu.upeu.pharmamobil.domain.model.Producto
 sealed interface ProductoFase {
     data object Cargando : ProductoFase
     data object SinProductos : ProductoFase
-    data class ConProductos(val productos: List<Producto>) : ProductoFase
+    data class ConProductos(
+        val productos: List<Producto>,
+        val productosUi: List<ProductoUi> = productos.map(Producto::toUi),
+    ) : ProductoFase
     data class Error(val mensaje: String) : ProductoFase
 }
 

@@ -4,6 +4,8 @@ sealed interface ErrorApi {
     data class Validacion(val porCampo: Map<String, String>) : ErrorApi
     data object NoEncontrado : ErrorApi
     data class Conflicto(val mensaje: String) : ErrorApi
+    data object SesionExpirada : ErrorApi
+    data object SinPermiso : ErrorApi
     data object NoAutorizado : ErrorApi
     data object Servidor : ErrorApi
     data object SinConexion : ErrorApi
@@ -17,6 +19,8 @@ fun mensajeDe(error: ErrorApi?): String = when (error) {
     is ErrorApi.Validacion -> "Revisa los datos ingresados."
     ErrorApi.NoEncontrado -> "El producto ya no existe. Actualiza la lista."
     is ErrorApi.Conflicto -> error.mensaje
+    ErrorApi.SesionExpirada -> "Tu sesión expiró. Inicia sesión nuevamente."
+    ErrorApi.SinPermiso -> "No tienes permisos para esta operación."
     ErrorApi.NoAutorizado -> "No tienes autorización para completar esta operación."
     ErrorApi.Servidor -> "El servidor no pudo completar la solicitud. Intenta nuevamente."
     ErrorApi.SinConexion -> "No se pudo conectar con PharmaSoft. Verifica la red y el backend."

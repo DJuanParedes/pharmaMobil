@@ -5,9 +5,9 @@ import kotlin.test.assertEquals
 
 class ScreenTest {
     @Test
-    fun contieneLosCuatroDestinosEnElOrdenDeLaGuia() {
+    fun conservaLosDestinosPreviosYAgregaAcercaDe() {
         assertEquals(
-            listOf("Inicio", "Productos", "Clientes", "Pedidos"),
+            listOf("Inicio", "Productos", "Clientes", "Pedidos", "Acerca de"),
             Screen.destinos.map { it.titulo },
         )
     }

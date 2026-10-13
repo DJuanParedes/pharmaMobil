@@ -34,12 +34,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import kotlinx.coroutines.launch
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.KoinContext
@@ -57,7 +60,14 @@ import pe.edu.upeu.pharmamobil.presentation.producto.ProductoScreen
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoFase
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 import pe.edu.upeu.pharmamobil.presentation.producto.productosSimulados
+import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoScreen
+import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel
 import pe.edu.upeu.pharmamobil.theme.PharmaMobilTheme
+import pe.edu.upeu.pharmamobil.presentation.acerca.AcercaDeScreen
+
+import pe.edu.upeu.pharmamobil.presentation.sesion.*
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.material3.CircularProgressIndicator
 
 private val anchoMediano = 600.dp
 private val anchoAmpliado = 840.dp
@@ -70,10 +80,21 @@ fun App() {
 
     KoinContext {
         PharmaMobilTheme(darkTheme = darkTheme) {
-            PharmaMobilApp(
-                darkTheme = darkTheme,
-                onDarkThemeChange = { darkTheme = it },
-            )
+            val sesionVm = koinViewModel<SesionViewModel>()
+            val state by sesionVm.uiState.collectAsStateWithLifecycle()
+            when {
+                state.restaurando -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+                state.sesion == null -> LoginScreen(state, sesionVm::usuario, sesionVm::clave,
+                    sesionVm::iniciar, sesionVm::restaurar)
+                else -> androidx.compose.runtime.key(state.sesion?.usuario) {
+                    CompositionLocalProvider(LocalSesion provides state.sesion,
+                        LocalCerrarSesion provides sesionVm::cerrar) {
+                        PharmaMobilApp(darkTheme, { darkTheme = it })
+                    }
+                }
+            }
         }
     }
 }
@@ -248,7 +269,7 @@ private fun ContenidoDrawer(
 
         HorizontalDivider()
 
-        Screen.destinos.forEach { screen ->
+        Screen.destinos.filter { permitido(it, LocalSesion.current) }.forEach { screen ->
             NavigationDrawerItem(
                 icon = { DestinoIcono(screen) },
                 label = { Text(screen.titulo) },
@@ -292,7 +313,7 @@ private fun BarraNavegacionMediana(
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(vertical = 20.dp),
         )
-        Screen.destinos.forEach { screen ->
+        Screen.destinos.filter { permitido(it, LocalSesion.current) }.forEach { screen ->
             NavigationRailItem(
                 selected = pantallaActual == screen,
                 onClick = { onPantallaSeleccionada(screen) },
@@ -318,7 +339,10 @@ private fun ContenidoPrincipal(
                 title = { Text(pantallaActual.titulo) },
                 navigationIcon = {
                     if (onAbrirMenu != null) {
-                        IconButton(onClick = onAbrirMenu) {
+                        IconButton(
+                            onClick = onAbrirMenu,
+                            modifier = Modifier.semantics { contentDescription = "Abrir menú" },
+                        ) {
                             Text(
                                 text = "☰",
                                 style = MaterialTheme.typography.titleLarge,
@@ -327,6 +351,8 @@ private fun ContenidoPrincipal(
                     }
                 },
                 actions = {
+                    val cerrar = LocalCerrarSesion.current
+                    TextButton(onClick = cerrar) { Text("Cerrar sesión") }
                     TextButton(onClick = { onDarkThemeChange(!darkTheme) }) {
                         Text(if (darkTheme) "Tema claro" else "Tema oscuro")
                     }
@@ -364,9 +390,15 @@ private fun PantallaActiva(
     onPedidosChange: (List<Pedido>) -> Unit,
     onPantallaSeleccionada: (Screen) -> Unit,
 ) {
+    if (!permitido(pantallaActual, LocalSesion.current)) {
+        Text("No tienes permisos para esta sección.", Modifier.padding(24.dp))
+        return
+    }
     when (pantallaActual) {
+        Screen.AcercaDe -> AcercaDeScreen()
         Screen.Inicio -> InicioScreen(onPantallaSeleccionada)
         Screen.Productos -> {
+            var productoDetalleId by rememberSaveable { mutableStateOf<Long?>(null) }
             val viewModel = koinViewModel<ProductoViewModel>()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -377,7 +409,18 @@ private fun PantallaActiva(
                 }
             }
 
-            ProductoScreen(
+            val detalleId = productoDetalleId
+            if (detalleId != null) {
+                val detalleViewModel = koinViewModel<DetalleProductoViewModel>()
+                val detalleUiState by detalleViewModel.uiState.collectAsStateWithLifecycle()
+                LaunchedEffect(detalleId) { detalleViewModel.cargar(detalleId) }
+                DetalleProductoScreen(
+                    uiState = detalleUiState,
+                    onCompartir = { detalleViewModel.compartir() },
+                    onVolver = { productoDetalleId = null },
+                    onReintentar = { detalleViewModel.cargar(detalleId) },
+                )
+            } else ProductoScreen(
                 uiState = uiState,
                 onFiltroChange = viewModel::cambiarFiltro,
                 onNombreChange = viewModel::cambiarNombre,
@@ -389,6 +432,8 @@ private fun PantallaActiva(
                 onEliminar = viewModel::eliminar,
                 onLimpiarMensaje = viewModel::limpiarMensaje,
                 onReintentar = viewModel::cargarProductos,
+                onVerDetalle = { productoDetalleId = it.id },
+                puedeEscribir = LocalSesion.current?.puede("CATALOGO_ESCRIBIR") == true,
             )
         }
         Screen.Clientes -> ClienteScreen(

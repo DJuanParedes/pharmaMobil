@@ -1,0 +1,22 @@
+name: S10 compilar iOS sin simulador
+on:
+  push:
+    branches: [feature/auth-jwt-paredes]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compilar framework para dispositivo sin iniciar simuladores
+        run: |
+          chmod +x gradlew
+          ./gradlew :shared:linkDebugFrameworkIosArm64 --no-configuration-cache --console=plain

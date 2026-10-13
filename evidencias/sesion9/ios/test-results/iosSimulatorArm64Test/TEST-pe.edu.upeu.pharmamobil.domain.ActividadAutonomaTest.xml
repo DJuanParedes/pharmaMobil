@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-06T21:24:30.868Z" hostname="sat12-dp150-86a31831-f8b0-4c17-b2ae-82860112328d-DE1F8517F51B.local" time="0.001">
+  <properties/>
+  <testcase name="pedidoValidoDescuentaStockYCambiaAProcesando[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.0"/>
+  <testcase name="productoInexistenteDevuelveResultadoSeguro[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.0"/>
+  <testcase name="stockInsuficienteNoCambiaElInventario[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.0"/>
+  <testcase name="detallesRepetidosSeSumanAntesDeDescontarStock[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.0"/>
+  <testcase name="pedidoQueNoEstaPendienteEsRechazado[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.001"/>
+  <testcase name="flowEmiteInventarioInicialYActualizado[iosSimulatorArm64]" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

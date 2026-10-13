@@ -1,0 +1,284 @@
+﻿2026-10-13T19:09:38.2518900Z Current runner version: '2.337.0'
+2026-10-13T19:09:38.2533410Z ##[group]Runner Image Provisioner
+2026-10-13T19:09:38.2533950Z Hosted Compute Agent
+2026-10-13T19:09:38.2534330Z Version: 20260828.587
+2026-10-13T19:09:38.2534750Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-10-13T19:09:38.2535280Z Build Date: 2026-08-28T16:44:25Z
+2026-10-13T19:09:38.2535760Z Worker ID: {77203b78-e933-4862-bb29-1545ee1924f6}
+2026-10-13T19:09:38.2536230Z Azure Region: westus
+2026-10-13T19:09:38.2536600Z ##[endgroup]
+2026-10-13T19:09:38.2537430Z ##[group]Operating System
+2026-10-13T19:09:38.2537820Z macOS
+2026-10-13T19:09:38.2538160Z 15.7.9
+2026-10-13T19:09:38.2538530Z 24G830
+2026-10-13T19:09:38.2538860Z ##[endgroup]
+2026-10-13T19:09:38.2539220Z ##[group]Runner Image
+2026-10-13T19:09:38.2539610Z Image: macos-15-arm64
+2026-10-13T19:09:38.2540040Z Version: 20260907.0337.1
+2026-10-13T19:09:38.2540930Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20260907.0337/images/macos/macos-15-arm64-Readme.md
+2026-10-13T19:09:38.2541980Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20260907.0337
+2026-10-13T19:09:38.2542660Z ##[endgroup]
+2026-10-13T19:09:38.2544390Z Contents: read
+2026-10-13T19:09:38.2544770Z Metadata: read
+2026-10-13T19:09:38.2545130Z ##[endgroup]
+2026-10-13T19:09:38.2546650Z Secret source: Actions
+2026-10-13T19:09:38.2547220Z Cache mode: write
+2026-10-13T19:09:38.2547660Z Prepare workflow directory
+2026-10-13T19:09:38.2799980Z Prepare all required actions
+2026-10-13T19:09:38.2856080Z Getting action download info
+2026-10-13T19:09:38.6856130Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-13T19:09:39.0080380Z Download action repository 'actions/setup-java@v4' (SHA:cf277c60eb25467037889841efdb72551f06f6c3)
+2026-10-13T19:09:39.5574180Z Download action repository 'gradle/actions@v4' (SHA:ed408507eac070d1f99cc633dbcf757c94c7933a)
+2026-10-13T19:09:40.6044620Z Complete job name: ios
+2026-10-13T19:09:40.6487690Z ##[group]Run actions/checkout@v4
+2026-10-13T19:09:40.6488250Z with:
+2026-10-13T19:09:40.6488600Z   repository: DJuanParedes/pharmaMobil
+2026-10-13T19:09:40.6491470Z   token: ***
+2026-10-13T19:09:40.6491870Z   ssh-strict: true
+2026-10-13T19:09:40.6492210Z   ssh-user: git
+2026-10-13T19:09:40.6492530Z   persist-credentials: true
+2026-10-13T19:09:40.6492880Z   clean: true
+2026-10-13T19:09:40.6493210Z   sparse-checkout-cone-mode: true
+2026-10-13T19:09:40.6493590Z   fetch-depth: 1
+2026-10-13T19:09:40.6493910Z   fetch-tags: false
+2026-10-13T19:09:40.6494230Z   show-progress: true
+2026-10-13T19:09:40.6494620Z   lfs: false
+2026-10-13T19:09:40.6494960Z   submodules: false
+2026-10-13T19:09:40.6495290Z   set-safe-directory: true
+2026-10-13T19:09:40.6495670Z   allow-unsafe-pr-checkout: false
+2026-10-13T19:09:40.6496170Z ##[endgroup]
+2026-10-13T19:09:41.0037570Z Syncing repository: DJuanParedes/pharmaMobil
+2026-10-13T19:09:41.0039240Z ##[group]Getting Git version info
+2026-10-13T19:09:41.0040080Z Working directory is '/Users/runner/work/pharmaMobil/pharmaMobil'
+2026-10-13T19:09:41.0041240Z [command]/opt/homebrew/bin/git version
+2026-10-13T19:09:41.0629320Z git version 2.55.0
+2026-10-13T19:09:41.0652450Z ##[endgroup]
+2026-10-13T19:09:41.0660460Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/331da8a7-dbf1-4aa4-b171-33f6a43988f7/.gitconfig'
+2026-10-13T19:09:41.0669440Z Temporarily overriding HOME='/Users/runner/work/_temp/331da8a7-dbf1-4aa4-b171-33f6a43988f7' before making global git config changes
+2026-10-13T19:09:41.0672480Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-13T19:09:41.0674610Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/pharmaMobil/pharmaMobil
+2026-10-13T19:09:41.0774070Z Deleting the contents of '/Users/runner/work/pharmaMobil/pharmaMobil'
+2026-10-13T19:09:41.0776390Z ##[group]Initializing the repository
+2026-10-13T19:09:41.0779710Z [command]/opt/homebrew/bin/git init /Users/runner/work/pharmaMobil/pharmaMobil
+2026-10-13T19:09:41.0949690Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-13T19:09:41.0962050Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-13T19:09:41.0964050Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-13T19:09:41.0965940Z hint: call:
+2026-10-13T19:09:41.0967150Z hint:
+2026-10-13T19:09:41.0968250Z hint: 	git config --global init.defaultBranch <name>
+2026-10-13T19:09:41.0969530Z hint:
+2026-10-13T19:09:41.0970760Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-13T19:09:41.0972590Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-13T19:09:41.0974060Z hint:
+2026-10-13T19:09:41.0974860Z hint: 	git branch -m <name>
+2026-10-13T19:09:41.0975800Z hint:
+2026-10-13T19:09:41.0977100Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-13T19:09:41.0979250Z Initialized empty Git repository in /Users/runner/work/pharmaMobil/pharmaMobil/.git/
+2026-10-13T19:09:41.0982680Z [command]/opt/homebrew/bin/git remote add origin https://github.com/DJuanParedes/pharmaMobil
+2026-10-13T19:09:41.1028820Z ##[endgroup]
+2026-10-13T19:09:41.1030200Z ##[group]Disabling automatic garbage collection
+2026-10-13T19:09:41.1031460Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-10-13T19:09:41.1089490Z ##[endgroup]
+2026-10-13T19:09:41.1090710Z ##[group]Setting up auth
+2026-10-13T19:09:41.1092510Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T19:09:41.1149130Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T19:09:41.1920900Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T19:09:41.1983760Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T19:09:41.2908970Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-13T19:09:41.2965840Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-13T19:09:41.3641580Z ##[endgroup]
+2026-10-13T19:09:41.3642860Z ##[group]Fetching the repository
+2026-10-13T19:09:41.3647530Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0e3c050e6d32168d91e7d3d994c1e5192cd1a6d2:refs/remotes/origin/feature/auth-jwt-paredes
+2026-10-13T19:09:42.9355480Z From https://github.com/DJuanParedes/pharmaMobil
+2026-10-13T19:09:42.9358770Z  * [new ref]         0e3c050e6d32168d91e7d3d994c1e5192cd1a6d2 -> origin/feature/auth-jwt-paredes
+2026-10-13T19:09:42.9363820Z ##[endgroup]
+2026-10-13T19:09:42.9365200Z ##[group]Determining the checkout info
+2026-10-13T19:09:42.9366710Z ##[endgroup]
+2026-10-13T19:09:42.9367680Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-10-13T19:09:42.9433490Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-13T19:09:42.9491620Z ##[group]Checking out the ref
+2026-10-13T19:09:42.9493660Z [command]/opt/homebrew/bin/git checkout --progress --force -B feature/auth-jwt-paredes refs/remotes/origin/feature/auth-jwt-paredes
+2026-10-13T19:09:43.0433020Z Switched to a new branch 'feature/auth-jwt-paredes'
+2026-10-13T19:09:43.0456760Z branch 'feature/auth-jwt-paredes' set up to track 'origin/feature/auth-jwt-paredes'.
+2026-10-13T19:09:43.0540680Z ##[endgroup]
+2026-10-13T19:09:43.0620560Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-10-13T19:09:43.0621880Z 0e3c050e6d32168d91e7d3d994c1e5192cd1a6d2
+2026-10-13T19:09:43.0929290Z ##[group]Run actions/setup-java@v4
+2026-10-13T19:09:43.0930040Z with:
+2026-10-13T19:09:43.0930580Z   distribution: zulu
+2026-10-13T19:09:43.0931150Z   java-version: 21
+2026-10-13T19:09:43.0931700Z   java-package: jdk
+2026-10-13T19:09:43.0932270Z   check-latest: false
+2026-10-13T19:09:43.0932860Z   server-id: github
+2026-10-13T19:09:43.0933460Z   server-username: GITHUB_ACTOR
+2026-10-13T19:09:43.0935270Z   overwrite-settings: true
+2026-10-13T19:09:43.0935910Z   job-status: success
+2026-10-13T19:09:43.0943390Z   token: ***
+2026-10-13T19:09:43.0944020Z ##[endgroup]
+2026-10-13T19:09:43.3189030Z ##[warning]setup-java v4 is deprecated and will no longer receive updates. Please migrate to actions/setup-java@v5.
+2026-10-13T19:09:43.3195880Z ##[group]Installed distributions
+2026-10-13T19:09:43.3196800Z Trying to resolve the latest version from remote
+2026-10-13T19:09:43.3301270Z (node:1134) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-13T19:09:43.3303880Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-13T19:09:43.4011130Z Resolved latest version as 21.0.12+8
+2026-10-13T19:09:43.4012050Z Trying to download...
+2026-10-13T19:09:43.4013370Z Downloading Java 21.0.12+8 (Zulu) from https://cdn.azul.com/zulu/bin/zulu21.52.17-ca-crac-jdk21.0.12-macosx_aarch64.tar.gz ...
+2026-10-13T19:09:47.6884750Z Extracting Java archive...
+2026-10-13T19:09:47.7300330Z [command]/usr/bin/tar xz -C /Users/runner/work/_temp/66ebef35-2995-413a-b428-e0b05ddbd1f7 -f /Users/runner/work/_temp/c52f2806-3d43-4723-8fe7-8a86ee11660a
+2026-10-13T19:09:50.6908350Z Java 21.0.12+8 was downloaded
+2026-10-13T19:09:50.6910240Z Setting Java 21.0.12+8 as the default
+2026-10-13T19:09:50.7074450Z Creating toolchains.xml for JDK version 21 from zulu
+2026-10-13T19:09:50.7201990Z Writing to /Users/runner/.m2/toolchains.xml
+2026-10-13T19:09:50.7304780Z 
+2026-10-13T19:09:50.7357450Z Java configuration:
+2026-10-13T19:09:50.7359290Z   Distribution: zulu
+2026-10-13T19:09:50.7360690Z   Version: 21.0.12+8
+2026-10-13T19:09:50.7362060Z   Path: /Users/runner/hostedtoolcache/Java_Zulu_jdk/21.0.12-8/arm64/Contents/Home
+2026-10-13T19:09:50.7363440Z 
+2026-10-13T19:09:50.7365700Z ##[endgroup]
+2026-10-13T19:09:50.7452530Z Creating settings.xml with server-id: github
+2026-10-13T19:09:50.7453020Z Writing to /Users/runner/.m2/settings.xml
+2026-10-13T19:09:50.7820880Z ##[group]Run gradle/actions/setup-gradle@v4
+2026-10-13T19:09:50.7821160Z with:
+2026-10-13T19:09:50.7821340Z   cache-disabled: false
+2026-10-13T19:09:50.7821540Z   cache-read-only: true
+2026-10-13T19:09:50.7821740Z   cache-write-only: false
+2026-10-13T19:09:50.7822180Z   cache-overwrite-existing: false
+2026-10-13T19:09:50.7822580Z   cache-cleanup: on-success
+2026-10-13T19:09:50.7822940Z   gradle-home-cache-includes: caches
+notifications
+
+2026-10-13T19:09:50.7823430Z   add-job-summary: always
+2026-10-13T19:09:50.7823650Z   add-job-summary-as-pr-comment: never
+2026-10-13T19:09:50.7823900Z   dependency-graph: disabled
+2026-10-13T19:09:50.7824260Z   dependency-graph-report-dir: dependency-graph-reports
+2026-10-13T19:09:50.7824780Z   dependency-graph-continue-on-failure: true
+2026-10-13T19:09:50.7825110Z   build-scan-publish: false
+2026-10-13T19:09:50.7825610Z   validate-wrappers: true
+2026-10-13T19:09:50.7825980Z   allow-snapshot-wrappers: false
+2026-10-13T19:09:50.7826380Z   gradle-home-cache-strict-match: false
+2026-10-13T19:09:50.7826630Z   workflow-job-context: null
+2026-10-13T19:09:50.7828980Z   github-token: ***
+2026-10-13T19:09:50.7829130Z env:
+2026-10-13T19:09:50.7829550Z   JAVA_HOME: /Users/runner/hostedtoolcache/Java_Zulu_jdk/21.0.12-8/arm64/Contents/Home
+2026-10-13T19:09:50.7830040Z   JAVA_HOME_21_ARM64: /Users/runner/hostedtoolcache/Java_Zulu_jdk/21.0.12-8/arm64/Contents/Home
+2026-10-13T19:09:50.7836440Z ##[endgroup]
+2026-10-13T19:09:51.3195240Z Gradle User Home already exists at /Users/runner/.gradle
+2026-10-13T19:09:51.3314580Z Merged default JDK locations into /Users/runner/.m2/toolchains.xml
+2026-10-13T19:09:51.3348360Z ##[group]Restore Gradle state from cache
+2026-10-13T19:09:51.6676740Z Gradle User Home cache not found. Will initialize empty.
+2026-10-13T19:09:51.6677330Z ##[endgroup]
+2026-10-13T19:09:51.6777090Z ##[group]All Gradle Wrapper jars are valid
+2026-10-13T19:09:51.6778940Z ✓ Found known Gradle Wrapper JAR files:
+2026-10-13T19:09:51.6779640Z   76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3 gradle/wrapper/gradle-wrapper.jar
+2026-10-13T19:09:51.6780500Z ##[endgroup]
+2026-10-13T19:09:51.7121670Z ##[group]Run chmod +x gradlew
+2026-10-13T19:09:51.7122060Z [36;1mchmod +x gradlew[0m
+2026-10-13T19:09:51.7123150Z [36;1m./gradlew :shared:linkDebugFrameworkIosArm64 --no-configuration-cache --console=plain[0m
+2026-10-13T19:09:51.7392340Z shell: /bin/bash -e {0}
+2026-10-13T19:09:51.7392550Z env:
+2026-10-13T19:09:51.7392860Z   JAVA_HOME: /Users/runner/hostedtoolcache/Java_Zulu_jdk/21.0.12-8/arm64/Contents/Home
+2026-10-13T19:09:51.7393370Z   JAVA_HOME_21_ARM64: /Users/runner/hostedtoolcache/Java_Zulu_jdk/21.0.12-8/arm64/Contents/Home
+2026-10-13T19:09:51.7393780Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-10-13T19:09:51.7394030Z   GRADLE_USER_HOME: /Users/runner/.gradle
+2026-10-13T19:09:51.7394270Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-10-13T19:09:51.7394500Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-10-13T19:09:51.7394850Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-10-13T19:09:51.7395300Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-10-13T19:09:51.7395560Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-10-13T19:09:51.7395780Z ##[endgroup]
+2026-10-13T19:09:51.9490590Z Downloading https://services.gradle.org/distributions/gradle-9.1.0-bin.zip
+2026-10-13T19:09:53.4928560Z ............10%.............20%.............30%.............40%.............50%............60%.............70%.............80%.............90%.............100%
+2026-10-13T19:09:55.2564460Z 
+2026-10-13T19:09:55.2665350Z Welcome to Gradle 9.1.0!
+2026-10-13T19:09:55.2692280Z 
+2026-10-13T19:09:55.2693290Z Here are the highlights of this release:
+2026-10-13T19:09:55.2721890Z  - Full Java 25 support
+2026-10-13T19:09:55.2745430Z  - Native task graph visualization
+2026-10-13T19:09:55.2745830Z  - Enhanced console output
+2026-10-13T19:09:55.2746080Z 
+2026-10-13T19:09:55.2746340Z For more details see https://docs.gradle.org/9.1.0/release-notes.html
+2026-10-13T19:09:55.2746820Z 
+2026-10-13T19:09:55.2849520Z Starting a Gradle Daemon (subsequent builds will be faster)
+2026-10-13T19:09:55.2919730Z Daemon JVM discovery is an incubating feature.
+2026-10-13T19:11:39.1997330Z > Task :shared:kmpPartiallyResolvedDependenciesChecker
+2026-10-13T19:11:47.6785880Z > Task :shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+2026-10-13T19:11:47.6788540Z > Task :shared:checkIosArm64MainComposeLibrariesCompatibility
+2026-10-13T19:11:52.0366760Z 
+2026-10-13T19:11:52.0368110Z > Task :shared:downloadKotlinNativeDistribution
+2026-10-13T19:11:52.0369670Z Kotlin/Native bundle directory /Users/runner/.konan/kotlin-native-prebuilt-macos-aarch64-2.4.10 is not empty. Native bundle files will be overwritten.
+2026-10-13T19:12:02.6884910Z Downloading native dependencies (LLVM, sysroot etc). This is a one-time action performed only on the first run of the compiler.
+2026-10-13T19:12:02.6909750Z Downloading dependency https://download.jetbrains.com/kotlin/native/resources/llvm/21-aarch64-macos/llvm-21-aarch64-macos-essentials-97.tar.gz to /Users/runner/.konan/dependencies/cache/llvm-21-aarch64-macos-essentials-97.tar.gz
+2026-10-13T19:12:06.2326080Z Done.
+2026-10-13T19:12:06.2327870Z Extracting dependency: /Users/runner/.konan/dependencies/cache/llvm-21-aarch64-macos-essentials-97.tar.gz into /Users/runner/.konan/dependencies
+2026-10-13T19:12:10.9449430Z Downloading dependency https://download.jetbrains.com/kotlin/native/libffi-3.3-1-macos-arm64.tar.gz to /Users/runner/.konan/dependencies/cache/libffi-3.3-1-macos-arm64.tar.gz
+2026-10-13T19:12:11.4755360Z Done.
+2026-10-13T19:12:11.4761350Z Extracting dependency: /Users/runner/.konan/dependencies/cache/libffi-3.3-1-macos-arm64.tar.gz into /Users/runner/.konan/dependencies
+2026-10-13T19:12:11.7685170Z 
+2026-10-13T19:12:11.7687570Z > Task :shared:convertXmlValueResourcesForAppleMain NO-SOURCE
+2026-10-13T19:12:11.7688320Z > Task :shared:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+2026-10-13T19:12:11.7692310Z > Task :shared:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+2026-10-13T19:12:11.7696230Z > Task :shared:generateResourceAccessorsForAppleMain NO-SOURCE
+2026-10-13T19:12:11.7696990Z > Task :shared:convertXmlValueResourcesForCommonMain NO-SOURCE
+2026-10-13T19:12:11.7697660Z > Task :shared:copyNonXmlValueResourcesForCommonMain
+2026-10-13T19:12:11.7698200Z > Task :shared:prepareComposeResourcesTaskForCommonMain
+2026-10-13T19:12:11.9519180Z > Task :shared:generateResourceAccessorsForCommonMain
+2026-10-13T19:12:11.9524170Z > Task :shared:convertXmlValueResourcesForIosArm64Main NO-SOURCE
+2026-10-13T19:12:11.9538010Z > Task :shared:copyNonXmlValueResourcesForIosArm64Main NO-SOURCE
+2026-10-13T19:12:11.9539030Z > Task :shared:prepareComposeResourcesTaskForIosArm64Main NO-SOURCE
+2026-10-13T19:12:11.9540790Z > Task :shared:generateResourceAccessorsForIosArm64Main NO-SOURCE
+2026-10-13T19:12:11.9542440Z > Task :shared:convertXmlValueResourcesForIosMain NO-SOURCE
+2026-10-13T19:12:11.9547140Z > Task :shared:copyNonXmlValueResourcesForIosMain NO-SOURCE
+2026-10-13T19:12:12.0824750Z > Task :shared:prepareComposeResourcesTaskForIosMain NO-SOURCE
+2026-10-13T19:12:12.0833590Z > Task :shared:generateResourceAccessorsForIosMain NO-SOURCE
+2026-10-13T19:12:12.0836020Z > Task :shared:convertXmlValueResourcesForNativeMain NO-SOURCE
+2026-10-13T19:12:12.0837970Z > Task :shared:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+2026-10-13T19:12:12.0875440Z > Task :shared:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+2026-10-13T19:12:12.0877430Z > Task :shared:generateResourceAccessorsForNativeMain NO-SOURCE
+2026-10-13T19:12:12.0879220Z > Task :shared:generateActualResourceCollectorsForIosArm64Main
+2026-10-13T19:12:12.0880340Z > Task :shared:generateComposeResClass
+2026-10-13T19:12:12.0881520Z > Task :shared:generateExpectResourceCollectorsForCommonMain
+2026-10-13T19:12:40.4266580Z 
+2026-10-13T19:12:40.4278240Z w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/App.kt:81:5 'fun KoinContext(koin: Koin = ..., content: ComposableFunction0<Unit>): Unit' is deprecated. KoinContext is not needed anymore. This can be removed. Compose Koin context is setup with StartKoin().
+2026-10-13T19:12:40.4334910Z w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/data/remote/EjecutarLlamada.kt:26:13 'typealias IOException = IOException' is deprecated. Use kotlinx.io.IOException instead.
+2026-10-13T19:12:40.4337660Z > Task :shared:compileKotlinIosArm64
+2026-10-13T19:12:40.4342590Z w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/data/remote/HttpClientFactory.kt:76:28 No cast needed.
+2026-10-13T19:12:40.4346320Z w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/platform/InfoDispositivo.kt:3:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+2026-10-13T19:12:40.4349720Z w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/data/local/AlmacenSeguroIos.kt:14:40 Unchecked cast of 'CPointer<out CPointed>' to 'CPointer<__CFDictionary>'.
+2026-10-13T19:12:40.4351220Z w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/data/local/AlmacenSeguroIos.kt:22:28 This cast can never succeed.
+2026-10-13T19:12:40.4357090Z w: file:///Users/runner/work/pharmaMobil/pharmaMobil/shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/InfoDispositivo.ios.kt:5:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+2026-10-13T19:13:10.7251970Z 
+2026-10-13T19:13:10.7257380Z > Task :shared:linkDebugFrameworkIosArm64
+2026-10-13T19:17:59.0181750Z w: The number of threads 4 is more than the number of processors 3
+2026-10-13T19:17:59.0332380Z w: Cannot infer a bundle ID from packages of source files and exported dependencies, use the bundle name instead: Shared. Please specify the bundle ID explicitly using the -Xbinary=bundleId=<id> compiler flag.
+2026-10-13T19:18:00.6499390Z gradle/actions: Writing build results to /Users/runner/work/_temp/.gradle-actions/build-results/__run-1791918600270.json
+2026-10-13T19:18:00.8169810Z 
+2026-10-13T19:18:00.8184620Z BUILD SUCCESSFUL in 8m 8s
+2026-10-13T19:18:00.8189100Z 11 actionable tasks: 11 executed
+2026-10-13T19:18:02.9530060Z Post job cleanup.
+2026-10-13T19:18:04.4780990Z In post-action step
+2026-10-13T19:18:04.4790670Z Cache is read-only: will not save state for use in subsequent builds.
+2026-10-13T19:18:04.4794530Z Generating Job Summary
+2026-10-13T19:18:04.4824590Z Completed post-action step
+2026-10-13T19:18:04.5034040Z Post job cleanup.
+2026-10-13T19:18:04.6778700Z (node:9298) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-13T19:18:04.6800380Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-13T19:18:04.7069240Z Post job cleanup.
+2026-10-13T19:18:04.8393350Z [command]/opt/homebrew/bin/git version
+2026-10-13T19:18:04.8926840Z git version 2.55.0
+2026-10-13T19:18:04.8964110Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/bea57446-1866-43b9-a42c-ec7cdb2cde89/.gitconfig'
+2026-10-13T19:18:04.8966290Z Temporarily overriding HOME='/Users/runner/work/_temp/bea57446-1866-43b9-a42c-ec7cdb2cde89' before making global git config changes
+2026-10-13T19:18:04.8970580Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-13T19:18:04.8976350Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/pharmaMobil/pharmaMobil
+2026-10-13T19:18:04.9124070Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T19:18:04.9194520Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T19:18:05.0487200Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T19:18:05.0543590Z http.https://github.com/.extraheader
+2026-10-13T19:18:05.0564790Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-13T19:18:05.0682790Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T19:18:05.1618660Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-13T19:18:05.1745490Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-13T19:18:05.6819500Z Cleaning up orphan processes
+2026-10-13T19:18:08.4667970Z Terminate orphan process: pid (1187) (java)
+2026-10-13T19:18:08.7847650Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-java@v4, gradle/actions/setup-gradle@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

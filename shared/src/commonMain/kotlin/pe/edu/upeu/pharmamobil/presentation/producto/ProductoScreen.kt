@@ -37,7 +37,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlin.math.roundToInt
 import pe.edu.upeu.pharmamobil.domain.model.Producto
 
 @Composable
@@ -53,6 +52,8 @@ fun ProductoScreen(
     onEliminar: (Long) -> Unit,
     onLimpiarMensaje: () -> Unit,
     onReintentar: () -> Unit,
+    onVerDetalle: (Producto) -> Unit,
+    puedeEscribir: Boolean = true,
 ) {
     val formulario = uiState.formulario
     val operando = uiState.operacion is ProductoOperacion.EnCurso
@@ -61,6 +62,8 @@ fun ProductoScreen(
         ProductoFase.Cargando, ProductoFase.SinProductos, is ProductoFase.Error -> emptyList()
     }
     var productoAEliminar by remember { mutableStateOf<Producto?>(null) }
+    val productosUiPorId = (uiState.fase as? ProductoFase.ConProductos)
+        ?.productosUi.orEmpty().associateBy(ProductoUi::id)
 
     Column(
         modifier = Modifier
@@ -127,11 +130,13 @@ fun ProductoScreen(
                             it.tipo == ProductoOperacion.Tipo.Eliminar && it.productoId == producto.id
                         } == true
                         ProductoInventarioCard(
-                            producto = producto,
+                            producto = productosUiPorId.getValue(producto.id),
+                            puedeEscribir = puedeEscribir,
                             habilitado = !operando,
                             eliminando = eliminando,
                             onEditar = { onEditar(producto) },
                             onEliminar = { productoAEliminar = producto },
+                            onVerDetalle = { onVerDetalle(producto) },
                         )
                     }
                 }
@@ -139,6 +144,7 @@ fun ProductoScreen(
             is ProductoFase.Error -> EstadoError(fase.mensaje, onReintentar)
         }
 
+        if (puedeEscribir) {
         HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
 
         Text(
@@ -198,6 +204,7 @@ fun ProductoScreen(
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
+        }
     }
 
     productoAEliminar?.let { producto ->
@@ -306,23 +313,25 @@ private fun EstadoError(mensaje: String, onReintentar: () -> Unit) {
 
 @Composable
 private fun ProductoInventarioCard(
-    producto: Producto,
+    producto: ProductoUi,
+    puedeEscribir: Boolean,
     habilitado: Boolean,
     eliminando: Boolean,
     onEditar: () -> Unit,
     onEliminar: () -> Unit,
+    onVerDetalle: () -> Unit,
 ) {
     ElevatedCard(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(producto.nombre, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                Text("S/ ${formatearPrecio(producto.precio)}", color = MaterialTheme.colorScheme.primary)
+                Text(producto.precio, color = MaterialTheme.colorScheme.primary)
             }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text("Stock: ${producto.stock}", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 EstadoProducto(producto)
             }
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (puedeEscribir) Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedButton(onClick = onEditar, enabled = habilitado, modifier = Modifier.weight(1f)) {
                     Text("Editar")
                 }
@@ -330,15 +339,18 @@ private fun ProductoInventarioCard(
                     Text(if (eliminando) "Eliminando..." else "Eliminar")
                 }
             }
+            TextButton(onClick = onVerDetalle, enabled = habilitado, modifier = Modifier.fillMaxWidth()) {
+                Text("Ver detalle")
+            }
         }
     }
 }
 
 @Composable
-private fun EstadoProducto(producto: Producto) {
+private fun EstadoProducto(producto: ProductoUi) {
     val (texto, color) = when {
         !producto.activo -> "Inactivo" to MaterialTheme.colorScheme.secondary
-        producto.requiereReposicion() -> "Bajo stock" to MaterialTheme.colorScheme.error
+        producto.requiereReposicion -> "Bajo stock" to MaterialTheme.colorScheme.error
         else -> "Activo" to MaterialTheme.colorScheme.primary
     }
     Surface(color = color.copy(alpha = 0.12f), contentColor = color, shape = MaterialTheme.shapes.small) {
@@ -346,7 +358,3 @@ private fun EstadoProducto(producto: Producto) {
     }
 }
 
-private fun formatearPrecio(precio: Double): String {
-    val centimos = (precio * 100).roundToInt()
-    return "${centimos / 100}.${(centimos % 100).toString().padStart(2, '0')}"
-}
