@@ -11,6 +11,13 @@ kotlin {
     }
 }
 dependencies {
+    androidTestImplementation("androidx.test:runner:1.7.0")
+    androidTestImplementation("androidx.test.ext:junit:1.3.0")
+    androidTestImplementation("androidx.test:core:1.7.0")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
+    androidTestImplementation("androidx.lifecycle:lifecycle-viewmodel:2.11.0-beta01")
+    androidTestImplementation(libs.ktor.client.core)
+    androidTestImplementation("io.ktor:ktor-client-auth:${libs.versions.ktor.get()}")
     implementation(project(":shared"))
 
     implementation(libs.androidx.activity.compose)
@@ -30,6 +37,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {
