@@ -1,0 +1,9 @@
+{
+  "token_ausente": true,
+  "http_siguiente": 401,
+  "message": "Debe iniciar sesión para acceder a este recurso",
+  "estado_limpio": true,
+  "atras_no_abre_productos": true,
+  "persistio_force_stop": true,
+  "fecha": "2026-10-15T23:38:05.822654Z"
+}

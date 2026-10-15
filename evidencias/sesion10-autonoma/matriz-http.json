@@ -1,0 +1,31 @@
+{
+  "sin_token": 401,
+  "usuarios": {
+    "admin": {
+      "listar_productos": 200,
+      "registrar_producto": 201,
+      "listar_clientes": 200,
+      "registrar_venta": 201,
+      "reportes": 200,
+      "usuario_actual": 200
+    },
+    "vendedor": {
+      "listar_productos": 200,
+      "registrar_producto": 403,
+      "listar_clientes": 200,
+      "registrar_venta": 201,
+      "reportes": 403,
+      "usuario_actual": 200
+    },
+    "almacen": {
+      "listar_productos": 200,
+      "registrar_producto": 201,
+      "listar_clientes": 403,
+      "registrar_venta": 403,
+      "reportes": 403,
+      "usuario_actual": 200
+    }
+  },
+  "backend": "dreyna/pharmaSoft@fff44f9",
+  "base": "MySQL 8.4.11 con Flyway V1 V2 V3"
+}

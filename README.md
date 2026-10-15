@@ -1,3 +1,11 @@
+## Actividad autónoma 10 Sesión y token
+
+La actividad individual verifica seis escenarios reales de JWT en Android/MySQL, almacenamiento cifrado, persistencia tras force-stop, cierre de sesión completo y permisos de tres usuarios. La expiración se esperó 65 segundos reales. Al finalizar se verificó TTL de 3600 segundos y admin habilitado.
+
+[PDF UPeU y capturas](output/pdf/S10_ActividadAutonoma_Paredes_Cardenas.pdf) · [Reproducción y análisis](docs/sesion10-actividad-autonoma.md) · [Evidencias originales](evidencias/sesion10-autonoma) · [Colección Postman sin claves](documentacion/S10_Autonomia_Postman.json).
+
+27 pruebas backend y 3 pruebas instrumentadas Android aprobadas. La matriz distingue acciones REST, pantallas demostrativas y acciones automáticas.
+
 ## Backend MySQL (actualización)
 
 El backend con JWT ahora usa MySQL 8.4 y conserva los datos al reiniciar. El código, las instrucciones y los comandos están en [backend/pharmaSoft](backend/pharmaSoft/README.md). Las verificaciones están en [evidencias/mysql](evidencias/mysql). La app Android mantiene la misma API. No se ejecutó iOS para esta actualización.

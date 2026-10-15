@@ -23,7 +23,7 @@ app:
     allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
   jwt:
     secret: ${JWT_SECRET}
-    expiracion-minutos: 60
+    expiracion-minutos: ${JWT_EXPIRACION_MINUTOS:60}
 logging:
   level:
     root: INFO

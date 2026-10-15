@@ -1,0 +1,150 @@
+[
+  {
+    "id": 1,
+    "escenario": "Token válido",
+    "inicio": "2026-10-15T23:35:53.760323Z",
+    "fin": "2026-10-15T23:35:54.740174Z",
+    "plataforma": "Android",
+    "http": 200,
+    "message": null,
+    "respuesta": {
+      "contenido": [
+        {
+          "id": 1,
+          "nombre": "S10 Paracetamol",
+          "precio": 15.5,
+          "stock": 98,
+          "estado": true,
+          "categoriaId": 1,
+          "categoriaNombre": "S10 Medicamentos",
+          "fechaCreacion": "2026-10-13T15:07:27.18106",
+          "fechaModificacion": null
+        },
+        {
+          "id": 2,
+          "nombre": "S10 Producto admin",
+          "precio": 12.5,
+          "stock": 40,
+          "estado": true,
+          "categoriaId": 1,
+          "categoriaNombre": "S10 Medicamentos",
+          "fechaCreacion": "2026-10-13T15:07:27.529897",
+          "fechaModificacion": null
+        },
+        {
+          "id": 3,
+          "nombre": "S10 Producto almacen",
+          "precio": 12.5,
+          "stock": 40,
+          "estado": true,
+          "categoriaId": 1,
+          "categoriaNombre": "S10 Medicamentos",
+          "fechaCreacion": "2026-10-13T15:07:28.275186",
+          "fechaModificacion": null
+        }
+      ],
+      "pagina": 0,
+      "tamanio": 20,
+      "totalElementos": 3,
+      "totalPaginas": 1,
+      "ultima": true
+    },
+    "interfaz": "Productos: Inventario conectado",
+    "captura": "escenario-1.png"
+  },
+  {
+    "id": 2,
+    "escenario": "Token expirado tras 65 segundos",
+    "inicio": "2026-10-15T23:36:02.020582Z",
+    "fin": "2026-10-15T23:37:08.184221Z",
+    "plataforma": "Android",
+    "http": 401,
+    "message": "El token ha expirado. Inicie sesión nuevamente",
+    "respuesta": {
+      "timestamp": "2026-10-15T18:37:06.661018700",
+      "status": 401,
+      "error": "Unauthorized",
+      "message": "El token ha expirado. Inicie sesión nuevamente",
+      "path": "\/api\/v1\/productos",
+      "validationErrors": null
+    },
+    "interfaz": "Tu sesión expiró. Inicia sesión nuevamente.",
+    "captura": "escenario-2.png"
+  },
+  {
+    "id": 3,
+    "escenario": "Un carácter de la firma alterado",
+    "inicio": "2026-10-15T23:37:14.116147Z",
+    "fin": "2026-10-15T23:37:15.426664Z",
+    "plataforma": "Android",
+    "http": 401,
+    "message": "El token no es válido",
+    "respuesta": {
+      "timestamp": "2026-10-15T18:37:13.770809200",
+      "status": 401,
+      "error": "Unauthorized",
+      "message": "El token no es válido",
+      "path": "\/api\/v1\/productos",
+      "validationErrors": null
+    },
+    "interfaz": "Tu sesión expiró. Inicia sesión nuevamente.",
+    "captura": "escenario-3.png"
+  },
+  {
+    "id": 4,
+    "escenario": "Sin cabecera después de logout",
+    "inicio": "2026-10-15T23:37:18.638416Z",
+    "fin": "2026-10-15T23:37:19.493224Z",
+    "plataforma": "Android",
+    "http": 401,
+    "message": "Debe iniciar sesión para acceder a este recurso",
+    "respuesta": {
+      "timestamp": "2026-10-15T18:37:18.298944500",
+      "status": 401,
+      "error": "Unauthorized",
+      "message": "Debe iniciar sesión para acceder a este recurso",
+      "path": "\/api\/v1\/productos",
+      "validationErrors": null
+    },
+    "interfaz": "Formulario de login sin sesión",
+    "captura": "escenario-4.png"
+  },
+  {
+    "id": 5,
+    "escenario": "Prefijo bearer en minúscula",
+    "inicio": "2026-10-15T23:37:24.721608Z",
+    "fin": "2026-10-15T23:37:25.650256Z",
+    "plataforma": "Android",
+    "http": 401,
+    "message": "Debe iniciar sesión para acceder a este recurso",
+    "respuesta": {
+      "timestamp": "2026-10-15T18:37:24.350157800",
+      "status": 401,
+      "error": "Unauthorized",
+      "message": "Debe iniciar sesión para acceder a este recurso",
+      "path": "\/api\/v1\/productos",
+      "validationErrors": null
+    },
+    "interfaz": "Tu sesión expiró. Inicia sesión nuevamente.",
+    "captura": "escenario-5.png"
+  },
+  {
+    "id": 6,
+    "escenario": "Usuario deshabilitado con sesión abierta",
+    "inicio": "2026-10-15T23:37:30.858091Z",
+    "fin": "2026-10-15T23:37:34.311298Z",
+    "plataforma": "Android",
+    "http": 401,
+    "message": "El usuario está deshabilitado",
+    "respuesta": {
+      "timestamp": "2026-10-15T18:37:32.786743800",
+      "status": 401,
+      "error": "Unauthorized",
+      "message": "El usuario está deshabilitado",
+      "path": "\/api\/v1\/productos",
+      "validationErrors": null
+    },
+    "interfaz": "Tu sesión expiró. Inicia sesión nuevamente.",
+    "captura": "escenario-6.png"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "usuario": "admin",
+    "listar_productos": true,
+    "registrar_producto": true,
+    "listar_clientes": true,
+    "pedidos_demo": true,
+    "reportes": false,
+    "auth_me": "Automático al restaurar",
+    "editar_eliminar": true
+  },
+  {
+    "usuario": "vendedor",
+    "listar_productos": true,
+    "registrar_producto": false,
+    "listar_clientes": true,
+    "pedidos_demo": true,
+    "reportes": false,
+    "auth_me": "Automático al restaurar",
+    "editar_eliminar": false
+  },
+  {
+    "usuario": "almacen",
+    "listar_productos": true,
+    "registrar_producto": true,
+    "listar_clientes": false,
+    "pedidos_demo": false,
+    "reportes": false,
+    "auth_me": "Automático al restaurar",
+    "editar_eliminar": true
+  }
+]
