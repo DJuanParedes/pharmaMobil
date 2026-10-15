@@ -1,0 +1,213 @@
+{
+  "info": {
+    "name": "S10 Actividad autónoma PharmaMobil - MySQL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Ejecución manual. Login antes de los casos 1,2,3,5,6. Caso 2: iniciar backend con TTL=1 y esperar al menos 65 segundos después del login. Caso 6: deshabilitar admin en MySQL con sesión abierta y reactivarlo en finally/al finalizar. Restaurar TTL=60. No exportar variables con claves o JWT."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1"
+    },
+    {
+      "key": "adminPassword",
+      "value": ""
+    },
+    {
+      "key": "jwt",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "00 Login admin (guardar token local)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"{{adminPassword}}\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Login 200\", () => pm.response.to.have.status(200));",
+              "pm.collectionVariables.set(\"jwt\", pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 Token válido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt}}"
+          }
+        ],
+        "url": "{{baseUrl}}/productos",
+        "description": ""
+      }
+    },
+    {
+      "name": "02 Token expirado (esperar 65 segundos)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));",
+              "pm.test(\"Mensaje literal\", () => pm.expect(pm.response.json().message).to.eql(\"El token ha expirado. Inicie sesi\\u00f3n nuevamente\"));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt}}"
+          }
+        ],
+        "url": "{{baseUrl}}/productos",
+        "description": ""
+      }
+    },
+    {
+      "name": "03 Firma alterada",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const t = pm.collectionVariables.get(\"jwt\");",
+              "const i = t.lastIndexOf(\".\") + 1;",
+              "pm.variables.set(\"alterado\", t.slice(0,i)+(t[i]===\"A\"?\"B\":\"A\")+t.slice(i+1));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));",
+              "pm.test(\"Mensaje literal\", () => pm.expect(pm.response.json().message).to.eql(\"El token no es v\\u00e1lido\"));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{alterado}}"
+          }
+        ],
+        "url": "{{baseUrl}}/productos",
+        "description": ""
+      }
+    },
+    {
+      "name": "04 Sin cabecera (No Auth)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));",
+              "pm.test(\"Mensaje literal\", () => pm.expect(pm.response.json().message).to.eql(\"Debe iniciar sesi\\u00f3n para acceder a este recurso\"));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/productos",
+        "description": ""
+      }
+    },
+    {
+      "name": "05 Prefijo bearer minúsculo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));",
+              "pm.test(\"Mensaje literal\", () => pm.expect(pm.response.json().message).to.eql(\"Debe iniciar sesi\\u00f3n para acceder a este recurso\"));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "bearer {{jwt}}"
+          }
+        ],
+        "url": "{{baseUrl}}/productos",
+        "description": ""
+      }
+    },
+    {
+      "name": "06 Usuario deshabilitado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));",
+              "pm.test(\"Mensaje literal\", () => pm.expect(pm.response.json().message).to.eql(\"El usuario est\\u00e1 deshabilitado\"));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt}}"
+          }
+        ],
+        "url": "{{baseUrl}}/productos",
+        "description": "Con sesión abierta ejecutar en MySQL UPDATE usuarios SET estado=b'0' WHERE username='admin';. Restaurar a b'1' inmediatamente al finalizar."
+      }
+    }
+  ]
+}
