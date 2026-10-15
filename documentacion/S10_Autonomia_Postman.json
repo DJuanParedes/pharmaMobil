@@ -209,5 +209,8 @@
         "description": "Con sesión abierta ejecutar en MySQL UPDATE usuarios SET estado=b'0' WHERE username='admin';. Restaurar a b'1' inmediatamente al finalizar."
       }
     }
-  ]
+  ],
+  "auth": {
+    "type": "noauth"
+  }
 }

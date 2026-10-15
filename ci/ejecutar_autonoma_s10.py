@@ -64,4 +64,4 @@ finally:
  logs=adb('logcat','-d','-v','time').stdout
  lines=[line for line in logs.splitlines() if 'Ktor:' in line or 'Authorization: ***' in line]
  # Nunca almacena el logcat completo, que puede contener datos de otras aplicaciones.
- (OUT/'ktor-saneado.txt').write_text('\n'.join(lines),encoding='utf-8')
+ (OUT/'ktor-saneado.txt').write_text('\n'.join(line.rstrip() for line in lines)+'\n',encoding='utf-8')

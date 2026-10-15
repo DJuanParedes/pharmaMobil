@@ -6,7 +6,7 @@ const esc=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&g
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROME_PATH,headless:true});
  try {
-  const page=await browser.newPage({viewport:{width:1280,height:1100},deviceScaleFactor:1});
+  const page=await browser.newPage({viewport:{width:1000,height:900},deviceScaleFactor:1});
   for(const [file,title] of [['almacen-cifrado.xml','Almacén cifrado antes del cierre'],['almacen-despues-logout.xml','Almacén después del cierre']]) {
    const xml=fs.readFileSync(path.join(root,'android',file),'utf8');
    const strings=[...xml.matchAll(/<string name="([^"]+)">([^<]+)<\/string>/g)];
@@ -19,8 +19,8 @@ const esc=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&g
   }
   const lines=fs.readFileSync(path.join(root,'ktor-saneado.txt'),'utf8').split(/\r?\n/);
   const relevant=lines.filter(x=>x.includes('Authorization')||x.includes('REQUEST:')||x.includes('RESPONSE:'));
-  const slice=relevant.slice(-55);
-  await page.setContent('<style>body{font:18px Arial;margin:32px;color:#15324a}pre{font:14px Consolas;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6;background:#f0f4f8;padding:18px}</style><h1>Registro real de Ktor</h1><p>Logcat del emulador · Últimas solicitudes de los ensayos · Authorization saneada</p><pre>'+esc(slice.join('\n'))+'</pre><p>Vista del archivo exportado mediante adb logcat. No se registra el cuerpo del login ni el JWT.</p>');
+  const slice=relevant.slice(0,24);
+  await page.setContent('<style>body{font:18px Arial;margin:32px;color:#15324a}pre{font:18px Consolas;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.4;background:#f0f4f8;padding:18px}</style><h1>Registro real de Ktor</h1><p>Logcat del emulador · Primeras solicitudes de los ensayos · Authorization saneada</p><pre>'+esc(slice.join('\n'))+'</pre><p>Vista del archivo exportado mediante adb logcat. No se registra el cuerpo del login ni el JWT.</p>');
   await page.screenshot({path:path.join(root,'registro-saneado.png'),fullPage:true});
  } finally {await browser.close()}
 })();

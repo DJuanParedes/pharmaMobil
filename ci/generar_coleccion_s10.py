@@ -16,4 +16,5 @@ item('03 Firma alterada',{'Authorization':'Bearer {{alterado}}'},message='El tok
 item('04 Sin cabecera (No Auth)',message='Debe iniciar sesión para acceder a este recurso'),
 item('05 Prefijo bearer minúsculo',{'Authorization':'bearer {{jwt}}'},message='Debe iniciar sesión para acceder a este recurso'),
 item('06 Usuario deshabilitado',{'Authorization':'Bearer {{jwt}}'},message='El usuario está deshabilitado',description="Con sesión abierta ejecutar en MySQL UPDATE usuarios SET estado=b'0' WHERE username='admin';. Restaurar a b'1' inmediatamente al finalizar.")]}
+data['auth']={'type':'noauth'}
 path=root/'documentacion/S10_Autonomia_Postman.json';path.parent.mkdir(exist_ok=True);path.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8');print(path)
