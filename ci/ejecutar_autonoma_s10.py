@@ -59,7 +59,8 @@ try:
  instrument('matrizDeInterfaz')
 finally:
  sql("UPDATE usuarios SET estado=b'1' WHERE username='admin';")
- adb('pull','/sdcard/Download/S10AA',str(OUT/'android'),check=False)
+ (OUT/'android').mkdir(exist_ok=True)
+ adb('pull','/sdcard/Download/S10AA/.',str(OUT/'android'),check=False)
  logs=adb('logcat','-d','-v','time').stdout
  lines=[line for line in logs.splitlines() if 'Ktor:' in line or 'Authorization: ***' in line]
  # Nunca almacena el logcat completo, que puede contener datos de otras aplicaciones.
