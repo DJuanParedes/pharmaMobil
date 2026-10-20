@@ -1,6 +1,7 @@
 package pe.edu.upeu.pharmamobil.presentation.producto
 
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.emitAll
 import pe.edu.upeu.pharmamobil.domain.error.ErrorApi
 import pe.edu.upeu.pharmamobil.domain.error.ErrorApiException
 import pe.edu.upeu.pharmamobil.domain.model.Producto
@@ -11,6 +12,12 @@ class FakeProductoRepository(
     var latenciaMillis: Long = 0,
 ) : ProductoRepository {
     private val datos = productos.toMutableList()
+    private val cambios = kotlinx.coroutines.flow.MutableStateFlow(datos.toList())
+    override fun observar(): kotlinx.coroutines.flow.Flow<List<Producto>> = kotlinx.coroutines.flow.flow {
+        delay(latenciaMillis)
+        emitAll(cambios)
+    }
+
 
     var errorAlListar: ErrorApi? = null
     var errorAlRegistrar: ErrorApi? = null
@@ -28,6 +35,7 @@ class FakeProductoRepository(
             stock = stock,
         )
         datos += producto
+        cambios.value = datos.toList()
         return producto
     }
 
@@ -48,6 +56,7 @@ class FakeProductoRepository(
         val indice = datos.indexOfFirst { it.id == producto.id }
         if (indice < 0) throw ErrorApiException(ErrorApi.NoEncontrado)
         datos[indice] = producto
+        cambios.value = datos.toList()
         return producto
     }
 
@@ -55,6 +64,7 @@ class FakeProductoRepository(
         esperar(errorAlEliminar)
         val eliminado = datos.removeAll { it.id == id }
         if (!eliminado) throw ErrorApiException(ErrorApi.NoEncontrado)
+        cambios.value = datos.toList()
     }
 
     private suspend fun esperar(error: ErrorApi?) {

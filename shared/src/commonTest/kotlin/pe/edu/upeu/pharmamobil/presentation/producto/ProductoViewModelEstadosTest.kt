@@ -82,7 +82,7 @@ class ProductoViewModelEstadosTest {
     }
 
     @Test
-    fun eliminacionPasaPorEnCursoVuelveAInactivaYRecarga() = runTest(dispatcher) {
+    fun eliminacionPasaPorEnCursoVuelveAInactivaPorFlow() = runTest(dispatcher) {
         val repositorio = FakeProductoRepository(listOf(producto()))
         val viewModel = crearViewModel(repositorio)
         advanceUntilIdle()
@@ -98,7 +98,7 @@ class ProductoViewModelEstadosTest {
         advanceUntilIdle()
         assertIs<ProductoOperacion.Inactiva>(viewModel.uiState.value.operacion)
         assertIs<ProductoFase.SinProductos>(viewModel.uiState.value.fase)
-        assertEquals(2, repositorio.llamadasListar)
+        assertEquals(1, repositorio.llamadasListar)
     }
 
     @Test

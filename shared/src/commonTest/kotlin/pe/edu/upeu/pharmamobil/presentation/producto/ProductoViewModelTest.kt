@@ -61,7 +61,7 @@ class ProductoViewModelTest {
     }
 
     @Test
-    fun creaProductoYRecargaElListado() = runTest(dispatcher) {
+    fun creaProductoYActualizaElFlow() = runTest(dispatcher) {
         val viewModel = crearViewModel()
         advanceUntilIdle()
 
@@ -75,12 +75,12 @@ class ProductoViewModelTest {
         val fase = assertIs<ProductoFase.ConProductos>(estado.fase)
         assertEquals(6, fase.productos.size)
         assertEquals("Naproxeno", fase.productos.last().nombre)
-        assertEquals("Producto creado correctamente.", estado.mensajeExito)
+        assertEquals("Producto guardado. Si no hay conexión, queda pendiente.", estado.mensajeExito)
         assertIs<ProductoOperacion.Inactiva>(estado.operacion)
     }
 
     @Test
-    fun actualizaProductoYRecargaElListado() = runTest(dispatcher) {
+    fun actualizaProductoYActualizaElFlow() = runTest(dispatcher) {
         val viewModel = crearViewModel()
         advanceUntilIdle()
         val original = productosDe(viewModel).first()
@@ -98,7 +98,7 @@ class ProductoViewModelTest {
     }
 
     @Test
-    fun eliminaProductoYRecargaElListado() = runTest(dispatcher) {
+    fun eliminaProductoYActualizaElFlow() = runTest(dispatcher) {
         val viewModel = crearViewModel()
         advanceUntilIdle()
         val id = productosDe(viewModel).first().id
