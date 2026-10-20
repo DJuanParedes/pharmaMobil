@@ -27,7 +27,9 @@ val dataModule = module {
         pe.edu.upeu.pharmamobil.data.repository.AuthRepositorioRest(get(), get(), get())
     }
     single { ProductoApi(get()) }
-    single<ProductoRepository> { ProductoRepositorioRest(get(), CATEGORIA_POR_DEFECTO) }
+    single(createdAtStart = true) { pe.edu.upeu.pharmamobil.db.PharmaDb(get<pe.edu.upeu.pharmamobil.data.local.CreadorDeDriver>().crear()) }
+    single { pe.edu.upeu.pharmamobil.data.local.ProductoLocal(get()) }
+    single<ProductoRepository> { pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOffline(get(), ProductoRepositorioRest(get(), CATEGORIA_POR_DEFECTO)) }
 }
 
 val domainModule = module {

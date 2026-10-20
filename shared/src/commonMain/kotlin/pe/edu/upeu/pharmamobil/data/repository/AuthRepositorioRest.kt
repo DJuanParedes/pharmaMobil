@@ -34,6 +34,7 @@ class AuthRepositorioRest(
         catch (e: Exception) { throw SesionException(ErrorSesion.Almacenamiento) }
         cliente.authProvider<BearerAuthProvider>()?.clearToken()
         Sesion(dto.token, dto.username, dto.nombreCompleto, dto.permisos.toSet()).also {
+            almacen.guardarPerfil(kotlinx.serialization.json.Json.encodeToString(Sesion.serializer(), it))
             estado.limpiarAviso(); estado.actualizar(it)
         }
     }
@@ -43,11 +44,20 @@ class AuthRepositorioRest(
         if (token.isNullOrBlank()) return@withLock null
         try {
             val dto = traducir { cliente.get("auth/me").body<UsuarioActualDto>() }
-            Sesion(token, dto.username, dto.empleadoNombre, dto.permisos.toSet()).also(estado::actualizar)
+            Sesion(token, dto.username, dto.empleadoNombre, dto.permisos.toSet()).also {
+                almacen.guardarPerfil(kotlinx.serialization.json.Json.encodeToString(Sesion.serializer(), it))
+                estado.actualizar(it)
+            }
         } catch (e: SesionException) {
             if (e.error == ErrorSesion.SesionExpirada || e.error == ErrorSesion.CredencialesInvalidas) {
                 almacen.borrarToken(); cliente.authProvider<BearerAuthProvider>()?.clearToken()
                 estado.expirar(); null
+            } else if (e.error == ErrorSesion.SinConexion) {
+                val perfil = almacen.leerPerfil()?.let {
+                    runCatching { kotlinx.serialization.json.Json.decodeFromString(Sesion.serializer(), it) }.getOrNull()
+                }
+                if (perfil != null && perfil.token == token) perfil.also(estado::actualizar)
+                else throw e
             } else throw e
         }
     }

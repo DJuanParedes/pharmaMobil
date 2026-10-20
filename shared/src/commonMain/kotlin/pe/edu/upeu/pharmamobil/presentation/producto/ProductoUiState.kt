@@ -38,4 +38,6 @@ data class ProductoUiState(
     val formulario: ProductoFormularioState = ProductoFormularioState(),
     val operacion: ProductoOperacion = ProductoOperacion.Inactiva,
     val mensajeExito: String? = null,
+    val sincronizando: Boolean = false,
+    val avisoRed: String? = null,
 )

@@ -28,20 +28,24 @@ class ProductoViewModel(
     val uiState: StateFlow<ProductoUiState> = _uiState.asStateFlow()
 
     init {
+        viewModelScope.launch {
+            listarProductos.observar().collect { productos ->
+                _uiState.update { it.copy(fase = faseDe(productos)) }
+            }
+        }
         cargarProductos()
     }
 
     fun cargarProductos() {
         viewModelScope.launch {
-            _uiState.update { it.copy(fase = ProductoFase.Cargando, operacion = ProductoOperacion.Inactiva) }
-            listarProductos().fold(
-                onSuccess = { productos -> _uiState.update { it.copy(fase = faseDe(productos)) } },
-                onFailure = { fallo ->
-                    _uiState.update {
-                        it.copy(fase = ProductoFase.Error(mensajeDe((fallo as? ErrorApiException)?.error)))
-                    }
-                },
-            )
+            _uiState.update { it.copy(sincronizando = true) }
+            val resultado = listarProductos.sincronizar()
+            _uiState.update { it.copy(sincronizando = false, avisoRed = resultado.exceptionOrNull()?.let { fallo ->
+                val error = (fallo as? ErrorApiException)?.error
+                if (error == ErrorApi.SinConexion || error == ErrorApi.TiempoAgotado)
+                    "Sin conexión: mostrando datos guardados"
+                else mensajeDe(error)
+            }) }
         }
     }
 
@@ -77,7 +81,7 @@ class ProductoViewModel(
     fun eliminar(id: Long) = viewModelScope.launch {
         marcarOperacion(ProductoOperacion.Tipo.Eliminar, id)
         eliminarProducto(id).fold(
-            onSuccess = { recargarTrasMutacion("Producto eliminado correctamente.") },
+            onSuccess = { finalizarMutacion("Producto eliminado correctamente.") },
             onFailure = ::manejarFallo,
         )
     }
@@ -89,7 +93,7 @@ class ProductoViewModel(
     private fun registrar(formulario: ProductoFormularioState) = viewModelScope.launch {
         marcarOperacion(ProductoOperacion.Tipo.Crear)
         registrarProducto(formulario.nombre, formulario.precio, formulario.stock).fold(
-            onSuccess = { recargarTrasMutacion("Producto creado correctamente.") },
+            onSuccess = { finalizarMutacion("Producto guardado. Si no hay conexión, queda pendiente.") },
             onFailure = ::manejarFallo,
         )
     }
@@ -98,25 +102,14 @@ class ProductoViewModel(
         val id = checkNotNull(formulario.productoId)
         marcarOperacion(ProductoOperacion.Tipo.Actualizar, id)
         actualizarProducto(id, formulario.nombre, formulario.precio, formulario.stock).fold(
-            onSuccess = { recargarTrasMutacion("Producto actualizado correctamente.") },
+            onSuccess = { finalizarMutacion("Producto actualizado correctamente.") },
             onFailure = ::manejarFallo,
         )
     }
 
-    private suspend fun recargarTrasMutacion(mensaje: String) {
-        listarProductos().fold(
-            onSuccess = { productos ->
-                _uiState.update {
-                    it.copy(
-                        fase = faseDe(productos),
-                        formulario = ProductoFormularioState(),
-                        operacion = ProductoOperacion.Inactiva,
-                        mensajeExito = mensaje,
-                    )
-                }
-            },
-            onFailure = ::manejarFallo,
-        )
+    private fun finalizarMutacion(mensaje: String) {
+        _uiState.update { it.copy(formulario = ProductoFormularioState(),
+            operacion = ProductoOperacion.Inactiva, mensajeExito = mensaje) }
     }
 
     private fun marcarOperacion(tipo: ProductoOperacion.Tipo, id: Long? = null) {

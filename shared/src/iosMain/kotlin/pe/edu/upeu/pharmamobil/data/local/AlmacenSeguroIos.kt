@@ -6,7 +6,10 @@ import platform.CoreFoundation.*
 import platform.Foundation.*
 import platform.Security.*
 
-class AlmacenSeguroIos : AlmacenSeguro {
+class AlmacenSeguroIos(private val cuenta: String = "jwt") : AlmacenSeguro {
+    override fun guardarPerfil(perfil: String) = AlmacenSeguroIos("perfil").guardarToken(perfil)
+    override fun leerPerfil(): String? = AlmacenSeguroIos("perfil").leerToken()
+    override fun borrarPerfil() = AlmacenSeguroIos("perfil").borrarToken()
     private fun clave(valor: CFStringRef?): NSCopyingProtocol = CFBridgingRelease(valor) as NSCopyingProtocol
     private fun objeto(valor: CFTypeRef?): Any = CFBridgingRelease(valor)!!
     private inline fun <T> conConsulta(diccionario: NSMutableDictionary, bloque: (CFDictionaryRef) -> T): T {
@@ -16,7 +19,7 @@ class AlmacenSeguroIos : AlmacenSeguro {
     private fun consulta() = NSMutableDictionary().apply {
         setObject(objeto(kSecClassGenericPassword), clave(kSecClass))
         setObject("pe.edu.upeu.pharmamobil.sesion", clave(kSecAttrService))
-        setObject("jwt", clave(kSecAttrAccount))
+        setObject(cuenta, clave(kSecAttrAccount))
     }
     override fun guardarToken(token: String) {
         val datos = (token as NSString).dataUsingEncoding(NSUTF8StringEncoding)!!
@@ -51,6 +54,7 @@ class AlmacenSeguroIos : AlmacenSeguro {
         }
     }
     override fun borrarToken() {
+        if (cuenta == "jwt") borrarPerfil()
         val estado = conConsulta(consulta()) { SecItemDelete(it) }
         check(estado == errSecSuccess || estado == errSecItemNotFound)
     }

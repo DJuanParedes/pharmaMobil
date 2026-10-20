@@ -6,13 +6,14 @@ data class Producto(
     val precio: Double,
     val stock: Int,
     val activo: Boolean = true,
+    val pendiente: Boolean = false,
 ) {
     companion object {
         const val STOCK_MINIMO = 5
     }
 
     init {
-        require(id > 0) { "El id del producto debe ser positivo" }
+        require(id != 0L) { "El id del producto no puede ser cero" }
         require(nombre.isNotBlank()) { "El nombre del producto es obligatorio" }
         require(precio >= 0.0) { "El precio no puede ser negativo" }
         require(stock >= 0) { "El stock no puede ser negativo" }

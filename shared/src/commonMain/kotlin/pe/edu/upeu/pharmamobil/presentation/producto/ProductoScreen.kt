@@ -72,14 +72,20 @@ fun ProductoScreen(
             .padding(horizontal = 20.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Text("Inventario conectado", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Text("Inventario offline-first", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Text(
-            "CRUD REST de productos sobre PharmaSoft.",
+            "Productos guardados en este dispositivo.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
-        if (operando) {
+        OutlinedButton(onClick = onReintentar, enabled = !uiState.sincronizando) {
+            Text(if (uiState.sincronizando) "Sincronizando..." else "Sincronizar")
+        }
+        uiState.avisoRed?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+        val pendientes = productosFiltrados.count { it.pendiente }
+        if (pendientes > 0) Text("Pendientes de enviar: $pendientes")
+        if (operando || uiState.sincronizando) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
 
@@ -129,6 +135,7 @@ fun ProductoScreen(
                         val eliminando = (uiState.operacion as? ProductoOperacion.EnCurso)?.let {
                             it.tipo == ProductoOperacion.Tipo.Eliminar && it.productoId == producto.id
                         } == true
+                        if (producto.pendiente) Text("${producto.nombre}: pendiente de sincronización")
                         ProductoInventarioCard(
                             producto = productosUiPorId.getValue(producto.id),
                             puedeEscribir = puedeEscribir,
