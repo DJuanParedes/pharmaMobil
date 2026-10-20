@@ -16,6 +16,7 @@ Las modificaciones y bajas de productos ya remotos requieren conexión; las alta
 pueden editarse o eliminarse localmente. No se añade una cola de PUT/DELETE fuera del alcance
 básico de esta práctica.
 
+- [Informe PDF de la práctica](output/pdf/S11_Practica_Offline_First_Juan_Paredes.pdf)
 - [Desarrollo, criterios y reproducción](docs/sesion11-offline-first.md)
 - [Evidencias y salida de pruebas](evidencias/sesion11)
 - [Workflow iOS](.github/workflows/sesion11-offline.yml)

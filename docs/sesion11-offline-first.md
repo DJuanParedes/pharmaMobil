@@ -75,6 +75,20 @@ La práctica usa un botón de sincronización, como la guía; no requiere monito
 ConnectivityManager/NWPathMonitor. Las ampliaciones de la actividad autónoma (antigüedad,
 bitácora de cinco situaciones y guion de sustentación) no se confunden con esta entrega práctica.
 
+## Resultado real Android
+
+La ejecución final del 20/10/2026 aprobó las tres pruebas instrumentadas.
+Se activó modo avión (`airplane_mode_on=1`), se cerró el proceso y se reabrió la app.
+El producto **AA S11 Paredes 141745**, creado sin red, llegó a PharmaSoft con
+**ID 8**, precio **S/ 4.50** y stock **20**. Swagger respondió **200** al consultar ese ID.
+Las cuatro capturas Android y la captura Swagger corresponden a esa misma ejecución.
+El reloj del emulador está en UTC; el backend local registra la hora de America/Lima.
+
+Para repetir la automatización con el backend activo, define `PHARMA_ADMIN_PASSWORD`
+en el entorno y ejecuta `python ci/ejecutar_offline_s11.py`. La contraseña no se guarda
+en el código ni en los registros. El script restaura la conectividad del emulador incluso
+si falla la fase offline.
+
 ## Estado de evidencias iOS
 
 La ejecución se realiza en macOS mediante GitHub Actions. Se han preparado pruebas de SQLite
@@ -82,3 +96,7 @@ nativo y una prueba XCTest que abre con red, apaga el backend de laboratorio y v
 el listado persistente. El backend de CI usa H2 en modo Oracle, Flyway y credenciales efímeras;
 Android se verifica contra el backend local MySQL. Hasta obtener el resultado y las capturas
 no se considera acreditada la ejecución de iOS.
+
+La fábrica iOS usa `inMemoryDriver(PharmaDb.Schema)`: el nombre literal `:memory:` del
+constructor nativo no garantiza aislamiento y fue corregido al ejecutar las pruebas reales.
+Ejecución corregida: https://github.com/DJuanParedes/pharmaMobil/actions/runs/39482764173

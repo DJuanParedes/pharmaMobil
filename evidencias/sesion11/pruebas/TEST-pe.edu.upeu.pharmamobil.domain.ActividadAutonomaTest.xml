@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-20T19:11:45.244Z" hostname="JUAN_PC" time="0.019">
+  <properties/>
+  <testcase name="pedidoValidoDescuentaStockYCambiaAProcesando" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.002"/>
+  <testcase name="flowEmiteInventarioInicialYActualizado" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.014"/>
+  <testcase name="detallesRepetidosSeSumanAntesDeDescontarStock" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.0"/>
+  <testcase name="stockInsuficienteNoCambiaElInventario" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.001"/>
+  <testcase name="productoInexistenteDevuelveResultadoSeguro" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.001"/>
+  <testcase name="pedidoQueNoEstaPendienteEsRechazado" classname="pe.edu.upeu.pharmamobil.domain.ActividadAutonomaTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
