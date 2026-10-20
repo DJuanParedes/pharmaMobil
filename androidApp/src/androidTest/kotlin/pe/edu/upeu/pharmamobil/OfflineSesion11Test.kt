@@ -5,6 +5,8 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
+import androidx.test.uiautomator.BySelector
+import androidx.test.uiautomator.StaleObjectException
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import kotlinx.coroutines.runBlocking
@@ -26,9 +28,18 @@ class OfflineSesion11Test {
     private val device get() = UiDevice.getInstance(inst)
     private val koin get() = GlobalContext.get()
     private fun argumento(nombre: String) = requireNotNull(InstrumentationRegistry.getArguments().getString(nombre))
+    private fun pulsar(selector: BySelector) {
+        repeat(4) { intento ->
+            device.waitForIdle()
+            val control = requireNotNull(device.wait(Until.findObject(selector), 45_000))
+            try { control.click(); return } catch (e: StaleObjectException) {
+                if (intento == 3) throw e
+            }
+        }
+    }
     private fun abrirProductos() {
-        requireNotNull(device.wait(Until.findObject(By.desc("Abrir menú")), 45_000)).click()
-        requireNotNull(device.wait(Until.findObject(By.text("Productos")), 10_000)).click()
+        pulsar(By.desc("Abrir menú"))
+        pulsar(By.text("Productos"))
         assertNotNull(device.wait(Until.findObject(By.text("Inventario offline-first")), 15_000))
         device.waitForIdle()
     }
@@ -36,7 +47,7 @@ class OfflineSesion11Test {
         val archivo = File(inst.targetContext.getExternalFilesDir("s11"), "$nombre.png")
         archivo.parentFile!!.mkdirs()
         assertTrue(device.takeScreenshot(archivo))
-        val fd = inst.uiAutomation.executeShellCommand("mkdir -p /sdcard/Download/S11; cp ${archivo.absolutePath} /sdcard/Download/S11/$nombre.png")
+        val fd = inst.uiAutomation.executeShellCommand("cp ${archivo.absolutePath} /sdcard/Download/S11-$nombre.png")
         ParcelFileDescriptor.AutoCloseInputStream(fd).use { it.readBytes() }
     }
     @Test fun prepararConRed(): Unit = runBlocking {

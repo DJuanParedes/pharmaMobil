@@ -22,7 +22,9 @@ class AlmacenSeguroIos(private val cuenta: String = "jwt") : AlmacenSeguro {
         setObject(cuenta, clave(kSecAttrAccount))
     }
     override fun guardarToken(token: String) {
-        val datos = (token as NSString).dataUsingEncoding(NSUTF8StringEncoding)!!
+        val bytes = token.encodeToByteArray()
+        require(bytes.isNotEmpty())
+        val datos = bytes.usePinned { NSData.create(bytes = it.addressOf(0), length = bytes.size.toULong()) }
         val atributos = NSMutableDictionary().apply {
             setObject(datos, clave(kSecValueData))
             setObject(objeto(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly), clave(kSecAttrAccessible))

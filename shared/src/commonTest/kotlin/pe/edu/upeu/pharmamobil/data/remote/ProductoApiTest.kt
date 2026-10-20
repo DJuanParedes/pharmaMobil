@@ -27,6 +27,10 @@ class ProductoApiTest {
         val solicitudes = mutableListOf<Pair<HttpMethod, String>>()
         val engine = MockEngine { request ->
             solicitudes += request.method to request.url.encodedPath
+            if (request.method == HttpMethod.Post || request.method == HttpMethod.Put) {
+                val json = (request.body as io.ktor.http.content.TextContent).text
+                assertTrue(json.contains("\"estado\":true"), "PharmaSoft exige estado incluso si es true")
+            }
             when {
                 request.method == HttpMethod.Get && request.url.encodedPath.endsWith("/productos") ->
                     respond(paginaJson, headers = jsonHeaders)

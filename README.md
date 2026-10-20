@@ -1,3 +1,29 @@
+## Persistencia offline-first
+
+Práctica de laboratorio 11, Juan Paredes, 20 de octubre de 2026.
+Rama `feature/offline-first-paredes`, creada desde `origin/develop` con la sesión 10 integrada.
+
+La interfaz observa SQLDelight mediante `Flow`. `PharmaDb` conserva el inventario en
+`pharma.db`; Android usa `AndroidSqliteDriver` e iOS `NativeSqliteDriver`, registrados en Koin.
+Las altas offline reciben ID negativo y `pendiente = 1`. La sincronización, protegida con
+`Mutex`, sube cada alta y sustituye su ID por el positivo confirmado antes de descargar
+**todas** las páginas. El reemplazo se ejecuta en una transacción y conserva los pendientes.
+
+La sesión previamente validada se restaura sin red desde almacenamiento seguro. Un 401
+sigue cerrando la sesión; los permisos de escritura se comprueban nuevamente en el servidor.
+El botón **Sincronizar** reintenta la operación. El aviso de red no oculta los datos locales.
+Las modificaciones y bajas de productos ya remotos requieren conexión; las altas pendientes
+pueden editarse o eliminarse localmente. No se añade una cola de PUT/DELETE fuera del alcance
+básico de esta práctica.
+
+- [Desarrollo, criterios y reproducción](docs/sesion11-offline-first.md)
+- [Evidencias y salida de pruebas](evidencias/sesion11)
+- [Workflow iOS](.github/workflows/sesion11-offline.yml)
+
+Verificación local: `./gradlew :shared:testAndroidHostTest :androidApp:assembleDebug`.
+Las pruebas comunes usan una base nueva por caso: JDBC en `androidHostTest` y SQLite nativo
+en `iosTest`. JDBC no se importa en `commonTest`, porque no compila para Kotlin/Native.
+
 ## Actividad autónoma 10 Sesión y token
 
 La actividad individual verifica seis escenarios reales de JWT en Android/MySQL, almacenamiento cifrado, persistencia tras force-stop, cierre de sesión completo y permisos de tres usuarios. La expiración se esperó 65 segundos reales. Al finalizar se verificó TTL de 3600 segundos y admin habilitado.

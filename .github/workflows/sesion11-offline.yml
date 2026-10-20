@@ -16,7 +16,13 @@ jobs:
         with:
           distribution: zulu
           java-version: '21'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.konan
+          key: s11-konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
       - name: Verificar commonTest con SQLite nativo y compilar framework
         run: |
           chmod +x gradlew
