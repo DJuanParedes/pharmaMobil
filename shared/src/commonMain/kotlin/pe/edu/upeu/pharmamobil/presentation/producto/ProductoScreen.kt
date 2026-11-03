@@ -54,6 +54,7 @@ fun ProductoScreen(
     onReintentar: () -> Unit,
     onVerDetalle: (Producto) -> Unit,
     puedeEscribir: Boolean = true,
+    cabeceraSync: (@Composable () -> Unit)? = null,
 ) {
     val formulario = uiState.formulario
     val operando = uiState.operacion is ProductoOperacion.EnCurso
@@ -79,12 +80,16 @@ fun ProductoScreen(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
-        OutlinedButton(onClick = onReintentar, enabled = !uiState.sincronizando) {
-            Text(if (uiState.sincronizando) "Sincronizando..." else "Sincronizar")
+        if (cabeceraSync != null) {
+            cabeceraSync()
+        } else {
+            OutlinedButton(onClick = onReintentar, enabled = !uiState.sincronizando) {
+                Text(if (uiState.sincronizando) "Sincronizando..." else "Sincronizar")
+            }
+            uiState.avisoRed?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+            val pendientes = productosFiltrados.count { it.pendiente }
+            if (pendientes > 0) Text("Pendientes de enviar: $pendientes")
         }
-        uiState.avisoRed?.let { Text(it, color = MaterialTheme.colorScheme.error) }
-        val pendientes = productosFiltrados.count { it.pendiente }
-        if (pendientes > 0) Text("Pendientes de enviar: $pendientes")
         if (operando || uiState.sincronizando) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }

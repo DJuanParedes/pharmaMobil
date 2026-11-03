@@ -17,6 +17,7 @@ import pe.edu.upeu.pharmamobil.domain.usecase.ListarProductosUseCase
 import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 import pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel
 import pe.edu.upeu.pharmamobil.presentation.sesion.SesionViewModel
+import pe.edu.upeu.pharmamobil.presentation.sincronizacion.SincronizacionViewModel
 
 private const val CATEGORIA_POR_DEFECTO = 1L
 
@@ -29,7 +30,19 @@ val dataModule = module {
     single { ProductoApi(get()) }
     single(createdAtStart = true) { pe.edu.upeu.pharmamobil.db.PharmaDb(get<pe.edu.upeu.pharmamobil.data.local.CreadorDeDriver>().crear()) }
     single { pe.edu.upeu.pharmamobil.data.local.ProductoLocal(get()) }
-    single<ProductoRepository> { pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOffline(get(), ProductoRepositorioRest(get(), CATEGORIA_POR_DEFECTO)) }
+    single { ProductoRepositorioRest(get(), CATEGORIA_POR_DEFECTO) }
+    single<pe.edu.upeu.pharmamobil.domain.repository.ProductoLocalRepository> { get<pe.edu.upeu.pharmamobil.data.local.ProductoLocal>() }
+    single<pe.edu.upeu.pharmamobil.domain.repository.ProductoEnvioRepository> {
+        pe.edu.upeu.pharmamobil.data.repository.EnvioRepositorioRest(get<ProductoRepositorioRest>())
+    }
+    single {
+        pe.edu.upeu.pharmamobil.domain.usecase.SincronizarUseCase(
+            local = get(), remoto = get(), telemetria = get(), notificador = get(),
+            reloj = { pe.edu.upeu.pharmamobil.platform.ahoraMillis() },
+        )
+    }
+    single { pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOffline(get(), get<ProductoRepositorioRest>(), get()) }
+    single<ProductoRepository> { get<pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOffline>() }
 }
 
 val domainModule = module {
@@ -45,6 +58,7 @@ val presentationModule = module {
     viewModelOf(::SesionViewModel)
     viewModelOf(::ProductoViewModel)
     viewModelOf(::DetalleProductoViewModel)
+    viewModelOf(::SincronizacionViewModel)
 }
 
 expect val platformModule: Module
