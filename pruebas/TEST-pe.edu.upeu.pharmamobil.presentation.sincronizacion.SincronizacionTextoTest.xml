@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.presentation.sincronizacion.SincronizacionTextoTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-03T21:32:57.185Z" hostname="runnervmnwato" time="0.007">
+  <properties/>
+  <testcase name="laAntiguedadSeExpresaEnPalabras" classname="pe.edu.upeu.pharmamobil.presentation.sincronizacion.SincronizacionTextoTest" time="0.006"/>
+  <testcase name="conFilasFallidasElMensajeOfreceUnaAccion" classname="pe.edu.upeu.pharmamobil.presentation.sincronizacion.SincronizacionTextoTest" time="0.001"/>
+  <testcase name="elTituloDiceConexionYCambiosPorEnviar" classname="pe.edu.upeu.pharmamobil.presentation.sincronizacion.SincronizacionTextoTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

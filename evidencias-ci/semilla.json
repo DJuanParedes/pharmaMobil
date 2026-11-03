@@ -1,0 +1,14 @@
+{
+ "categoria": {
+  "id": 1,
+  "nombre": "S13 Medicamentos",
+  "descripcion": null,
+  "estado": true,
+  "fechaCreacion": "2026-11-03T21:33:41.33625984",
+  "fechaModificacion": null
+ },
+ "productos": [
+  "S13 Paracetamol 500",
+  "S13 Amoxicilina 500"
+ ]
+}

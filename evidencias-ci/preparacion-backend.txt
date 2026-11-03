@@ -1,0 +1,1 @@
+Entorno preparado con secreto local generado. No publicar el directorio temporal.

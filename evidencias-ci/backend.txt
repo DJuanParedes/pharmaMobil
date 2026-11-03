@@ -1,0 +1,61 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.7)
+
+2026-11-03T21:33:31.532Z  INFO 3259 --- [           main] p.e.u.P.PharmaBackendApplication         : Starting PharmaBackendApplication v0.0.1-SNAPSHOT using Java 21.0.13 with PID 3259 (/home/runner/work/_temp/backend-s13/target/PharmaBackend-0.0.1-SNAPSHOT.jar started by runner in /home/runner/work/pharmaMobil/pharmaMobil)
+2026-11-03T21:33:31.536Z  INFO 3259 --- [           main] p.e.u.P.PharmaBackendApplication         : The following 1 profile is active: "s10"
+2026-11-03T21:33:32.764Z  INFO 3259 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-03T21:33:32.834Z  INFO 3259 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 8 JPA repository interfaces.
+2026-11-03T21:33:33.606Z  INFO 3259 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-11-03T21:33:33.623Z  INFO 3259 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-03T21:33:33.624Z  INFO 3259 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-11-03T21:33:33.656Z  INFO 3259 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2038 ms
+2026-11-03T21:33:34.023Z  INFO 3259 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-03T21:33:34.449Z  INFO 3259 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:pharma user=SA
+2026-11-03T21:33:34.450Z  INFO 3259 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-03T21:33:34.506Z  INFO 3259 --- [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:pharma (H2 2.4)
+2026-11-03T21:33:34.522Z  WARN 3259 --- [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-03T21:33:34.549Z  INFO 3259 --- [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-03T21:33:34.551Z  INFO 3259 --- [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.013s)
+2026-11-03T21:33:34.558Z  INFO 3259 --- [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-03T21:33:34.595Z  INFO 3259 --- [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-03T21:33:34.609Z  INFO 3259 --- [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "1 - esquema inicial"
+2026-11-03T21:33:34.654Z  INFO 3259 --- [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "2 - seguridad empleados usuarios"
+2026-11-03T21:33:34.672Z  INFO 3259 --- [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "3 - datos iniciales seguridad"
+2026-11-03T21:33:34.689Z  INFO 3259 --- [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 3 migrations to schema "PUBLIC", now at version v3 (execution time 00:00.043s)
+2026-11-03T21:33:34.808Z  INFO 3259 --- [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-03T21:33:34.868Z  INFO 3259 --- [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.19.Final
+2026-11-03T21:33:35.462Z  INFO 3259 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-03T21:33:35.514Z  WARN 3259 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-03T21:33:35.530Z  INFO 3259 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:pharma]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: PHARMA/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-03T21:33:36.502Z  INFO 3259 --- [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-03T21:33:36.508Z  INFO 3259 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-03T21:33:36.624Z  INFO 3259 --- [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-03T21:33:37.183Z  INFO 3259 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name usuarioDetailsService
+2026-11-03T21:33:38.023Z  WARN 3259 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-03T21:33:38.851Z  INFO 3259 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-11-03T21:33:38.860Z  INFO 3259 --- [           main] p.e.u.P.PharmaBackendApplication         : Started PharmaBackendApplication in 7.881 seconds (process running for 8.494)
+2026-11-03T21:33:38.863Z  WARN 3259 --- [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-03T21:33:38.863Z  WARN 3259 --- [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-11-03T21:33:40.429Z  INFO 3259 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-03T21:33:40.429Z  INFO 3259 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-03T21:33:40.431Z  INFO 3259 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-11-03T21:33:40.578Z  INFO 3259 --- [nio-8080-exec-1] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-03T21:33:41.179Z  INFO 3259 --- [nio-8080-exec-1] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]

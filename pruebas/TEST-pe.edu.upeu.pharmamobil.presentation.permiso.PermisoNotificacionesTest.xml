@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.presentation.permiso.PermisoNotificacionesTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-03T21:32:56.998Z" hostname="runnervmnwato" time="0.023">
+  <properties/>
+  <testcase name="antesDePedirSeExplicaYSeOfrecePedir" classname="pe.edu.upeu.pharmamobil.presentation.permiso.PermisoNotificacionesTest" time="0.013"/>
+  <testcase name="alConcederNoQuedaNingunaAccion" classname="pe.edu.upeu.pharmamobil.presentation.permiso.PermisoNotificacionesTest" time="0.009"/>
+  <testcase name="denegadoParaSiempreSoloOfreceAjustes" classname="pe.edu.upeu.pharmamobil.presentation.permiso.PermisoNotificacionesTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

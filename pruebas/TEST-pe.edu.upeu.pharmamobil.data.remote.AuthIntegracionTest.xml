@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.data.remote.AuthIntegracionTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-03T21:32:54.431Z" hostname="runnervmnwato" time="1.295">
+  <properties/>
+  <testcase name="un401BorraTokenYCierraSesion" classname="pe.edu.upeu.pharmamobil.data.remote.AuthIntegracionTest" time="1.074"/>
+  <testcase name="un403MantieneSesion" classname="pe.edu.upeu.pharmamobil.data.remote.AuthIntegracionTest" time="0.021"/>
+  <testcase name="restauraSesionDesdeAlmacenYMe" classname="pe.edu.upeu.pharmamobil.data.remote.AuthIntegracionTest" time="0.083"/>
+  <testcase name="loggingSaneadoYDesactivadoFueraDeDebug" classname="pe.edu.upeu.pharmamobil.data.remote.AuthIntegracionTest" time="0.027"/>
+  <testcase name="noFiltraTokenAOtroServidor" classname="pe.edu.upeu.pharmamobil.data.remote.AuthIntegracionTest" time="0.008"/>
+  <testcase name="loginNoEnviaTokenYSegundoLoginInvalidaCache" classname="pe.edu.upeu.pharmamobil.data.remote.AuthIntegracionTest" time="0.071"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+]]></system-err>
+</testsuite>

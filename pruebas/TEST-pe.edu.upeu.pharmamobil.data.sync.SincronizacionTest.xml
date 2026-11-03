@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.data.sync.SincronizacionTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-03T21:32:56.505Z" hostname="runnervmnwato" time="0.248">
+  <properties/>
+  <testcase name="unFalloPermanenteMarcaLaFilaYNoLaReintenta" classname="pe.edu.upeu.pharmamobil.data.sync.SincronizacionTest" time="0.035"/>
+  <testcase name="alAgotarLosIntentosLaFilaQuedaFallidaYVisible" classname="pe.edu.upeu.pharmamobil.data.sync.SincronizacionTest" time="0.073"/>
+  <testcase name="laEsperaCreceEntreIntentosYTieneTope" classname="pe.edu.upeu.pharmamobil.data.sync.SincronizacionTest" time="0.064"/>
+  <testcase name="unFalloTransitorioSumaIntentoYNoMarcaFallida" classname="pe.edu.upeu.pharmamobil.data.sync.SincronizacionTest" time="0.013"/>
+  <testcase name="reintentarFallidasLasDevuelveALaCola" classname="pe.edu.upeu.pharmamobil.data.sync.SincronizacionTest" time="0.031"/>
+  <testcase name="exitoSubeAntesDeBajarYRegistraLaHora" classname="pe.edu.upeu.pharmamobil.data.sync.SincronizacionTest" time="0.024"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
