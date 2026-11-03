@@ -43,6 +43,9 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            // Sesión 13: SDK de Firebase solo en la capa de datos de Android (ver docs/sesion13-integrador.md)
+            implementation(libs.firebase.crashlytics)
+            implementation(libs.firebase.messaging)
             implementation(libs.sqldelight.android)
             implementation("androidx.security:security-crypto:1.1.0")
             implementation(libs.compose.uiToolingPreview)

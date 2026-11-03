@@ -12,4 +12,5 @@ actual val platformModule: Module = module {
         pe.edu.upeu.pharmamobil.data.local.AlmacenSeguroAndroid(androidContext())
     }
     single<Compartidor> { CompartidorAndroid(androidContext()) }
+    single<pe.edu.upeu.pharmamobil.domain.port.Telemetria> { pe.edu.upeu.pharmamobil.data.firebase.TelemetriaFirebase() }
 }
