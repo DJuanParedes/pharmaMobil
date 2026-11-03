@@ -13,7 +13,7 @@ for ronda in 1 2; do
   adb shell pm revoke $PKG android.permission.POST_NOTIFICATIONS || true
   adb shell input keyevent KEYCODE_WAKEUP; adb shell wm dismiss-keyguard
   adb shell 'rm -f /sdcard/Download/S13-*'
-  adb shell am instrument -w -r -e class $PKG.IntegradorSesion13Test -e adminPassword "$CLAVE" -e sufijo "$([ $ronda = 2 ] && echo ' R2')" \
+  adb shell am instrument -w -r -e class $PKG.IntegradorSesion13Test -e adminPassword "$CLAVE" -e sufijo "R$ronda" \
     $PKG.test/androidx.test.runner.AndroidJUnitRunner 2>&1 | sed "s/$CLAVE/[REDACTADO]/g" > "$OUT/instrumentacion.txt"
   cp "$OUT/instrumentacion.txt" "$OUT/instrumentacion-ronda$ronda.txt"
   grep -q 'OK (2 tests)' "$OUT/instrumentacion.txt" && break

@@ -163,7 +163,7 @@ class IntegradorSesion13Test {
             // Sin red: tres altas quedan en la cola. «S13 Amoxicilina 500» ya existe en PharmaSoft.
             modoAvion(true)
             val sufijo = InstrumentationRegistry.getArguments().getString("sufijo").orEmpty()
-            listOf("S13 Ibuprofeno 400$sufijo" to 20, "S13 Amoxicilina 500" to 12, "S13 Loratadina 10$sufijo" to 30).forEach { (nombre, stock) ->
+            listOf("S13 Ibuprofeno 400 $sufijo" to 20, "S13 Amoxicilina 500" to 12, "S13 Loratadina 10 $sufijo" to 30).forEach { (nombre, stock) ->
                 repo.registrar(nombre, 4.5, stock)
             }
             pulsar(By.text("Sincronizar ahora"))
