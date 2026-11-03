@@ -70,4 +70,11 @@ Lo que ya funcionaba bien se dejó igual. El login distingue «credenciales inv�
 | 11 | Manifiesto e `Info.plist` | ✔ |
 | 12 | Firebase detrás de `Telemetria` | ✔ (falta `google-services.json` propio) |
 | 13 | Pruebas en commonTest con MockEngine y driver en memoria | ✔ |
-| 14 | Capturas: 3 estados del permiso y estado de sincronización | Pendiente de tomar en el emulador |
+| 14 | Capturas: 3 estados del permiso y estado de sincronización | ✔ `evidencias/sesion13/android` |
+
+## Evidencias
+
+- **Informe PDF:** `output/pdf/S13_Practica_Integrador_Juan_Paredes.pdf`. Se genera con `python ci/generar_informe_s13.py`.
+- **Capturas del emulador:** Android 14, API 34, en `evidencias/sesion13/android`. Las produce `IntegradorSesion13Test`, ejecutada en GitHub Actions (`.github/workflows/sesion13-integrador.yml`) contra PharmaSoft real sobre H2. La clave de administrador es efímera y no se publica.
+- **Pruebas:** XML de JUnit y reporte HTML en `evidencias/sesion13/pruebas`. Son 85 pruebas, sin fallos.
+- **Servidor:** `evidencias/sesion13/productos-servidor.json`. Las dos altas offline quedaron confirmadas; «S13 Amoxicilina 500» fue rechazada con 409 y no se duplicó.

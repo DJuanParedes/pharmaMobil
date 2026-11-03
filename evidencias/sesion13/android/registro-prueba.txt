@@ -1,0 +1,4 @@
+MODO AVION: 0
+CAPTURA: S13-07-sync-rechazo-409-visible.png
+CAPTURA: S13-08-notificacion-fila-fallida.png
+VERIFICADO: enviadas=2; fallida=S13 Amoxicilina 500; motivo=Ya existe un producto con el nombre S13 Amoxicilina 500; intentos=5

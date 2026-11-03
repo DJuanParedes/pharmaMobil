@@ -52,7 +52,7 @@ def imagen(path, maxw, maxh):
     k = min(maxw / iw, maxh / ih); img.drawWidth, img.drawHeight = iw * k, ih * k
     return img
 
-def par(a, b, ca, cb, alto=430):
+def par(a, b, ca, cb, alto=540):
     ancho = (CW - 18) / 2
     t = Table([[P(ca, cap), P(cb, cap)], [imagen(E / 'android' / a, ancho, alto), imagen(E / 'android' / b, ancho, alto)]],
               colWidths=[ancho + 9, ancho + 9], hAlign='LEFT')
@@ -80,7 +80,8 @@ for xml in sorted((E / 'pruebas').glob('TEST-*.xml')):
     por_clase[r.get('name').split('.')[-1]] = (int(r.get('tests')), int(r.get('failures')) + int(r.get('errors')), r.get('time'))
 nuevas = ['SincronizacionTest', 'SincronizacionTextoTest', 'PermisoNotificacionesTest', 'ProductoRepositorioOfflineTest']
 instr = (E / 'android/instrumentacion.txt').read_text(encoding='utf-8', errors='replace')
-verificado = [l.split('VERIFICADO: ', 1)[1].strip() for l in instr.splitlines() if 'VERIFICADO: ' in l]
+registro = (E / 'android/registro-prueba.txt').read_text(encoding='utf-8')
+verificado = [l.split('VERIFICADO: ', 1)[1].strip() for l in registro.splitlines() if 'VERIFICADO: ' in l]
 ok_instr = re.search(r'OK \((\d+) tests?\)', instr)
 version = (E / 'android/android-version.txt').read_text().split()
 servidor = json.loads((E / 'productos-servidor.json').read_text(encoding='utf-8'))
@@ -153,7 +154,7 @@ huecos = [['#', 'Hueco encontrado', 'Sev.', 'Decisión'],
           ['10', 'Un 500 en registrar mostraba error aunque el producto ya estaba guardado.', 'Baja', 'Hoy: se trata como transitorio.'],
           ['11', 'Permisos y telemetría en iOS.', 'Media', 'Sesión 14.'],
           ['12', 'Permiso de cámara para escanear códigos.', 'Baja', 'Descartado: fuera de alcance.']]
-s.append(tabla(huecos, [22, CW - 22 - 42 - 150, 42, 150]))
+s.append(tabla(huecos, [26, CW - 26 - 42 - 150, 42, 150]))
 s.append(Spacer(1, 8))
 s.append(P('Lo que ya funcionaba se dejó igual: el login distingue credenciales inválidas de falta de conexión y la lista vacía tiene su propio texto.'))
 s.append(PageBreak())
@@ -174,7 +175,7 @@ s.append(P('<b>Orden:</b> se sube antes de bajar. Invertirlo haría que la conci
 s.append(PageBreak())
 
 # ---------------- 4-7 capturas ----------------
-s += seccion('4. Evidencias: permiso de notificaciones (1/2)', 'Capturas reales del emulador; instalación limpia y POST_NOTIFICATIONS revocado')
+s += seccion('4. Evidencias: permiso de notificaciones (1/2)', 'Capturas reales del emulador Android %s; instalación limpia y POST_NOTIFICATIONS revocado' % version[0] + '')
 s.append(par('01-permiso-explicacion.png', '02-dialogo-del-sistema.png', '1. Nunca pedido: la tarjeta explica para qué se usa antes de pedirlo.', '2. Diálogo del sistema al pulsar «Permitir notificaciones». Se responde «No permitir».'))
 s.append(PageBreak())
 s += seccion('5. Evidencias: permiso de notificaciones (2/2)', 'Los otros dos estados de EstadoPermiso')
@@ -195,7 +196,7 @@ s.append(tabla([['ID', 'Nombre', 'Precio', 'Stock', 'Origen']] +
                  'Semilla del servidor' if p['nombre'] in ('S13 Paracetamol 500', 'S13 Amoxicilina 500') else 'Alta offline confirmada'] for p in s13],
                [40, 170, 70, 50, CW - 330]))
 s.append(Spacer(1, 8))
-s.append(P('<b>Resultado:</b> «S13 Ibuprofeno 400» y «S13 Loratadina 10» se crearon desde el teléfono al reconectar. «S13 Amoxicilina 500» existe una sola vez: el reintento no la duplicó y el rechazo quedó en la fila local.'))
+s.append(P('<b>Resultado:</b> «S13 Ibuprofeno 400 R1» y «S13 Loratadina 10 R1» se crearon desde el teléfono al reconectar (R1 identifica la ronda de la prueba). «S13 Amoxicilina 500» existe una sola vez: el reintento no la duplicó y el rechazo quedó en la fila local.'))
 for v in verificado: s.append(P('<font face="Courier" size="8.5">VERIFICADO: ' + escape(v) + '</font>', small))
 s.append(PageBreak())
 
@@ -211,8 +212,11 @@ s.append(tabla([['Caso nuevo', 'Resultado esperado y obtenido'],
                 ['Permisos', 'Gestor falso: explicar y pedir, ninguna acción, abrir Ajustes.'],
                 ['Textos de estado', '«Sin conexión · 3 cambios por enviar», «Actualizado hace 2 h».']], [120, CW - 120]))
 s.append(Spacer(1, 8))
-reporte = E / 'pruebas/reporte-gradle.png'
-if reporte.exists(): s.append(imagen(reporte, CW, 300))
+s.append(P('Reporte HTML generado por Gradle: resumen de la suite y detalle de SincronizacionTest.', small))
+ancho = (CW - 12) / 2
+t = Table([[imagen(E / 'pruebas/reporte-gradle.png', ancho, 220), imagen(E / 'pruebas/reporte-sincronizacion.png', ancho, 220)]], colWidths=[ancho + 6, ancho + 6], hAlign='LEFT')
+t.setStyle(TableStyle([('LEFTPADDING', (0, 0), (-1, -1), 0), ('BOX', (0, 0), (0, 0), 0.4, LINEA), ('BOX', (1, 0), (1, 0), 0.4, LINEA)]))
+s.append(t)
 s.append(PageBreak())
 
 # ---------------- 10 salida ----------------
@@ -223,8 +227,11 @@ s.append(Spacer(1, 8))
 s.append(Preformatted('> Task :shared:testAndroidHostTest\n' + (build_ok.group(0) if build_ok else ''), code))
 s.append(Spacer(1, 8))
 s.append(P('<b>Instrumentación (IntegradorSesion13Test):</b>', h3))
-lineas = [l for l in instr.splitlines() if l.startswith(('Time:', 'OK ', 'INSTRUMENTATION_CODE')) or 'CAPTURA' in l or 'MODO AVION' in l]
-s.append(Preformatted('\n'.join(lineas[-16:]), code))
+lineas = [l for l in instr.splitlines() if l.startswith(('Time:', 'OK ', 'INSTRUMENTATION_CODE'))]
+s.append(Preformatted('\n'.join(lineas), code))
+for l in registro.strip().splitlines(): s.append(P('<font face="Courier" size="7.6">' + escape(l) + '</font>', small))
+s.append(Spacer(1, 8))
+s.append(P('<b>Entorno:</b> GitHub Actions (ubuntu-latest) con emulador Pixel 6, Android %s (API %s), y PharmaSoft compilado desde backend/pharmaSoft sobre H2. La clave del administrador se genera en cada ejecución y aparece como [REDACTADO] en los registros.' % (version[0], version[1])))
 s.append(PageBreak())
 
 # ---------------- 11 firebase ----------------
@@ -269,7 +276,7 @@ s.append(tabla([['#', 'Criterio', 'Evidencia / resultado'],
                 ['11', 'Manifiesto e Info.plist', 'POST_NOTIFICATIONS; cámara y ubicación en iOS.'],
                 ['12', 'Firebase detrás de Telemetria', 'Sección 11.'],
                 ['13', 'Pruebas commonTest con MockEngine y driver en memoria', '%d pruebas, %d fallos.' % (pruebas['tests'], pruebas['failures'] + pruebas['errors'])],
-                ['14', 'Capturas de los 3 estados del permiso y de la sincronización', 'Secciones 4 a 7.']], [22, 210, CW - 232]))
+                ['14', 'Capturas de los 3 estados del permiso y de la sincronización', 'Secciones 4 a 7.']], [26, 206, CW - 232]))
 s.append(Spacer(1, 10))
 s.append(P('<b>Referencias del material de clase</b>'))
 s.append(P('Reyna Barreto, B. D. (2026). <i>Guía práctica de laboratorio N.º 13: Proyecto integrador PharmaMobil KMP</i>. Universidad Peruana Unión.'))
