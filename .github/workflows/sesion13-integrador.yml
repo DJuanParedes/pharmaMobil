@@ -2,7 +2,7 @@ name: Sesion 13 - Integrador Android
 on:
   push:
     branches: [feature/integrador-13]
-    paths: ['shared/**', 'androidApp/**', 'gradle/**', 'ci/sesion13/**', '.github/workflows/sesion13-integrador.yml']
+    paths: ['androidApp/src/androidTest/kotlin/pe/edu/upeu/pharmamobil/IntegradorSesion13Test.kt', 'ci/sesion13/ejecutar_android_s13.sh', '.github/workflows/sesion13-integrador.yml']
   workflow_dispatch:
 permissions:
   contents: write
