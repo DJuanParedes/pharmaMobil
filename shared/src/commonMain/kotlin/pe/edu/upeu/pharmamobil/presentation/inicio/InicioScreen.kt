@@ -69,6 +69,8 @@ fun InicioScreen(onPantallaSeleccionada: (Screen) -> Unit) {
             )
         }
 
+        pe.edu.upeu.pharmamobil.presentation.permiso.PermisoNotificacionesCard()
+
         if (LocalSesion.current?.puede("CATALOGO_ESCRIBIR") == true) Button(
             onClick = { onPantallaSeleccionada(Screen.Productos) },
             modifier = Modifier.fillMaxWidth(),

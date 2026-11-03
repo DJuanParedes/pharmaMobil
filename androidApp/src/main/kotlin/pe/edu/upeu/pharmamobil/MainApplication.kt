@@ -11,6 +11,7 @@ class MainApplication : Application() {
         initKoin {
             androidContext(this@MainApplication)
             androidLogger()
+            modules(pe.edu.upeu.pharmamobil.permiso.permisosModule)
         }
     }
 }

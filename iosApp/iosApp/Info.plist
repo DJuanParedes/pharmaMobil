@@ -4,6 +4,10 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>PharmaMobil usa la cámara para fotografiar la caja o el código de un producto al registrarlo.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>PharmaMobil usa tu ubicación para asociar el inventario a la farmacia en la que te encuentras.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
