@@ -5,7 +5,7 @@ on:
     paths: ['shared/**', 'androidApp/**', 'gradle/**', 'ci/sesion13/**', '.github/workflows/sesion13-integrador.yml']
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   android:
     runs-on: ubuntu-latest
@@ -53,3 +53,13 @@ jobs:
             shared/build/test-results/
             shared/build/reports/tests/
           retention-days: 30
+      - name: Publicar evidencias en la rama evidencias-s13-ci
+        if: always()
+        run: |
+          mkdir -p pub/pruebas
+          cp -r evidencias-ci pub/ || true
+          find shared/build/test-results -name 'TEST-*.xml' -exec cp {} pub/pruebas/ \; || true
+          cp -r shared/build/reports/tests pub/reporte-html || true
+          cd pub && git init -q && git checkout -q -b evidencias-s13-ci && git add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "evidencias run ${GITHUB_RUN_ID}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" evidencias-s13-ci
