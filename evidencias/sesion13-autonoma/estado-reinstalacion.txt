@@ -1,0 +1,1 @@
+11 | Tras desinstalar y reinstalar: token guardado: no; base local: 0 filas. android:allowBackup=false, por eso no se restaura.

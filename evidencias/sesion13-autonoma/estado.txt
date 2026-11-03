@@ -1,0 +1,11 @@
+1 | Pantalla de inicio de sesión. Base local: 0 filas. Token guardado: no.
+2 | Token JWT (403 caracteres) en EncryptedSharedPreferences «sesion_segura» con AES-256-GCM y llave del Android Keystore; no aparece en texto plano. Usuario admin (Carlos Ramirez Torres), rol ADMIN, privilegios: CATALOGO_ESCRIBIR, CATALOGO_LEER, CLIENTES_ESCRIBIR, CLIENTES_LEER, REPORTES_VER, USUARIOS_ADMINISTRAR, VENTAS_LEER, VENTAS_REGISTRAR.
+3 | Filas descargadas: 2 (S13 Amoxicilina 500, S13 Paracetamol 500). Última sincronización: 2026-11-03 16:19:42 (Lima).
+4 | «AA S13 Clotrimazol 1%» creado con red. ID asignado por PharmaSoft: 3. Pendiente: no.
+5 | Modo avión: airplane_mode_on=1. «AA S13 Fluconazol 150» con ID local provisional -1 y marca pendiente=1. Cambios por enviar: 1.
+6 | Pendientes antes: 1; después: 0. ID provisional -1 reemplazado por el definitivo 4. Última sincronización: 2026-11-03 16:20:23 (Lima).
+7 | Nombre «Ab». El mensaje aparece bajo el campo Nombre del formulario. Respuesta de PharmaSoft al mismo dato: HTTP 400: {"status":400,"error":"Bad Request","message":"Existen errores de validación","path":"/api/v1/productos","validationErrors":{"nombre":"El nombre debe tener entre 3 y 150 caracteres"}}
+8 | Usuario vendedor, privilegios: CATALOGO_LEER, CLIENTES_ESCRIBIR, CLIENTES_LEER, VENTAS_LEER, VENTAS_REGISTRAR. La interfaz oculta «Registrar un producto», Editar y Eliminar. POST /productos con su token: HTTP 403 (Forbidden). Base local: 4 filas visibles, descargadas por la sesión anterior.
+9 | JWT firmado por PharmaSoft con vencimiento una hora en el pasado. Al abrir, GET /auth/me responde 401 y la app borra el token (guardado: no). El usuario queda en Iniciar sesión con el aviso «Tu sesión expiró. Inicia sesión nuevamente.».
+10 | Token y perfil borrados del almacenamiento seguro. En la base local quedan 4 filas (AA S13 Clotrimazol 1%, AA S13 Fluconazol 150, S13 Amoxicilina 500, S13 Paracetamol 500), visibles para el siguiente usuario: hueco 7, cierre en la sesión 14.
+11 | Tras desinstalar y reinstalar: token guardado: no; base local: 0 filas. android:allowBackup=false, por eso no se restaura.
