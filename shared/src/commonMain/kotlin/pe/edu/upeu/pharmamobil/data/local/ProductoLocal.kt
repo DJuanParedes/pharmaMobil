@@ -40,10 +40,11 @@ class ProductoLocal(base: PharmaDb) : ProductoLocalRepository {
         consultas.pendientesPorEnviar(maxIntentos.toLong()).executeAsList().map { it.aFila() }
     override fun fallidas(maxIntentos: Int): List<FilaPendiente> =
         consultas.listarFallidas(maxIntentos.toLong()).executeAsList().map { it.aFila() }
-    override fun sumarIntento(id: Long, motivo: String) = consultas.sumarIntento(motivo, id)
-    override fun marcarFallida(id: Long, motivo: String, maxIntentos: Int) =
+    override fun sumarIntento(id: Long, motivo: String) { consultas.sumarIntento(motivo, id) }
+    override fun marcarFallida(id: Long, motivo: String, maxIntentos: Int) {
         consultas.marcarFallida(maxIntentos.toLong(), motivo, id)
-    override fun reintentarFallidas(maxIntentos: Int) = consultas.reintentarFallidas(maxIntentos.toLong())
+    }
+    override fun reintentarFallidas(maxIntentos: Int) { consultas.reintentarFallidas(maxIntentos.toLong()) }
     override fun conciliar(productos: List<Producto>) = reemplazarSincronizados(productos)
     override fun contarPendientes(maxIntentos: Int): Int =
         consultas.contarPendientes(maxIntentos.toLong()).executeAsOne().toInt()
@@ -51,7 +52,7 @@ class ProductoLocal(base: PharmaDb) : ProductoLocalRepository {
         consultas.contarPendientes(maxIntentos.toLong()).asFlow().mapToOne(Dispatchers.Default).map { it.toInt() }
     override fun observarFallidas(maxIntentos: Int): Flow<Int> =
         consultas.contarFallidas(maxIntentos.toLong()).asFlow().mapToOne(Dispatchers.Default).map { it.toInt() }
-    override fun registrarSincronizacion(epochMillis: Long) = consultas.guardarMeta(CLAVE_ULTIMA_SYNC, epochMillis)
+    override fun registrarSincronizacion(epochMillis: Long) { consultas.guardarMeta(CLAVE_ULTIMA_SYNC, epochMillis) }
     override fun observarUltimaSincronizacion(): Flow<Long?> =
         consultas.leerMeta(CLAVE_ULTIMA_SYNC).asFlow().mapToOneOrNull(Dispatchers.Default)
 
