@@ -59,8 +59,22 @@ class IntegradorSesion13Test {
         return ParcelFileDescriptor.AutoCloseInputStream(fd).use { it.readBytes().decodeToString() }
     }
 
-    private fun esperar(selector: BySelector, ms: Long = 30_000): UiObject2 =
-        requireNotNull(device.wait(Until.findObject(selector), ms)) { "No apareció: $selector" }
+    /** El emulador de CI a veces muestra «Pixel Launcher isn't responding»; se responde «Wait». */
+    private fun cerrarDialogoDelSistema() {
+        val esperarBoton = device.findObject(By.text(Pattern.compile("(?i)^(wait|esperar)$")))
+        if (device.hasObject(By.textContains("isn't responding")) || device.hasObject(By.textContains("no responde"))) {
+            esperarBoton?.click(); device.waitForIdle()
+        }
+    }
+
+    private fun esperar(selector: BySelector, ms: Long = 30_000): UiObject2 {
+        val limite = System.currentTimeMillis() + ms
+        while (System.currentTimeMillis() < limite) {
+            device.wait(Until.findObject(selector), 3_000)?.let { return it }
+            cerrarDialogoDelSistema()
+        }
+        error("No apareció: $selector")
+    }
 
     private fun pulsar(selector: BySelector) {
         repeat(4) { intento ->

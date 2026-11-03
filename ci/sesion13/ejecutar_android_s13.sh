@@ -6,12 +6,16 @@ PKG=pe.edu.upeu.pharmamobil
 CLAVE=$(curl -s http://127.0.0.1:8099/credenciales | python3 -c 'import json,sys;print(json.load(sys.stdin)["password"])')
 adb shell getprop ro.build.version.release > "$OUT/android-version.txt"
 adb shell getprop ro.build.version.sdk >> "$OUT/android-version.txt"
+adb shell settings put global hide_error_dialogs 1 || true
+sleep 25
 for ronda in 1 2; do
   adb uninstall $PKG >/dev/null 2>&1; adb uninstall $PKG.test >/dev/null 2>&1
   adb install -r androidApp/build/outputs/apk/debug/androidApp-debug.apk
   adb install -r androidApp/build/outputs/apk/androidTest/debug/androidApp-debug-androidTest.apk
   adb shell pm revoke $PKG android.permission.POST_NOTIFICATIONS || true
   adb shell input keyevent KEYCODE_WAKEUP; adb shell wm dismiss-keyguard
+  adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null || true
+  adb shell input keyevent KEYCODE_HOME
   adb shell 'rm -f /sdcard/Download/S13-*'
   adb shell am instrument -w -r -e class $PKG.IntegradorSesion13Test -e adminPassword "$CLAVE" -e sufijo "R$ronda" \
     $PKG.test/androidx.test.runner.AndroidJUnitRunner 2>&1 | sed "s/$CLAVE/[REDACTADO]/g" > "$OUT/instrumentacion.txt"
