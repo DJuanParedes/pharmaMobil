@@ -23,3 +23,51 @@ El recorrido fue: iniciar sesión, ver el inventario, registrar un producto con 
 | 12 | Pedir el permiso de cámara para escanear códigos de barras. | Baja | **Descartado** por ahora: no hay pantalla de escaneo en el alcance del curso. |
 
 Lo que ya funcionaba bien se dejó igual. El login distingue «credenciales inválidas» de «sin conexión», y la lista vacía tiene su propio texto.
+
+## Pasos 2 a 7, qué se hizo
+
+- **Paso 2. Esquema.** `producto` suma `intentos INTEGER NOT NULL DEFAULT 0` y `ultimoError TEXT`. La tabla `sync_meta` guarda la hora de la última sincronización. `1.sqm` migra las instalaciones existentes sin borrar datos. Las nuevas consultas son `pendientesPorEnviar`, `listarFallidas`, `contarPendientes`, `contarFallidas`, `sumarIntento`, `marcarFallida`, `reintentarFallidas`, `guardarMeta` y `leerMeta`.
+- **Paso 3. Caso de uso.** `EnvioRepositorioRest` traduce cada `ErrorApi`:
+  - Sin conexión, tiempo agotado o error del servidor → `Transitorio`.
+  - 400, 403, 404, 409 o respuesta inválida → `Permanente`.
+
+  `SincronizarUseCase` sube primero y baja después. Un transitorio suma un intento, espera 1, 2, 4, 8 o 16 s y corta la ronda. Al quinto intento la fila queda fallida. Un permanente la marca fallida al momento, la reporta a `Telemetria` y avisa por `Notificador`.
+- **Paso 4. Interfaz.** `EstadoSincronizacionBarra` muestra «Sin conexión · 3 cambios por enviar» y «Actualizado hace 15 min». Si hay fallidas, avisa con los botones *Reintentar* y *Revisar*. También tiene *Sincronizar ahora*.
+- **Paso 5. Permisos.** `GestorPermisos` (común) tiene tres estados: Concedido, Denegado y DenegadoParaSiempre. `GestorPermisosAndroid` usa `PuentePermisos` (`ActivityResultContracts.RequestPermission` + `CompletableDeferred`) y una marca `pedido_` para distinguir «nunca pedido» de «denegado para siempre». La tarjeta de Inicio explica, pide o lleva a Ajustes según el estado, y vuelve a leer en `ON_RESUME`. El manifiesto declara `POST_NOTIFICATIONS`. `Info.plist` declara cámara y ubicación.
+- **Paso 6. Firebase.** GitLive 2.7.0 (`firebase-crashlytics`, `firebase-messaging`) se usa detrás de `Telemetria`. Solo se envían operación, tipo y motivo: nunca tokens ni datos personales.
+- **Paso 7. Pruebas** (`./gradlew :shared:testDebugUnitTest`):
+  - `SincronizacionTest`: 503 transitorio, 409 permanente, espera creciente, 5 intentos, orden POST→GET y reintento de fallidas.
+  - `PermisoNotificacionesTest`: gestor falso con los tres estados.
+  - `SincronizacionTextoTest`: textos de estado y antigüedad.
+  - `ProductoRepositorioOfflineTest`: actualizado.
+
+## Desviaciones documentadas
+
+1. Las dependencias de Firebase están en `androidMain`, no en `commonMain`. Así el enlace de iOS de la sesión 11 no se rompe mientras no exista `GoogleService-Info.plist`. La interfaz `Telemetria` sigue en común.
+2. iOS usa `TelemetriaNula` y un `GestorPermisosIos` de relleno. Quedan para la sesión 14 (hueco 11).
+3. El plugin `google-services` se aplica solo si existe `androidApp/google-services.json`. Sin ese archivo la app compila, y `TelemetriaFirebase` no falla porque usa `runCatching`.
+
+## Activar Firebase
+
+1. En la consola de Firebase, crear el proyecto y registrar la app Android `pe.edu.upeu.pharmamobil`.
+2. Descargar `google-services.json` y colocarlo en `androidApp/`. Está en `.gitignore`: no se sube.
+3. Sincronizar Gradle y ejecutar. Crashlytics recibe los errores permanentes de sincronización.
+
+## Lista de cotejo (14 ítems)
+
+| # | Ítem | Estado |
+|---|---|---|
+| 1 | Rama `feature/integrador-13` con un commit por paso | ✔ |
+| 2 | Tabla de huecos con severidad y decisión | ✔ |
+| 3 | Columnas `intentos` y `ultimoError` | ✔ |
+| 4 | Migración `1.sqm` | ✔ |
+| 5 | `ResultadoEnvio` Exito/Transitorio/Permanente | ✔ |
+| 6 | Máximo 5 intentos con espera 1/2/4/8/16 s | ✔ |
+| 7 | Subir antes de bajar | ✔ |
+| 8 | Pantalla con pendientes, fallidas, antigüedad y acciones | ✔ |
+| 9 | `GestorPermisos` común con 3 estados | ✔ |
+| 10 | Implementación Android con `PuentePermisos` | ✔ |
+| 11 | Manifiesto e `Info.plist` | ✔ |
+| 12 | Firebase detrás de `Telemetria` | ✔ (falta `google-services.json` propio) |
+| 13 | Pruebas en commonTest con MockEngine y driver en memoria | ✔ |
+| 14 | Capturas: 3 estados del permiso y estado de sincronización | Pendiente de tomar en el emulador |
