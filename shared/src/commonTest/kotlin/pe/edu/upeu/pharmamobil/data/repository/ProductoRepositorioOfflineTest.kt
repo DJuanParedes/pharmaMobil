@@ -9,6 +9,7 @@ import pe.edu.upeu.pharmamobil.domain.model.Producto
 import pe.edu.upeu.pharmamobil.domain.repository.ProductoRepository
 import pe.edu.upeu.pharmamobil.domain.error.ErrorApi
 import pe.edu.upeu.pharmamobil.domain.error.ErrorApiException
+import pe.edu.upeu.pharmamobil.domain.usecase.SincronizarUseCase
 import kotlin.test.*
 
 expect fun driverEnMemoria(): SqlDriver
@@ -97,15 +98,18 @@ class ProductoRepositorioOfflineTest {
             assertEquals(1, e.remoto.datos.size)
         } finally { e.driver.close() }
     }
-    @Test fun conflictoConservaPendienteYNoDescarga() = runTest {
+    // Sesión 13: un conflicto es permanente; la fila queda fallida y visible, y la descarga continúa.
+    @Test fun conflictoMarcaFallidaConservaLaFilaYDescarga() = runTest {
         val e = Escenario()
         try {
             e.local.guardarPendiente(Producto(-1, "Duplicado", 1.0, 1))
             e.remoto.falloNombre = "Duplicado"
-            val fallo = assertFailsWith<ErrorApiException> { e.repo.sincronizar() }
-            assertIs<ErrorApi.Conflicto>(fallo.error)
+            e.repo.sincronizar()
             assertEquals(1, e.local.pendientes().size)
-            assertFalse("GET" in e.remoto.eventos)
+            assertEquals("Nombre duplicado", e.local.fallidas(SincronizarUseCase.MAX_INTENTOS).single().ultimoError)
+            assertTrue("GET" in e.remoto.eventos)
+            e.remoto.eventos.clear(); e.repo.sincronizar()
+            assertFalse(e.remoto.eventos.any { it.startsWith("POST") })
         } finally { e.driver.close() }
     }
     @Test fun idsNegativosSonDistintosSinColisionConServidor() = runTest {
