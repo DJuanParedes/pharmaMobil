@@ -168,9 +168,13 @@ class IntegradorSesion13Test {
                 esperar(By.text("Sincronizar ahora"), 60_000)
             }
             esperar(By.textContains("no se pudo enviar"))
+            // La barra muestra la fila fallida a mitad de la ronda: se espera a que termine de enviar las demás.
+            val confirmadas = { local.listar().filter { it.nombre != "S13 Amoxicilina 500" && it.nombre.startsWith("S13") } }
+            repeat(30) { if (local.contarPendientes(MAX_INTENTOS) > 0 || confirmadas().any { it.id < 0 }) Thread.sleep(1_000) }
+            esperar(By.text("Sincronizar ahora"), 60_000)
             val fallida = local.fallidas(MAX_INTENTOS).single()
             assertEquals("S13 Amoxicilina 500", fallida.producto.nombre)
-            assertTrue(local.listar().filter { it.nombre != "S13 Amoxicilina 500" && it.nombre.startsWith("S13") }.all { it.id > 0 })
+            assertTrue(confirmadas().all { it.id > 0 })
             pulsar(By.text("Revisar"))
             esperar(By.textContains(fallida.ultimoError!!.take(20)))
             captura("07-sync-rechazo-409-visible")
