@@ -17,6 +17,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.FixMethodOrder
+import org.junit.Rule
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
@@ -42,6 +45,13 @@ class IntegradorSesion13Test {
     private val inst get() = InstrumentationRegistry.getInstrumentation()
     private val device get() = UiDevice.getInstance(inst)
     private val koin get() = GlobalContext.get()
+    /** Si una prueba falla, guarda la pantalla y el árbol de vistas para diagnosticar. */
+    @get:Rule val diagnostico = object : TestWatcher() {
+        override fun failed(e: Throwable?, description: Description) {
+            runCatching { captura("error-" + description.methodName) }
+            runCatching { shell("uiautomator dump /sdcard/Download/S13-error-" + description.methodName + ".xml") }
+        }
+    }
     private fun argumento(nombre: String) = requireNotNull(InstrumentationRegistry.getArguments().getString(nombre))
 
     private fun shell(comando: String): String {
@@ -152,7 +162,8 @@ class IntegradorSesion13Test {
 
             // Sin red: tres altas quedan en la cola. «S13 Amoxicilina 500» ya existe en PharmaSoft.
             modoAvion(true)
-            listOf("S13 Ibuprofeno 400" to 20, "S13 Amoxicilina 500" to 12, "S13 Loratadina 10" to 30).forEach { (nombre, stock) ->
+            val sufijo = InstrumentationRegistry.getArguments().getString("sufijo").orEmpty()
+            listOf("S13 Ibuprofeno 400$sufijo" to 20, "S13 Amoxicilina 500" to 12, "S13 Loratadina 10$sufijo" to 30).forEach { (nombre, stock) ->
                 repo.registrar(nombre, 4.5, stock)
             }
             pulsar(By.text("Sincronizar ahora"))
