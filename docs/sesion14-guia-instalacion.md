@@ -11,14 +11,24 @@ sin Android Studio. Versión `1.0.0` (versionCode `1`), identificador `pe.upeu.p
 | `Equipo2_ProyectoFinal_Android.apk` | Instalable firmado para probar y demostrar. | **Sí** |
 | `Equipo2_ProyectoFinal_iOS.xcarchive.zip` | Archivo de Xcode generado con *Product › Archive* (ver limitación de iOS). | No (sin cuenta de Apple de pago no se exporta `.ipa`) |
 
-Los tres archivos están en la rama [`evidencias-s14-ci`](https://github.com/DJuanParedes/pharmaMobil/tree/evidencias-s14-ci/entrega)
-y [`evidencias-s14-ios`](https://github.com/DJuanParedes/pharmaMobil/tree/evidencias-s14-ios/entrega-ios).
+El APK y el AAB firmados los entrega el responsable del equipo (la firma se hace fuera del repositorio con
+`scripts/firmar-entrega.sh`). Sus versiones sin firmar están en la rama
+[`evidencias-s14-ci`](https://github.com/DJuanParedes/pharmaMobil/tree/evidencias-s14-ci/entrega/sin-firmar) y el
+archivo de iOS en [`evidencias-s14-ios`](https://github.com/DJuanParedes/pharmaMobil/tree/evidencias-s14-ios/entrega-ios).
+SHA-256 del APK entregado: `39eaa1ad887da014a5650e6894277e72b83673c145222ff181dd6aa3f0387761`.
 Huella SHA-256 del certificado que firma el APK y el AAB:
 `00:0D:3C:8A:39:15:29:59:17:3B:23:5C:B3:B6:1A:F1:99:77:CF:96:2B:2A:90:D8:97:85:90:D9:05:83:EF:53`.
 
-## 2. Preparar el servicio PharmaSoft en la PC (Windows)
+## 2. El servicio PharmaSoft
 
-El teléfono se conecta a PharmaSoft por la red Wi-Fi. La PC y los teléfonos deben estar **en la misma red**.
+**Opción por defecto: Azure.** El APK entregado apunta a `https://pharmasoft-equipo2-upeu.azurewebsites.net/api/v1/`.
+No necesita la PC ni una red concreta: basta con que el teléfono tenga internet. Antes de probar, abre
+`https://pharmasoft-equipo2-upeu.azurewebsites.net/swagger-ui/index.html` en el navegador del teléfono. Con el plan
+gratuito, la primera carga tras un rato sin uso tarda hasta 1 min.
+
+**Opción alternativa: PC local (Windows).** Solo si se recompila el APK con la IP de la PC. La PC y los teléfonos
+deben estar **en la misma red**. En la PC del responsable basta con hacer doble clic en
+`INICIAR-SERVIDOR-PHARMASOFT.bat`, o seguir estos pasos:
 
 1. Encender MySQL y el backend (ver [backend/pharmaSoft/README.md](../backend/pharmaSoft/README.md)):
    ```powershell
@@ -35,9 +45,9 @@ El teléfono se conecta a PharmaSoft por la red Wi-Fi. La PC y los teléfonos de
 4. Comprobar desde el navegador del teléfono: `http://192.168.1.40:8080/swagger-ui.html` debe abrir Swagger.
    Si no abre, la app tampoco podrá conectarse: revisar red, IP y cortafuegos antes de seguir.
 
-> **La trampa de la dirección.** `10.0.2.2` solo existe dentro del emulador. El APK de entrega se compila con la
-> IP de la PC (`-PpharmaApiUrl=http://<IP>:8080/api/v1/`, o el *Secret* `PHARMA_API_URL` en GitHub Actions).
-> Si la IP de la PC cambia, hay que volver a compilar el APK con la nueva dirección.
+> **La trampa de la dirección.** `10.0.2.2` solo existe dentro del emulador. El APK se compila con la URL del
+> servicio (`-PpharmaApiUrl=…`, el *Secret* `PHARMA_API_URL` o `ci/sesion14/pharma-api-url.txt`). En una red
+> universitaria (10.x.x.x) es común que los dispositivos no se vean entre sí: por eso la entrega usa Azure.
 
 ## 3. Instalar el APK en un teléfono Android
 
@@ -62,7 +72,7 @@ actualizar una app con una clave distinta (es justamente la garantía que da la 
 | `almacen` | ALMACENERO | Catálogo y stock |
 | `vendedor` | VENDEDOR | Leer catálogo, clientes y ventas; **no** puede crear/editar/eliminar productos |
 
-Las contraseñas no se publican en el repositorio: las entrega el responsable del equipo o la guía del curso.
+Son las cuentas de laboratorio de la guía del curso (migración V3 de PharmaSoft); las entrega el responsable del equipo.
 
 ## 5. Recorrido de aceptación (8 pasos)
 
