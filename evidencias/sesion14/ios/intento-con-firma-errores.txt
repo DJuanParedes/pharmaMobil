@@ -1,0 +1,3 @@
+** ARCHIVE FAILED **
+/Users/runner/work/pharmaMobil/pharmaMobil/iosApp/iosApp.xcodeproj: error: Signing for "iosApp" requires a development team. Select a development team in the Signing & Capabilities editor. (in target 'iosApp' from project 'iosApp')
+codigo=65

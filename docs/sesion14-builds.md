@@ -135,3 +135,35 @@ compilación; esos archivos no se entregan.
 
 La contraseña no aparece en ningún registro ni documento. Ficha de versión: `applicationId pe.upeu.pharmamobil`,
 `versionCode 1`, `versionName 1.0.0` (leídos del APK instalado con `dumpsys package`, ver paso 5).
+
+## Paso 6. Firma y archivo de iOS
+
+**Configuración.** `iosApp/Configuration/Config.xcconfig` declara `PRODUCT_BUNDLE_IDENTIFIER=pe.upeu.pharmamobil`,
+`MARKETING_VERSION=1.0.0` y `CURRENT_PROJECT_VERSION=1`, iguales a Android. El proyecto usa firma automática
+(`CODE_SIGN_STYLE = Automatic`, `CODE_SIGN_IDENTITY = Apple Development`, `DEVELOPMENT_TEAM = ${TEAM_ID}`).
+
+**Dónde se ejecutó.** El responsable trabaja en Windows y no tiene una Mac ni una cuenta de Apple. Los pasos de Xcode se
+ejecutaron en GitHub Actions ([`.github/workflows/sesion14-ios.yml`](../.github/workflows/sesion14-ios.yml)): run
+`42904063475`, macOS 26.7.2, Xcode 26.6. Evidencias en [evidencias/sesion14/ios](../evidencias/sesion14/ios) y en la rama
+`evidencias-s14-ios`.
+
+| N.º | Paso de la guía | Resultado |
+|---|---|---|
+| 1 | Equipo de firma en *Signing & Capabilities* | **Límite:** `error: Signing for "iosApp" requires a development team`. No hay cuenta de Apple (ni gratuita ni de pago) que asignar como equipo. |
+| 2 | Destino «Any iOS Device» | `-destination 'generic/platform=iOS'`, arquitectura `arm64`. |
+| 3 | *Product › Archive* | `** ARCHIVE SUCCEEDED **` (sin firma: `CODE_SIGNING_ALLOWED=NO`). Archivo `Equipo2_ProyectoFinal_iOS.xcarchive`, 72 MB, `CFBundleIdentifier pe.upeu.pharmamobil`, `CFBundleShortVersionString 1.0.0`, `CFBundleVersion 1`, iOS mínimo 18.2. |
+| 4 | Distribuir (ad hoc / desarrollo) | **Límite:** `error: exportArchive No Team Found in Archive` · `** EXPORT FAILED **`. |
+| 5 | Exportar el `.ipa` | No se genera (depende del paso 4). Se entrega el `.xcarchive` comprimido: `entrega-ios/Equipo2_ProyectoFinal_iOS.xcarchive.zip`. |
+
+![Archivo iOS](../evidencias/sesion14/ios/captura-archivo-ios.png)
+
+Hubo dos intentos previos fallidos por infraestructura, que también quedan registrados: los runners macOS arm64 no
+estuvieron disponibles por falta de capacidad, y en `macos-15-intel` (Xcode 16.4) el enlace falló con
+`Undefined symbols: _OBJC_CLASS_$_UIViewLayoutRegion`, porque Compose Multiplatform 1.11 usa APIs del SDK de iOS 26.
+
+**Limitación declarada (L-5).** Sin cuenta de Apple no hay certificado, identificador de aplicación ni perfil de
+aprovisionamiento. Por eso no hay firma, `.ipa` ni instalación en un iPhone real. Se cumple con el archivo generado
+por Xcode y la evidencia del proceso. Para cerrarla: en una Mac con Xcode 26, iniciar sesión con un Apple ID (la
+cuenta gratuita basta para un dispositivo propio, con un perfil de 7 días), elegir el equipo en *Signing &
+Capabilities*, volver a archivar y distribuir como *Development*. Además, el cliente iOS apunta a
+`http://localhost:8080` (`HttpClientFactory.ios.kt`); antes de instalarlo hay que cambiarlo a la URL de Azure.

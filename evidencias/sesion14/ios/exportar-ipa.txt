@@ -1,0 +1,6 @@
+2026-11-10 21:37:56.530 xcodebuild[32812:84778] [MT] IDEDistribution: -[IDEDistributionLogging _createLoggingBundleAtPath:]: Created bundle at path "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/iosApp_2026-11-10_21-37-56.521.xcdistributionlogs".
+error: exportArchive No Team Found in Archive
+
+** EXPORT FAILED **
+
+codigo=70
