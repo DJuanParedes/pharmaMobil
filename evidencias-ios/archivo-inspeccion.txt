@@ -1,0 +1,35 @@
+Archivo: build-ios/Equipo2_ProyectoFinal_iOS.xcarchive
+{
+  "ApplicationProperties" => {
+    "ApplicationPath" => "Applications/PharmaMobil.app"
+    "Architectures" => [
+      0 => "arm64"
+    ]
+    "CFBundleIdentifier" => "pe.upeu.pharmamobil"
+    "CFBundleShortVersionString" => "1.0.0"
+    "CFBundleVersion" => "1"
+    "SigningIdentity" => ""
+    "Team" => ""
+  }
+  "ArchiveVersion" => 2
+  "CreationDate" => 2026-11-10 21:37:52 +0000
+  "Name" => "iosApp"
+  "SchemeName" => "iosApp"
+}
+
+App: build-ios/Equipo2_ProyectoFinal_iOS.xcarchive/Products/Applications/PharmaMobil.app
+  "CFBundleIdentifier" => "pe.upeu.pharmamobil"
+  "CFBundleName" => "PharmaMobil"
+  "CFBundleShortVersionString" => "1.0.0"
+  "CFBundleVersion" => "1"
+  "MinimumOSVersion" => "18.2"
+
+Non-fat file: build-ios/Equipo2_ProyectoFinal_iOS.xcarchive/Products/Applications/PharmaMobil.app/PharmaMobil is architecture: arm64
+
+build-ios/Equipo2_ProyectoFinal_iOS.xcarchive/Products/Applications/PharmaMobil.app: code object is not signed at all
+
+ 72M	build-ios/Equipo2_ProyectoFinal_iOS.xcarchive
+total 40704
+drwxr-xr-x   3 runner  staff        96 Nov 10 21:38 .
+drwxr-xr-x  33 runner  staff      1056 Nov 10 21:38 ..
+-rw-r--r--   1 runner  staff  20694296 Nov 10 21:38 Equipo2_ProyectoFinal_iOS.xcarchive.zip
