@@ -1,0 +1,4 @@
+ M gradlew
+?? entrega/
+?? evidencias-ci/
+?? herramientas/

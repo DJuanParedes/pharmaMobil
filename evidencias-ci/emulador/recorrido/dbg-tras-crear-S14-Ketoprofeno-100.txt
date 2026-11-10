@@ -1,0 +1,27 @@
+S13 Amoxicilina 500
+S/ 4.50
+Stock: 15
+Activo
+Editar
+Eliminar
+Ver detalle
+S13 Paracetamol 500
+S/ 4.50
+Stock: 40
+Activo
+Editar
+Eliminar
+Ver detalle
+S14 Ketoprofeno 100
+S/ 8.90
+Stock: 30
+Activo
+Editar
+Eliminar
+Ver detalle
+Registrar producto
+Abrir menú
+☰
+Productos
+Cerrar sesión
+Tema oscuro

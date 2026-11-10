@@ -1,0 +1,111 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.7)
+
+2026-11-10T22:27:44.349Z  INFO 3933 --- [           main] p.e.u.P.PharmaBackendApplication         : Starting PharmaBackendApplication v0.0.1-SNAPSHOT using Java 21.0.13.0.3 with PID 3933 (/home/runner/work/_temp/backend-s13/target/PharmaBackend-0.0.1-SNAPSHOT.jar started by runner in /home/runner/work/pharmaMobil/pharmaMobil)
+2026-11-10T22:27:44.354Z  INFO 3933 --- [           main] p.e.u.P.PharmaBackendApplication         : The following 1 profile is active: "s10"
+2026-11-10T22:27:45.286Z  INFO 3933 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-10T22:27:45.353Z  INFO 3933 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 8 JPA repository interfaces.
+2026-11-10T22:27:45.950Z  INFO 3933 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-11-10T22:27:45.963Z  INFO 3933 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-10T22:27:45.964Z  INFO 3933 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-11-10T22:27:45.991Z  INFO 3933 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1547 ms
+2026-11-10T22:27:46.289Z  INFO 3933 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-10T22:27:46.641Z  INFO 3933 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:pharma user=SA
+2026-11-10T22:27:46.642Z  INFO 3933 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-10T22:27:46.679Z  INFO 3933 --- [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:pharma (H2 2.4)
+2026-11-10T22:27:46.688Z  WARN 3933 --- [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-10T22:27:46.710Z  INFO 3933 --- [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-10T22:27:46.712Z  INFO 3933 --- [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.011s)
+2026-11-10T22:27:46.717Z  INFO 3933 --- [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-10T22:27:46.748Z  INFO 3933 --- [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-10T22:27:46.758Z  INFO 3933 --- [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "1 - esquema inicial"
+2026-11-10T22:27:46.788Z  INFO 3933 --- [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "2 - seguridad empleados usuarios"
+2026-11-10T22:27:46.802Z  INFO 3933 --- [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "3 - datos iniciales seguridad"
+2026-11-10T22:27:46.814Z  INFO 3933 --- [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 3 migrations to schema "PUBLIC", now at version v3 (execution time 00:00.032s)
+2026-11-10T22:27:46.898Z  INFO 3933 --- [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-10T22:27:46.943Z  INFO 3933 --- [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.19.Final
+2026-11-10T22:27:47.335Z  INFO 3933 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-10T22:27:47.387Z  WARN 3933 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-10T22:27:47.396Z  INFO 3933 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:pharma]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: PHARMA/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-10T22:27:48.109Z  INFO 3933 --- [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-10T22:27:48.114Z  INFO 3933 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-10T22:27:48.209Z  INFO 3933 --- [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-10T22:27:48.620Z  INFO 3933 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name usuarioDetailsService
+2026-11-10T22:27:49.269Z  WARN 3933 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-10T22:27:49.867Z  INFO 3933 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-11-10T22:27:49.875Z  INFO 3933 --- [           main] p.e.u.P.PharmaBackendApplication         : Started PharmaBackendApplication in 5.964 seconds (process running for 6.442)
+2026-11-10T22:27:49.877Z  WARN 3933 --- [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-10T22:27:49.877Z  WARN 3933 --- [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-11-10T22:27:51.476Z  INFO 3933 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-10T22:27:51.476Z  INFO 3933 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-10T22:27:51.477Z  INFO 3933 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-11-10T22:27:51.578Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:27:52.098Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:30:29.427Z  INFO 3933 --- [nio-8080-exec-5] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:30:29.800Z  WARN 3933 --- [nio-8080-exec-5] p.e.u.P.e.GlobalExceptionHandler         : Autenticación fallida en /api/v1/auth/login | causa=Bad credentials
+2026-11-10T22:30:29.824Z  INFO 3933 --- [nio-8080-exec-7] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:30:30.112Z  WARN 3933 --- [nio-8080-exec-7] p.e.u.P.e.GlobalExceptionHandler         : Autenticación fallida en /api/v1/auth/login | causa=Bad credentials
+2026-11-10T22:31:16.106Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:31:16.436Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:31:27.885Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=20 | ordenarPor=nombre | direccion=asc
+2026-11-10T22:31:27.916Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=2 | total=2 | duracionMs=31
+2026-11-10T22:32:20.243Z  INFO 3933 --- [nio-8080-exec-5] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=20 | ordenarPor=nombre | direccion=asc
+2026-11-10T22:32:20.248Z  INFO 3933 --- [nio-8080-exec-5] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=3 | total=3 | duracionMs=5
+2026-11-10T22:33:03.490Z  INFO 3933 --- [nio-8080-exec-7] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:33:03.750Z  INFO 3933 --- [nio-8080-exec-7] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:33:03.757Z  INFO 3933 --- [nio-8080-exec-8] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=100 | ordenarPor=id | direccion=asc
+2026-11-10T22:33:03.760Z  INFO 3933 --- [nio-8080-exec-8] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=3 | total=3 | duracionMs=3
+2026-11-10T22:33:49.809Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:33:50.094Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:35:50.663Z  INFO 3933 --- [nio-8080-exec-3] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:35:50.925Z  INFO 3933 --- [nio-8080-exec-3] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:35:50.931Z  INFO 3933 --- [nio-8080-exec-4] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=100 | ordenarPor=id | direccion=asc
+2026-11-10T22:35:50.934Z  INFO 3933 --- [nio-8080-exec-4] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=3 | total=3 | duracionMs=3
+2026-11-10T22:36:12.039Z  INFO 3933 --- [nio-8080-exec-5] p.e.u.P.s.impl.ProductoServiceImpl       : Producto dado de baja | id=3 | nombre=S14 Ketoprofeno 100
+2026-11-10T22:36:18.232Z  INFO 3933 --- [nio-8080-exec-7] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:36:18.492Z  INFO 3933 --- [nio-8080-exec-7] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:36:18.500Z  INFO 3933 --- [nio-8080-exec-8] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=100 | ordenarPor=id | direccion=asc
+2026-11-10T22:36:18.503Z  INFO 3933 --- [nio-8080-exec-8] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=3 | total=3 | duracionMs=3
+2026-11-10T22:36:48.125Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=vendedor
+2026-11-10T22:36:48.472Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=vendedor roles=[VENDEDOR]
+2026-11-10T22:37:50.806Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=vendedor
+2026-11-10T22:37:51.067Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=vendedor roles=[VENDEDOR]
+2026-11-10T22:37:51.074Z  WARN 3933 --- [nio-8080-exec-2] p.e.u.P.s.RestAccessDeniedHandler        : Acceso denegado: POST /api/v1/productos usuario=vendedor
+2026-11-10T22:38:20.599Z  INFO 3933 --- [nio-8080-exec-3] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:38:20.935Z  INFO 3933 --- [nio-8080-exec-3] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:39:36.313Z  INFO 3933 --- [nio-8080-exec-5] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=20 | ordenarPor=nombre | direccion=asc
+2026-11-10T22:39:36.316Z  INFO 3933 --- [nio-8080-exec-5] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=3 | total=3 | duracionMs=3
+2026-11-10T22:43:27.025Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=20 | ordenarPor=nombre | direccion=asc
+2026-11-10T22:43:27.027Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=4 | total=4 | duracionMs=2
+2026-11-10T22:43:48.561Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:43:48.827Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:43:48.834Z  INFO 3933 --- [nio-8080-exec-2] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=100 | ordenarPor=id | direccion=asc
+2026-11-10T22:43:48.837Z  INFO 3933 --- [nio-8080-exec-2] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=4 | total=4 | duracionMs=3
+2026-11-10T22:46:53.905Z  INFO 3933 --- [nio-8080-exec-5] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:46:54.215Z  INFO 3933 --- [nio-8080-exec-5] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:47:04.290Z  INFO 3933 --- [nio-8080-exec-7] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=20 | ordenarPor=nombre | direccion=asc
+2026-11-10T22:47:04.292Z  INFO 3933 --- [nio-8080-exec-7] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=4 | total=4 | duracionMs=2
+2026-11-10T22:47:40.433Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.service.impl.AuthServiceImpl     : Intento de inicio de sesión: usuario=admin
+2026-11-10T22:47:40.693Z  INFO 3933 --- [nio-8080-exec-9] p.e.u.P.service.impl.AuthServiceImpl     : Inicio de sesión correcto: usuario=admin roles=[ADMIN]
+2026-11-10T22:47:40.699Z  INFO 3933 --- [io-8080-exec-10] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=100 | ordenarPor=id | direccion=asc
+2026-11-10T22:47:40.701Z  INFO 3933 --- [io-8080-exec-10] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=4 | total=4 | duracionMs=2
+2026-11-10T22:47:41.318Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.s.impl.ProductoServiceImpl       : Inicio listar productos | pagina=0 | tamanio=50 | ordenarPor=id | direccion=asc
+2026-11-10T22:47:41.320Z  INFO 3933 --- [nio-8080-exec-1] p.e.u.P.s.impl.ProductoServiceImpl       : Fin listar productos | filas=4 | total=4 | duracionMs=2

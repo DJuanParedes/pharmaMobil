@@ -1,0 +1,4 @@
+V3.0 Signer: certificate DN: CN=CLAVE TEMPORAL DE CI - NO ES LA DEL EQUIPO
+V3.0 Signer: certificate SHA-256 digest: 105a565478dbbf5e14696ca56e2c0f94e60c9b991c6978bdde08827198dc3b2b
+V3.0 Signer: certificate SHA-1 digest: 7fc85308d712795074d898e00539bb24b376f6b0
+V3.0 Signer: certificate MD5 digest: c2cb6fbf2410fc628d350adb69f98bef

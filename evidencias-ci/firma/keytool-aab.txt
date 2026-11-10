@@ -1,0 +1,25 @@
+Signer #1:
+
+Certificate #1:
+Owner: CN=CLAVE TEMPORAL DE CI - NO ES LA DEL EQUIPO
+Issuer: CN=CLAVE TEMPORAL DE CI - NO ES LA DEL EQUIPO
+Serial number: 8303f256565c4706
+Valid from: Tue Nov 10 22:25:51 UTC 2026 until: Thu Dec 10 22:25:51 UTC 2026
+Certificate fingerprints:
+	 SHA1: 7F:C8:53:08:D7:12:79:50:74:D8:98:E0:05:39:BB:24:B3:76:F6:B0
+	 SHA256: 10:5A:56:54:78:DB:BF:5E:14:69:6C:A5:6E:2C:0F:94:E6:0C:9B:99:1C:69:78:BD:DE:08:82:71:98:DC:3B:2B
+Signature algorithm name: SHA384withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 3
+
+Extensions: 
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: 5A DB 6E 66 D0 29 36 00   30 C0 A6 6A D9 69 AE F4  Z.nf.)6.0..j.i..
+0010: 7E 5F 6B 8B                                        ._k.
+]
+]
+
+

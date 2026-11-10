@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelEstadosTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-10T22:24:04Z" hostname="runnervmwuk1x" time="0.015">
+  <properties/>
+  <testcase name="eliminacionPasaPorEnCursoVuelveAInactivaPorFlow" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelEstadosTest" time="0.008"/>
+  <testcase name="cargaExitosaPasaDeCargandoAConProductos" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelEstadosTest" time="0.002"/>
+  <testcase name="listadoVacioTerminaEnSinProductos" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelEstadosTest" time="0.001"/>
+  <testcase name="validacionDelServidorQuedaBajoElCampoSinCambiarLaFase" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelEstadosTest" time="0.002"/>
+  <testcase name="cancelarElViewModelNoConvierteCancellationExceptionEnError" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelEstadosTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

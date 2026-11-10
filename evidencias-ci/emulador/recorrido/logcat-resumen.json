@@ -1,0 +1,10 @@
+{
+ "FATAL EXCEPTION": 0,
+ "SerializationException": 0,
+ "NoBeanDefFoundException": 0,
+ "ClassNotFoundException": 0,
+ "NoSuchMethodException": 0,
+ "NoSuchFieldException": 0,
+ "InstanceCreationException": 0,
+ "MissingFieldException": 0
+}

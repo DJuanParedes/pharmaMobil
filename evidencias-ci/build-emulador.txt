@@ -1,0 +1,118 @@
+Calculating task graph as no cached configuration is available for tasks: :androidApp:assembleRelease
+> Task :androidApp:preBuild UP-TO-DATE
+> Task :androidApp:preReleaseBuild UP-TO-DATE
+> Task :shared:androidPreBuild UP-TO-DATE
+> Task :shared:preAndroidMainBuild UP-TO-DATE
+> Task :shared:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :shared:mergeAndroidMainJniLibFolders UP-TO-DATE
+> Task :shared:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :shared:kmpPartiallyResolvedDependenciesChecker
+> Task :shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :shared:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :shared:mergeAndroidMainNativeLibs NO-SOURCE
+> Task :shared:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :shared:copyAndroidMainJniLibsProjectOnly UP-TO-DATE
+> Task :shared:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :androidApp:mergeReleaseJniLibFolders
+> Task :shared:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+> Task :shared:copyNonXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :shared:generateComposeResClass UP-TO-DATE
+> Task :shared:generateCommonMainPharmaDbInterface UP-TO-DATE
+> Task :shared:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :shared:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :shared:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :shared:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :androidApp:generateReleaseResources FROM-CACHE
+> Task :shared:copyAndroidMainComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :shared:packageAndroidMainResources UP-TO-DATE
+> Task :shared:parseAndroidMainLocalResources UP-TO-DATE
+> Task :shared:generateAndroidMainRFile UP-TO-DATE
+> Task :androidApp:mergeReleaseNativeLibs
+> Task :androidApp:checkReleaseDuplicateClasses
+> Task :androidApp:packageReleaseResources FROM-CACHE
+> Task :androidApp:processReleaseNavigationResources FROM-CACHE
+
+> Task :androidApp:stripReleaseDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libdatastore_shared_counter.so. Run with --info option to learn more.
+
+> Task :androidApp:parseReleaseLocalResources FROM-CACHE
+> Task :androidApp:extractReleaseNativeSymbolTables FROM-CACHE
+> Task :androidApp:javaPreCompileRelease FROM-CACHE
+> Task :androidApp:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :shared:prepareAndroidMainArtProfile UP-TO-DATE
+> Task :shared:writeAndroidMainAarMetadata UP-TO-DATE
+> Task :androidApp:generateReleaseRFile FROM-CACHE
+> Task :androidApp:compileReleaseNavigationResources FROM-CACHE
+> Task :androidApp:mapReleaseSourceSetPaths
+> Task :androidApp:mergeReleaseArtProfile
+> Task :androidApp:createReleaseCompatibleScreenManifests
+> Task :androidApp:checkReleaseAarMetadata
+> Task :androidApp:extractDeepLinksRelease FROM-CACHE
+> Task :shared:compileAndroidMainLibraryResources UP-TO-DATE
+> Task :shared:processAndroidMainManifest UP-TO-DATE
+> Task :androidApp:extractProguardFiles
+> Task :shared:compileAndroidMain UP-TO-DATE
+> Task :shared:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+> Task :androidApp:mergeReleaseStartupProfile UP-TO-DATE
+> Task :shared:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+> Task :shared:processAndroidMainJavaRes UP-TO-DATE
+> Task :shared:createFullJarAndroidMain UP-TO-DATE
+> Task :androidApp:generateReleaseAssets UP-TO-DATE
+> Task :shared:generateAndroidMainAssets UP-TO-DATE
+> Task :shared:mergeAndroidMainAssets UP-TO-DATE
+> Task :androidApp:mergeReleaseAssets
+> Task :androidApp:compressReleaseAssets FROM-CACHE
+> Task :androidApp:extractReleaseVersionControlInfo
+> Task :shared:prepareLintJarForPublish UP-TO-DATE
+> Task :shared:checkAndroidMainAarMetadata UP-TO-DATE
+> Task :shared:extractAndroidMainAnnotations UP-TO-DATE
+> Task :shared:mergeAndroidMainJavaResource UP-TO-DATE
+> Task :shared:syncAndroidMainLibJars UP-TO-DATE
+> Task :shared:bundleAndroidMainLocalLintAar UP-TO-DATE
+> Task :androidApp:compileReleaseKotlin FROM-CACHE
+> Task :androidApp:compileReleaseJavaWithJavac NO-SOURCE
+> Task :androidApp:processReleaseJavaRes
+> Task :androidApp:collectReleaseDependencies
+> Task :androidApp:processReleaseMainManifest
+> Task :androidApp:mergeReleaseResources FROM-CACHE
+> Task :androidApp:processReleaseManifest
+> Task :androidApp:processReleaseManifestForPackage
+> Task :androidApp:sdkReleaseDependencyData
+> Task :androidApp:generateReleaseLintVitalReportModel
+> Task :androidApp:validateSigningRelease
+> Task :androidApp:writeReleaseAppMetadata
+> Task :androidApp:writeReleaseSigningConfigVersions
+> Task :androidApp:processReleaseResources
+> Task :androidApp:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+> Task :androidApp:produceReleaseComposeMapping FROM-CACHE
+> Task :androidApp:reportReleaseComposeMappingErrors
+> Task :androidApp:expandReleaseArtProfileWildcards FROM-CACHE
+> Task :androidApp:optimizeReleaseResources
+> Task :androidApp:mergeReleaseJavaResource
+> Task :androidApp:lintVitalAnalyzeRelease
+> Task :androidApp:lintVitalReportRelease
+> Task :androidApp:lintVitalRelease
+
+> Task :androidApp:minifyReleaseWithR8
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+WARNING: R8: An error occurred when parsing kotlin metadata. This normally happens when using a newer version of kotlin than the kotlin version released when this version of R8 was created. To find compatible kotlin versions, please see: https://developer.android.com/studio/build/kotlin-d8-r8-versions
+
+> Task :androidApp:mergeReleaseComposeMapping
+> Task :androidApp:compileReleaseArtProfile FROM-CACHE
+> Task :androidApp:packageRelease
+> Task :androidApp:assembleRelease
+> Task :androidApp:createReleaseApkListingFileRedirect
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_6-1794349552788.json
+
+BUILD SUCCESSFUL in 1m 11s
+80 actionable tasks: 33 executed, 15 from cache, 32 up-to-date
+Configuration cache entry stored.

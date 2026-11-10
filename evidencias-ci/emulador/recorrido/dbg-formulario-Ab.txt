@@ -1,0 +1,24 @@
+Editar
+Eliminar
+Ver detalle
+S14 Ketoprofeno 100
+S/ 8.90
+Stock: 30
+Activo
+Editar
+Eliminar
+Ver detalle
+Registrar producto
+Ab
+Nombre
+4.50
+Precio
+S/ 
+10
+Stock
+Crear producto
+Abrir menú
+☰
+Productos
+Cerrar sesión
+Tema oscuro

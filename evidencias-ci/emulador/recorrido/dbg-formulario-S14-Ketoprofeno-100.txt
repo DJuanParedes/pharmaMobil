@@ -1,0 +1,24 @@
+Editar
+Eliminar
+Ver detalle
+S13 Paracetamol 500
+S/ 4.50
+Stock: 40
+Activo
+Editar
+Eliminar
+Ver detalle
+Registrar producto
+S14 Ketoprofeno 100
+Nombre
+8.90
+Precio
+S/ 
+30
+Stock
+Crear producto
+Abrir menú
+☰
+Productos
+Cerrar sesión
+Tema oscuro

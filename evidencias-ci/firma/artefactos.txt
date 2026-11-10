@@ -1,0 +1,8 @@
+total 60584
+drwxr-xr-x  3 runner runner     4096 Nov 10 22:27 .
+drwxr-xr-x 21 runner runner     4096 Nov 10 22:25 ..
+-rw-r--r--  1 runner runner  6384671 Nov 10 22:27 Equipo2_ProyectoFinal_Android.aab
+-rw-r--r--  1 runner runner  3282240 Nov 10 22:27 Equipo2_ProyectoFinal_Android.apk
+-rw-r--r--  1 runner runner  3282240 Nov 10 22:27 Equipo2_ProyectoFinal_Android_emulador.apk
+-rw-r--r--  1 runner runner 49062684 Nov 10 22:27 mapping-r8.txt
+drwxr-xr-x  2 runner runner     4096 Nov 10 22:25 sin-firmar

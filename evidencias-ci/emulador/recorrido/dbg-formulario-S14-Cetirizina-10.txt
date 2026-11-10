@@ -1,0 +1,24 @@
+Editar
+Eliminar
+Ver detalle
+S14 Loratadina 10
+S/ 5.20
+Stock: 18
+Activo
+Editar
+Eliminar
+Ver detalle
+Registrar producto
+S14 Cetirizina 10
+Nombre
+3.80
+Precio
+S/ 
+12
+Stock
+Crear producto
+Abrir menú
+☰
+Productos
+Cerrar sesión
+Tema oscuro

@@ -1,0 +1,13 @@
+11-10 22:29:54.209  1436  2127 W NetworkScheduler: java.lang.IllegalArgumentException: Only the following extra parameter types are supported: Integer, Long, Double, String, Boolean, and nested Bundles with the same restrictions.
+11-10 22:29:55.632  1049  4360 W SliceDataConverter: java.lang.IllegalStateException: Invalid preference controller: com.android.settings.applications.credentials.CredentialManagerPreferenceController
+11-10 22:29:55.653  1049  4360 E SystemServiceRegistry: android.os.ServiceManager$ServiceNotFoundException: No service published for: ethernet
+11-10 22:30:01.736   520   824 W FileUtils: Failed to chmod(AtomicFile[/data/system_de/0/system/game-manager-service.xml]): android.system.ErrnoException: chmod failed: ENOENT (No such file or directory)
+11-10 22:39:55.262   520   541 W WindowManager: android.os.DeadObjectException
+11-10 22:39:55.525   520  2373 W WindowManager: Exception thrown during dispatchAppVisibility Window{4c7da2d u0 pe.upeu.pharmamobil/pe.edu.upeu.pharmamobil.MainActivity EXITING}
+11-10 22:39:55.525   520  2373 W WindowManager: android.os.DeadObjectException
+11-10 22:43:50.792   520   541 W WindowManager: android.os.DeadObjectException
+11-10 22:43:50.859   520  2125 W WindowManager: Exception thrown during dispatchAppVisibility Window{f0765ed u0 pe.upeu.pharmamobil/pe.edu.upeu.pharmamobil.MainActivity EXITING}
+11-10 22:43:50.859   520  2125 W WindowManager: android.os.DeadObjectException
+11-10 22:46:18.180   520  1966 W WindowManager: android.os.DeadObjectException
+11-10 22:46:18.314   520  2594 W WindowManager: Exception thrown during dispatchAppVisibility Window{fe5bd82 u0 pe.upeu.pharmamobil/pe.edu.upeu.pharmamobil.MainActivity EXITING}
+11-10 22:46:18.314   520  2594 W WindowManager: android.os.DeadObjectException

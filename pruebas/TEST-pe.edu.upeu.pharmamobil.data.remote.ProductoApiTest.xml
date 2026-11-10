@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-10T22:24:03.640Z" hostname="runnervmwuk1x" time="0.08">
+  <properties/>
+  <testcase name="traduceTiempoAgotadoSinPerderElTipoDeError" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.042"/>
+  <testcase name="traduceRespuesta409AConflictoConMensajeDelServidor" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.007"/>
+  <testcase name="traduceRespuesta404ANoEncontrado" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.004"/>
+  <testcase name="ejecutaLosCincoEndpointsDelCrud" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.016"/>
+  <testcase name="traduceFalloDeRedASinConexion" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.005"/>
+  <testcase name="traduceRespuesta400AErroresPorCampo" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.005"/>
+  <testcase name="cancellationExceptionSePropagaSinTransformarseEnErrorApi" classname="pe.edu.upeu.pharmamobil.data.remote.ProductoApiTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

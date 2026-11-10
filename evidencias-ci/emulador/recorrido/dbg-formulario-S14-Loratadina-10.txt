@@ -1,0 +1,24 @@
+Editar
+Eliminar
+Ver detalle
+S13 Paracetamol 500
+S/ 4.50
+Stock: 40
+Activo
+Editar
+Eliminar
+Ver detalle
+Registrar producto
+S14 Loratadina 10
+Nombre
+5.20
+Precio
+S/ 
+18
+Stock
+Crear producto
+Abrir menú
+☰
+Productos
+Cerrar sesión
+Tema oscuro
