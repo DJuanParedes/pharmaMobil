@@ -254,11 +254,28 @@ def formulario():
     return c[-3:]
 
 
+def volcado(nombre):
+    captura('dbg-' + nombre)
+    textos = [n['text'] or n['desc'] for n in nodos() if n['text'] or n['desc']]
+    (OUT / f'dbg-{nombre}.txt').write_text('\n'.join(textos))
+
+
 def llenar_producto(nombre, precio, stock):
     escribir(formulario()[0], nombre)
     escribir(formulario()[1], precio)
     escribir(formulario()[2], stock)
     ocultar_teclado()
+    clave = re.sub(r'\W+', '-', nombre)
+    volcado('formulario-' + clave)
+
+
+def pulsar_crear(nombre):
+    boton = desplazar_hasta(6, texto='Crear producto')
+    if boton is None:
+        raise AssertionError('No se ve el botón Crear producto')
+    tocar(boton)
+    time.sleep(4)
+    volcado('tras-crear-' + re.sub(r'\W+', '-', nombre))
 
 
 def boton_de_tarjeta(producto, boton):
@@ -337,8 +354,7 @@ def p3_crud():
     captura('03a-listado-desde-servidor')
     # Crear
     llenar_producto('S14 Ketoprofeno 100', '8.90', '30')
-    tocar(exigir('crear', texto='Crear producto'))
-    time.sleep(4)
+    pulsar_crear('S14 Ketoprofeno 100')
     arriba_del_todo()
     exigir('creado', 40, texto='S14 Ketoprofeno 100')
     exigir('enviado', 40, contiene='todo enviado')
@@ -408,12 +424,13 @@ def p5_modo_avion():
     reabrir_app()
     exigir('menu-offline', 60, desc='Abrir menú')
     abrir_productos()
-    exigir('sin-conexion-barra', 40, contiene='Sin conexión')
     exigir('datos-offline', 30, texto='S13 Paracetamol 500')
+    if not esperar(15, contiene='Sin conexión'):
+        tocar(exigir('sync-offline', 20, texto='Sincronizar ahora'))
+        exigir('sin-conexion-barra', 40, contiene='Sin conexión')
     captura('05a-modo-avion-lectura')
     llenar_producto('S14 Loratadina 10', '5.20', '18')
-    tocar(exigir('crear-offline', texto='Crear producto'))
-    time.sleep(3)
+    pulsar_crear('S14 Loratadina 10')
     arriba_del_todo()
     exigir('pendiente', 40, contiene='S14 Loratadina 10: pendiente')
     exigir('cambio-por-enviar', 40, contiene='1 cambio por enviar')
@@ -477,7 +494,7 @@ def p8_cierre():
     modo_avion(True)
     abrir_productos()
     llenar_producto('S14 Cetirizina 10', '3.80', '12')
-    tocar(exigir('crear-p8', texto='Crear producto'))
+    pulsar_crear('S14 Cetirizina 10')
     arriba_del_todo()
     exigir('pendiente-p8', 40, contiene='S14 Cetirizina 10: pendiente')
     cerrar_sesion()
