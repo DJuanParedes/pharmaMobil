@@ -37,3 +37,33 @@ nuevas de `Producto.sq` (`borrarTodo`, `borrarMeta`) no cambian el esquema ni re
 El producto que se entrega es: inicio de sesión JWT con roles, CRUD de productos contra PharmaSoft,
 inventario offline-first con cola de envío y sincronización, permiso de notificaciones con tres estados,
 cierre de sesión que limpia el equipo y telemetría opcional con Firebase.
+
+## Paso 2. Almacén de claves del equipo
+
+Se creó **un solo** almacén para el Equipo 2, fuera de la carpeta del repositorio, con el comando de la guía
+(también en [scripts/crear-almacen-equipo2.sh](../scripts/crear-almacen-equipo2.sh), que se niega a crear el
+archivo dentro del repositorio):
+
+```bash
+keytool -genkeypair -v \
+   -keystore equipo2.jks -storetype JKS \
+   -keyalg RSA -keysize 2048 -validity 10000 \
+   -alias equipo2
+```
+
+| Dato | Valor |
+|---|---|
+| Archivo | `equipo2.jks` (JKS, fuera del repositorio) |
+| Alias | `equipo2` |
+| Algoritmo | RSA 2048 bits |
+| Titular | `CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Moviles, O=Universidad Peruana Union, L=Lima, ST=Lima, C=PE` |
+| Vigencia | 10 000 días: del 10/11/2026 al 28/03/2054 |
+| Huella SHA-256 | `00:0D:3C:8A:39:15:29:59:17:3B:23:5C:B3:B6:1A:F1:99:77:CF:96:2B:2A:90:D8:97:85:90:D9:05:83:EF:53` |
+| Huella SHA-1 | `85:41:DA:35:99:82:CA:DB:5A:BD:4F:67:8C:03:09:E0:36:0E:CE:9D` |
+| Contraseñas | Generadas al azar (24 caracteres). **No se transcriben en ningún archivo del repositorio.** |
+
+**Custodia.** El responsable de la entrega (Juan Paredes) conserva el original. Hay una copia fuera del equipo
+de un solo integrante: el archivo y sus contraseñas están guardados en la nube personal del responsable, en una
+carpeta privada, y como *Secrets* cifrados del repositorio en GitHub (`KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`,
+`KEY_ALIAS`, `KEY_PASSWORD`), que GitHub nunca vuelve a mostrar. Si el almacén se pierde no hay recuperación:
+habría que publicar la aplicación con otro identificador.
