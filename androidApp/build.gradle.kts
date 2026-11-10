@@ -44,6 +44,11 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Sesión 14: dirección de PharmaSoft. El emulador usa 10.0.2.2; un teléfono real necesita
+        // la IP de la máquina en la red local: ./gradlew ... -PpharmaApiUrl=http://192.168.1.40:8080/api/v1/
+        manifestPlaceholders["pharmaApiUrl"] = (findProperty("pharmaApiUrl") as String?)
+            ?: System.getenv("PHARMA_API_URL")?.takeIf { it.isNotBlank() }
+            ?: "http://10.0.2.2:8080/api/v1/"
     }
     packaging {
         resources {

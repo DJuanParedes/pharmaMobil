@@ -60,3 +60,10 @@ INSERT OR REPLACE INTO sync_meta(clave, valor) VALUES (?, ?);
 
 leerMeta:
 SELECT valor FROM sync_meta WHERE clave = ?;
+
+-- Sesión 14: el cierre de sesión deja el equipo limpio para otro usuario (hueco 7)
+borrarTodo:
+DELETE FROM producto;
+
+borrarMeta:
+DELETE FROM sync_meta;

@@ -25,7 +25,8 @@ val dataModule = module {
     single { pe.edu.upeu.pharmamobil.data.local.EstadoSesion() }
     single { crearHttpClient(get(), get()) }
     single<pe.edu.upeu.pharmamobil.domain.repository.AuthRepository> {
-        pe.edu.upeu.pharmamobil.data.repository.AuthRepositorioRest(get(), get(), get())
+        val local = get<pe.edu.upeu.pharmamobil.data.local.ProductoLocal>()
+        pe.edu.upeu.pharmamobil.data.repository.AuthRepositorioRest(get(), get(), get()) { local.limpiar() }
     }
     single { ProductoApi(get()) }
     single(createdAtStart = true) { pe.edu.upeu.pharmamobil.db.PharmaDb(get<pe.edu.upeu.pharmamobil.data.local.CreadorDeDriver>().crear()) }

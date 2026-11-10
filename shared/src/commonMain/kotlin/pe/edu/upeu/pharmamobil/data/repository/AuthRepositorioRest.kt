@@ -19,6 +19,8 @@ class AuthRepositorioRest(
     private val cliente: HttpClient,
     private val almacen: AlmacenSeguro,
     private val estado: EstadoSesion,
+    /** Sesión 14 (hueco 7): limpia los datos locales del usuario que sale. */
+    private val alCerrarSesion: () -> Unit = {},
 ) : AuthRepository {
     private val mutex = Mutex()
     override suspend fun iniciarSesion(credenciales: Credenciales): Sesion = mutex.withLock {
@@ -64,6 +66,7 @@ class AuthRepositorioRest(
     override suspend fun cerrarSesion() = mutex.withLock {
         almacen.borrarToken()
         cliente.authProvider<BearerAuthProvider>()?.clearToken()
+        runCatching { alCerrarSesion() }
         estado.actualizar(null); estado.limpiarAviso()
     }
     private suspend fun <T> traducir(block: suspend () -> T): T = try { block() }

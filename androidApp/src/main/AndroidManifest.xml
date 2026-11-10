@@ -7,12 +7,16 @@
     <application
         android:name=".MainApplication"
         android:allowBackup="false"
-        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
+        <!-- Sesión 14: dirección de PharmaSoft; se fija al compilar con -PpharmaApiUrl -->
+        <meta-data
+            android:name="pharma.api.url"
+            android:value="${pharmaApiUrl}" />
         <activity
             android:exported="true"
             android:name=".MainActivity">

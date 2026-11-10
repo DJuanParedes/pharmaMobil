@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Sesión 14. PharmaSoft se sirve por HTTP en la red local del laboratorio (sin certificado).
+  Android bloquea el tráfico sin cifrar desde la API 28, así que se declara aquí de forma explícita.
+  La IP de la máquina cambia según la red (192.168.x.x), por eso el permiso va en base-config.
+  Con un servicio HTTPS en producción, cleartextTrafficPermitted debe pasar a false.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

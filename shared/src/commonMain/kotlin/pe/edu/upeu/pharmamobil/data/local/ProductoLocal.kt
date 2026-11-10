@@ -56,6 +56,12 @@ class ProductoLocal(base: PharmaDb) : ProductoLocalRepository {
     override fun observarUltimaSincronizacion(): Flow<Long?> =
         consultas.leerMeta(CLAVE_ULTIMA_SYNC).asFlow().mapToOneOrNull(Dispatchers.Default)
 
+    /** Sesión 14 (hueco 7): borra inventario, cola y fecha de sincronización del usuario saliente. */
+    fun limpiar() = consultas.transaction {
+        consultas.borrarTodo()
+        consultas.borrarMeta()
+    }
+
     private fun pe.edu.upeu.pharmamobil.db.Producto.aDominio() =
         Producto(id, nombre, precio, stock.toInt(), activo != 0L, pendiente != 0L)
     private fun pe.edu.upeu.pharmamobil.db.Producto.aFila() =
