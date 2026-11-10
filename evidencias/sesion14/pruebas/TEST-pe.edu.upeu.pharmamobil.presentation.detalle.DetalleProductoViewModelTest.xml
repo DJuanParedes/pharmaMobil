@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModelTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-10T22:24:03.960Z" hostname="runnervmwuk1x" time="0.028">
+  <properties/>
+  <testcase name="cargaDetalleConPrecioPresentableSinModificarDominio" classname="pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModelTest" time="0.018"/>
+  <testcase name="productoInexistenteMuestraErrorYNoComparte" classname="pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModelTest" time="0.002"/>
+  <testcase name="comparteElContratoDeTextoConSeparadoresExactos" classname="pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModelTest" time="0.005"/>
+  <testcase name="noComparteDuranteCarga" classname="pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModelTest" time="0.002"/>
+  <testcase name="falloNativoConservaProductoYSeLimpiaAlReintentar" classname="pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModelTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

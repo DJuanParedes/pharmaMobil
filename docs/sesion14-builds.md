@@ -199,3 +199,43 @@ az webapp deploy -g rg-pharmamobil-s14 -n pharmasoft-equipo2-upeu --src-path app
 Con el plan gratuito la aplicación se detiene cuando nadie la usa, así que la primera petición después de un rato
 tarda entre 30 y 60 s. El backend local con MySQL (`backend/pharmaSoft`) sigue siendo la referencia del curso; el
 cliente móvil no cambió, solo la URL con la que se compila.
+
+## Paso 5. La minificación no rompió la serialización ni la inyección
+
+**Decisión: la minificación queda ACTIVADA** (`isMinifyEnabled = true`, R8 con `proguard-android-optimize.txt`).
+No hizo falta agregar reglas a `proguard-rules.pro`:
+
+- kotlinx.serialization trae sus propias reglas de consumidor y la app usa los serializadores generados
+  (`Sesion.serializer()`, DTO con `@Serializable`).
+- Koin 4 se declara con el DSL de lambdas (`single { … }`, `viewModelOf(::…)`), sin instanciar clases por nombre.
+- Ktor y SQLDelight también traen sus propias reglas.
+
+No se agregaron reglas «a ciegas»: primero se recorrió la versión de entrega completa y luego se buscaron en el registro
+los síntomas de la tabla de la guía.
+
+**Cómo se comprobó.** La versión de entrega no es depurable y R8 renombra su código, así que no admite pruebas
+instrumentadas. El recorrido se hizo como lo haría una persona, solo con `adb` y el árbol de accesibilidad
+([ci/sesion14/recorrido_release.py](../ci/sesion14/recorrido_release.py)), en un emulador Android 14 (API 34) de
+GitHub Actions, contra PharmaSoft real (H2) y con el APK de entrega minificado. Run `42913534563`, commit `970016d`
+(mismo código de la app que el APK entregado: `git diff 1b69cb5 970016d -- androidApp shared gradle` está vacío).
+
+| Lo que se rompería | Dónde se ejercita | Resultado en la versión minificada |
+|---|---|---|
+| Serialización de la respuesta de login (`LoginResponseDto`) | Paso 2 | Entra al menú; credencial inválida y sin red con mensajes distintos |
+| Deserialización genérica `PaginaResponseDto<ProductoDto>` | Paso 3 (Leer) | La lista se descarga de PharmaSoft |
+| Serialización de `ProductoRequestDto` y de `ErrorResponseDto` | Paso 3 (Crear, rechazo 400) | Alta con id 3; el 400 de validación llega al campo Nombre |
+| Inyección de `ProductoViewModel`, `SesionViewModel`, `SincronizacionViewModel` | Pasos 2 a 8 | Todas las pantallas abren |
+| Perfil de sesión serializado en el almacén cifrado | Paso 5 | La sesión se restaura sin red |
+| SQLDelight y cola offline | Pasos 5, 6 y 8 | Alta pendiente, sincronización sin duplicados, limpieza al salir |
+
+Búsqueda en el registro de la app (`logcat`, filtrado por la app, Ktor, Koin, kotlinx.serialization y SQLDelight):
+`FATAL EXCEPTION 0 · SerializationException 0 · NoBeanDefFoundException 0 · InstanceCreationException 0 ·
+MissingFieldException 0 · ClassNotFoundException 0 · NoSuchMethodException 0`
+([logcat-resumen.json](../evidencias/sesion14/emulador/logcat-resumen.json)). También en verde: 86 pruebas de
+commonTest/androidHostTest, 0 fallos ([evidencias/sesion14/pruebas](../evidencias/sesion14/pruebas)), incluida la
+nueva `CierreSesionLimpiezaTest`.
+
+Las cinco corridas anteriores del recorrido fallaron **por el script, no por la app**, y se corrigieron en commits
+`test(sesion14)`: la pantalla de login borra la contraseña después de un error; los gestos de desplazamiento caían
+sobre el teclado abierto; las tarjetas quedaban fuera de la pantalla; y «todo enviado» significa 0 pendientes, no
+«ya descargó». Ninguna de ellas fue un fallo de R8.

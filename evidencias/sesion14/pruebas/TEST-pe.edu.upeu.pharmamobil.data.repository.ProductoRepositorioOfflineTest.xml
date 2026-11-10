@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOfflineTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-10T22:24:03.831Z" hostname="runnervmwuk1x" time="0.032">
+  <properties/>
+  <testcase name="sinRedElRegistroQuedaVisibleYPendiente" classname="pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOfflineTest" time="0.01"/>
+  <testcase name="conflictoMarcaFallidaConservaLaFilaYDescarga" classname="pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOfflineTest" time="0.005"/>
+  <testcase name="idsNegativosSonDistintosSinColisionConServidor" classname="pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOfflineTest" time="0.004"/>
+  <testcase name="servidorApagadoConservaListadoAnterior" classname="pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOfflineTest" time="0.002"/>
+  <testcase name="reemplazarSincronizadosConservaAltasLocales" classname="pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOfflineTest" time="0.002"/>
+  <testcase name="reconexionSubeAntesDeBajarYNoDuplicaEnElReintento" classname="pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOfflineTest" time="0.004"/>
+  <testcase name="falloDeDescargaNoReenviaAltasConfirmadas" classname="pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOfflineTest" time="0.003"/>
+  <testcase name="conRedLaBaseYElFlowRecibenProductos" classname="pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioOfflineTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
