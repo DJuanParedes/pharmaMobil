@@ -1,0 +1,142 @@
+name: Sesion 14 - Builds firmados y recorrido de entrega
+on:
+  push:
+    branches: [feature/builds-14]
+    paths: ['androidApp/**', 'shared/**', 'gradle/**', 'ci/sesion14/**', '.github/workflows/sesion14-builds.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Habilitar KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+
+      - name: Criterio 4 - compila sin keystore.properties (quien clona el repositorio)
+        run: |
+          mkdir -p evidencias-ci/firma entrega
+          chmod +x gradlew
+          { echo "keystore.properties presente: $(test -f keystore.properties && echo si || echo no)"
+            git ls-files | grep -E '\.(jks|keystore)$|keystore\.properties$' || echo "Archivos de firma versionados: ninguno"
+            git log --all --format=%H --name-only | grep -E '\.(jks|keystore)$|^keystore\.properties$' || echo "En el historial: ninguno"; } > evidencias-ci/firma/sin-secretos-en-git.txt
+          ./gradlew :androidApp:assembleDebug --console=plain 2>&1 | tee evidencias-ci/firma/compila-sin-propiedades.txt
+          test ${PIPESTATUS[0]} -eq 0
+
+      - name: Pruebas de commonTest (androidHostTest)
+        run: |
+          ./gradlew :shared:testAndroidHostTest --console=plain 2>&1 | tee evidencias-ci/pruebas.txt
+          test ${PIPESTATUS[0]} -eq 0
+
+      - name: keystore.properties desde Secrets (se borra al terminar)
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          K="$RUNNER_TEMP/claves"; mkdir -p "$K"; chmod 700 "$K"
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$K/equipo2.jks"
+            printf '%s' "$KEYSTORE_PASSWORD" > "$K/sp"; printf '%s' "$KEY_PASSWORD" > "$K/kp"; ALIAS="$KEY_ALIAS"; ORIGEN=equipo
+          else
+            P=$(openssl rand -hex 16); echo "::add-mask::$P"; printf '%s' "$P" > "$K/sp"; cp "$K/sp" "$K/kp"; ALIAS=temporal; ORIGEN=temporal
+            keytool -genkeypair -keystore "$K/equipo2.jks" -storetype JKS -keyalg RSA -keysize 2048 -validity 30 -alias temporal \
+              -storepass "$P" -keypass "$P" -dname "CN=CLAVE TEMPORAL DE CI - NO ES LA DEL EQUIPO"
+            echo "::warning::Faltan los Secrets KEYSTORE_*: se firma con una clave TEMPORAL solo para probar la compilacion."
+          fi
+          printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' "$K/equipo2.jks" "$(cat $K/sp)" "$ALIAS" "$(cat $K/kp)" > keystore.properties
+          git check-ignore -v keystore.properties > evidencias-ci/firma/keystore-properties-ignorado.txt
+          git status --porcelain > evidencias-ci/firma/git-status-con-propiedades.txt
+          echo "FIRMA=$ORIGEN" >> "$GITHUB_ENV"; echo "KS=$K" >> "$GITHUB_ENV"; echo "ALIAS=$ALIAS" >> "$GITHUB_ENV"
+
+      - name: Instalable de entrega para el emulador (URL 10.0.2.2)
+        run: |
+          ./gradlew :androidApp:assembleRelease --console=plain 2>&1 | tee evidencias-ci/build-emulador.txt
+          test ${PIPESTATUS[0]} -eq 0
+          cp androidApp/build/outputs/apk/release/androidApp-release.apk entrega/Equipo2_ProyectoFinal_Android_emulador.apk
+
+      - name: Paso 4 - paquete de aplicacion (AAB) e instalable (APK) de entrega
+        env:
+          PHARMA_API_URL: ${{ secrets.PHARMA_API_URL }}
+        run: |
+          echo "URL del servicio en la entrega: ${PHARMA_API_URL:-http://10.0.2.2:8080/api/v1/ (sin secret PHARMA_API_URL)}" > evidencias-ci/firma/url-servicio.txt
+          ./gradlew :androidApp:bundleRelease :androidApp:assembleRelease --console=plain 2>&1 | tee evidencias-ci/build-entrega.txt
+          test ${PIPESTATUS[0]} -eq 0
+          cp androidApp/build/outputs/bundle/release/androidApp-release.aab entrega/Equipo2_ProyectoFinal_Android.aab
+          cp androidApp/build/outputs/apk/release/androidApp-release.apk entrega/Equipo2_ProyectoFinal_Android.apk
+          cp androidApp/build/outputs/mapping/release/mapping.txt entrega/mapping-r8.txt || true
+          ls -la entrega | tee evidencias-ci/firma/artefactos.txt
+
+      - name: Verificar la firma con apksigner, jarsigner y bundletool
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1); F=evidencias-ci/firma
+          echo "FIRMA=$FIRMA build-tools=$(basename $BT)" > $F/origen.txt
+          "$BT/apksigner" verify --verbose --print-certs entrega/Equipo2_ProyectoFinal_Android.apk 2>&1 | tee $F/apksigner-apk.txt
+          jarsigner -verify -verbose:summary -certs entrega/Equipo2_ProyectoFinal_Android.aab > $F/jarsigner-aab.txt 2>&1; tail -15 $F/jarsigner-aab.txt
+          keytool -printcert -jarfile entrega/Equipo2_ProyectoFinal_Android.aab > $F/keytool-aab.txt 2>&1
+          "$BT/aapt2" dump badging entrega/Equipo2_ProyectoFinal_Android.apk > $F/badging.txt 2>&1; head -3 $F/badging.txt
+          "$BT/aapt2" dump xmltree --file AndroidManifest.xml entrega/Equipo2_ProyectoFinal_Android.apk | grep -A2 'pharma.api.url' > $F/manifiesto-url.txt || true
+          sha256sum entrega/*.aab entrega/*.apk > $F/sha256-artefactos.txt
+          URL=$(curl -s https://api.github.com/repos/google/bundletool/releases/latest | python3 -c 'import json,sys;print([a["browser_download_url"] for a in json.load(sys.stdin)["assets"] if a["name"].endswith(".jar")][0])')
+          curl -sSLo "$RUNNER_TEMP/bundletool.jar" "$URL"; echo "$URL" > $F/bundletool-version.txt
+          java -jar "$RUNNER_TEMP/bundletool.jar" validate --bundle=entrega/Equipo2_ProyectoFinal_Android.aab > $F/bundletool-validate.txt 2>&1 || true
+          java -jar "$RUNNER_TEMP/bundletool.jar" build-apks --mode=universal \
+            --bundle=entrega/Equipo2_ProyectoFinal_Android.aab --output="$RUNNER_TEMP/revision.apks" \
+            --ks="$KS/equipo2.jks" --ks-key-alias="$ALIAS" --ks-pass="file:$KS/sp" --key-pass="file:$KS/kp" 2>&1 | tee $F/bundletool-build-apks.txt
+          unzip -p "$RUNNER_TEMP/revision.apks" universal.apk > entrega/universal.apk
+          "$BT/apksigner" verify --print-certs entrega/universal.apk 2>&1 | tee $F/apksigner-universal.txt
+
+      - name: PharmaSoft real con H2
+        run: |
+          python3 -m venv "$RUNNER_TEMP/py"
+          "$RUNNER_TEMP/py/bin/pip" install -q bcrypt
+          nohup "$RUNNER_TEMP/py/bin/python" ci/sesion13/backend_s13.py > evidencias-ci/preparacion-backend.txt 2>&1 &
+          for i in $(seq 1 150); do curl -sf http://127.0.0.1:8099/listo && break; sleep 3; done
+          curl -sf http://127.0.0.1:8099/listo || { cat evidencias-ci/preparacion-backend.txt; exit 1; }
+
+      - name: Paso 5 - recorrido de la version de entrega minificada en emulador
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: bash ci/sesion14/ejecutar_emulador_s14.sh
+
+      - name: Borrar keystore.properties y el almacen del runner
+        if: always()
+        run: rm -rf keystore.properties "$RUNNER_TEMP/claves"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sesion14-entrega-android
+          path: |
+            entrega/
+            evidencias-ci/
+            shared/build/test-results/
+          retention-days: 30
+
+      - name: Publicar entrega y evidencias en la rama evidencias-s14-ci
+        if: always()
+        run: |
+          mkdir -p pub/pruebas
+          cp -r evidencias-ci entrega pub/ 2>/dev/null || true
+          rm -f pub/entrega/universal.apk
+          find shared/build/test-results -name 'TEST-*.xml' -exec cp {} pub/pruebas/ \; || true
+          echo "run=${GITHUB_RUN_ID} commit=${GITHUB_SHA} firma=${FIRMA:-?}" > pub/RUN.txt
+          cd pub && git init -q && git checkout -q -b evidencias-s14-ci && git add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "evidencias s14 run ${GITHUB_RUN_ID} (${GITHUB_SHA::7})"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" evidencias-s14-ci
