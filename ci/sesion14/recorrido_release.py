@@ -147,10 +147,9 @@ def teclado_visible():
 
 
 def ocultar_teclado():
-    for _ in range(2):
-        if teclado_visible():
-            sh('input keyevent KEYCODE_BACK')
-            time.sleep(0.8)
+    if teclado_visible():
+        sh('input keyevent KEYCODE_BACK')
+        time.sleep(0.8)
 
 
 def escribir(campo, texto):
@@ -161,8 +160,6 @@ def escribir(campo, texto):
         seguro = texto.replace(' ', '%s')
         sh(f"input text '{seguro}'")
     time.sleep(0.6)
-    # Nunca se desliza con el teclado abierto: el gesto caería sobre las teclas.
-    ocultar_teclado()
 
 
 def desplazar(abajo=True):
@@ -265,10 +262,10 @@ def volcado(nombre):
 
 
 def llenar_producto(nombre, precio, stock):
-    escribir(formulario()[0], nombre)
-    escribir(formulario()[1], precio)
-    escribir(formulario()[2], stock)
-    ocultar_teclado()
+    # Nunca se desliza con el teclado abierto: el gesto caería sobre las teclas y borraría lo escrito.
+    for indice, valor in enumerate((nombre, precio, stock)):
+        escribir(formulario()[indice], valor)
+        ocultar_teclado()
     clave = re.sub(r'\W+', '-', nombre)
     volcado('formulario-' + clave)
 
@@ -376,11 +373,11 @@ def p3_crud():
     captura('03c-rechazo-de-validacion')
     estado, cuerpo = api('productos', {'nombre': 'Ab', 'precio': 4.5, 'stock': 10, 'estado': True, 'categoriaId': 1},
                          token=token('admin'))
-    escribir(formulario()[0], ''); escribir(formulario()[1], ''); escribir(formulario()[2], ''); ocultar_teclado()
+    for indice in range(3):
+        escribir(formulario()[indice], ''); ocultar_teclado()
     # Editar
     tocar(boton_de_tarjeta('S14 Ketoprofeno 100', 'Editar'))
-    c = formulario()
-    escribir(c[2], '25'); ocultar_teclado()
+    escribir(formulario()[2], '25'); ocultar_teclado()
     tocar(exigir('guardar-cambios', 20, contiene='Guardar cambios'))
     time.sleep(5)
     arriba_del_todo()
