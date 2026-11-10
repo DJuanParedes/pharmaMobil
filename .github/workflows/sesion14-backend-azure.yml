@@ -1,0 +1,39 @@
+name: Sesion 14 - PharmaSoft para Azure
+on:
+  push:
+    branches: [feature/builds-14]
+    paths: ['ci/sesion14/preparar_backend_azure.py', '.github/workflows/sesion14-backend-azure.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  jar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '21'
+      - name: Empaquetar PharmaSoft (perfil azure, H2 en archivo)
+        run: |
+          python3 ci/sesion14/preparar_backend_azure.py "$RUNNER_TEMP/azure"
+          mvn -B -q -f "$RUNNER_TEMP/azure/pom.xml" package -DskipTests
+          mkdir -p pub && cp "$RUNNER_TEMP"/azure/target/PharmaBackend-0.0.1-SNAPSHOT.jar pub/pharmasoft-azure.jar
+          unzip -l pub/pharmasoft-azure.jar | grep -E 'application-(azure|s10)' | tee pub/contenido.txt
+          ! unzip -l pub/pharmasoft-azure.jar | grep -q application-s10.properties
+      - name: Prueba de humo local con H2 en archivo
+        run: |
+          export JWT_SECRET=$(openssl rand -base64 64 | tr -d '\n') SPRING_PROFILES_ACTIVE=azure DB_URL="jdbc:h2:file:$RUNNER_TEMP/h2/pharma;MODE=Oracle"
+          nohup java -jar pub/pharmasoft-azure.jar > pub/arranque.txt 2>&1 &
+          for i in $(seq 1 60); do curl -sf -o /dev/null http://127.0.0.1:8080/v3/api-docs && break; sleep 3; done
+          curl -s -o pub/login.json -w "login HTTP %{http_code}\n" -H 'Content-Type: application/json' \
+            -d '{"username":"admin","password":"Admin123"}' http://127.0.0.1:8080/api/v1/auth/login | tee pub/humo.txt
+          python3 -c "import json;d=json.load(open('pub/login.json'));print('token', len(d['token']), 'caracteres; usuario', d['username'])" | tee -a pub/humo.txt
+          rm pub/login.json
+      - name: Publicar en la rama evidencias-s14-backend
+        run: |
+          cd pub && echo "run=${GITHUB_RUN_ID} commit=${GITHUB_SHA}" > RUN.txt && git init -q && git checkout -q -b evidencias-s14-backend && git add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "pharmasoft azure ${GITHUB_RUN_ID}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" evidencias-s14-backend
