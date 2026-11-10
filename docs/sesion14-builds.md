@@ -93,3 +93,43 @@ habría que publicar la aplicación con otro identificador.
    `proguard-rules.pro`. El `namespace` del código sigue siendo `pe.edu.upeu.pharmamobil` (no cambia paquetes).
 5. **En GitHub Actions** el workflow escribe `keystore.properties` en tiempo de ejecución desde los *Secrets*
    del repositorio y lo borra al terminar; el registro de Actions enmascara los valores.
+
+## Paso 4. Paquete de aplicación y instalable firmados, firma verificada
+
+**Cómo se generan.** El workflow [`.github/workflows/sesion14-builds.yml`](../.github/workflows/sesion14-builds.yml)
+ejecuta en GitHub Actions (Ubuntu, JDK 21, AGP 9.0.1, build-tools 37.0.0) las dos tareas de la guía:
+
+```bash
+./gradlew :androidApp:bundleRelease  -PpharmaApiUrl=http://10.40.28.47:8080/api/v1/   # → .aab (entregable E3)
+./gradlew :androidApp:assembleRelease -PpharmaApiUrl=http://10.40.28.47:8080/api/v1/   # → .apk (pruebas)
+```
+
+`10.40.28.47` es la IPv4 del Wi-Fi de la PC donde corre PharmaSoft (`ipconfig`), tomada de
+[ci/sesion14/pharma-api-url.txt](../ci/sesion14/pharma-api-url.txt).
+
+**Quién firma.** Con `keystore.properties` presente (PC del responsable o *Secrets* de GitHub), Gradle firma al
+compilar. En esta entrega no se cargaron los *Secrets* en GitHub, así que el workflow publica los dos artefactos
+**sin firmar** (rama `evidencias-s14-ci`, carpeta `entrega/sin-firmar`, run `42890970597`, commit `2791574`) junto
+con `apksigner.jar` de build-tools 37.0.0, y el responsable los firmó fuera del repositorio con `equipo2.jks`
+mediante [scripts/firmar-entrega.sh](../scripts/firmar-entrega.sh): `apksigner sign` para el APK (esquemas v2 y
+v3) y `jarsigner` SHA256withRSA para el AAB, que es el mecanismo con que Gradle firma un paquete de aplicación.
+Las corridas de CI sin *Secrets* firman con una clave **temporal** (`CN=CLAVE TEMPORAL DE CI`) solo para probar la
+compilación; esos archivos no se entregan.
+
+**Verificación con la herramienta oficial** ([evidencias/sesion14/firma](../evidencias/sesion14/firma)):
+
+![Verificación de la firma](../evidencias/sesion14/firma/captura-verificacion-firma.png)
+
+| Comprobación | Resultado |
+|---|---|
+| `apksigner verify --print-certs` (APK) | `Verifies`, esquemas v2 y v3 = true, 1 firmante |
+| Titular | `CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Moviles, O=Universidad Peruana Union, L=Lima, ST=Lima, C=PE` |
+| Huella SHA-256 (ficha de versión) | `00:0D:3C:8A:39:15:29:59:17:3B:23:5C:B3:B6:1A:F1:99:77:CF:96:2B:2A:90:D8:97:85:90:D9:05:83:EF:53` |
+| `jarsigner -verify` (AAB) | `jar verified.` con el mismo titular y huella (`keytool -printcert -jarfile`) |
+| `bundletool validate` y `build-apks --mode=universal` | El AAB se valida y produce `universal.apk`, que instala y abre en el emulador (`evidencias-ci/emulador/00-universal-desde-aab.png`) |
+| Alineación del APK | 0 entradas sin comprimir desalineadas |
+| SHA-256 del APK | `8d9cc3943f378caf351cf8f12b173f162f2fa2197a370e702adc8da80845db42` |
+| SHA-256 del AAB | `aad8bef5be5ca3a976579ed3a84e007fb6e711cb5866796d7fe9c664bd18fe02` |
+
+La contraseña no aparece en ningún registro ni documento. Ficha de versión: `applicationId pe.upeu.pharmamobil`,
+`versionCode 1`, `versionName 1.0.0` (leídos del APK instalado con `dumpsys package`, ver paso 5).

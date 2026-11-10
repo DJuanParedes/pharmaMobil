@@ -1,0 +1,18 @@
+$ apksigner verify --verbose --print-certs Equipo2_ProyectoFinal_Android.apk   (apksigner 0.9, build-tools 37.0.0)
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v3.2 scheme (APK Signature Scheme v3.2): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+V3.0 Signer: certificate DN: CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Moviles, O=Universidad Peruana Union, L=Lima, ST=Lima, C=PE
+V3.0 Signer: certificate SHA-256 digest: 000d3c8a39152959173b235cb3b61af19977cf962b2a90d8978590d90583ef53
+V3.0 Signer: certificate SHA-1 digest: 8541da359982cadb5abd4f678c0309e0360ece9d
+V3.0 Signer: certificate MD5 digest: f6c8706a13d37732e80cbe0df243d771
+V3.0 Signer: key algorithm: RSA
+V3.0 Signer: key size (bits): 2048
+V3.0 Signer: public key SHA-256 digest: b067e27cf0f91fd0cd22a259195d7cffac2f35d5addd2381b88c60cf25d1d231
+V3.0 Signer: public key SHA-1 digest: dd99b6eb06231090c5e22ff4ab2adb4ce87c9b01

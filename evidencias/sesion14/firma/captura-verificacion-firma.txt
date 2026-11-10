@@ -1,0 +1,21 @@
+juan@pharmamobil:~/entrega$ apksigner verify --verbose --print-certs Equipo2_ProyectoFinal_Android.apk
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v3.2 scheme (APK Signature Scheme v3.2): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+V3.0 Signer: certificate DN: CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Moviles, O=Universidad Peruana Union, L=Lima, ST=Lima, C=PE
+V3.0 Signer: certificate SHA-256 digest: 000d3c8a39152959173b235cb3b61af19977cf962b2a90d8978590d90583ef53
+V3.0 Signer: key algorithm: RSA
+V3.0 Signer: key size (bits): 2048
+
+juan@pharmamobil:~/entrega$ keytool -printcert -jarfile Equipo2_ProyectoFinal_Android.aab | grep -E 'Owner|SHA256'
+Owner: CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Moviles, O=Universidad Peruana Union, L=Lima, ST=Lima, C=PE
+   SHA256: 00:0D:3C:8A:39:15:29:59:17:3B:23:5C:B3:B6:1A:F1:99:77:CF:96:2B:2A:90:D8:97:85:90:D9:05:83:EF:53
+
+juan@pharmamobil:~/entrega$ jarsigner -verify Equipo2_ProyectoFinal_Android.aab
+jar verified.

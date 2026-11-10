@@ -1,0 +1,53 @@
+$ jarsigner -verify -verbose:summary -certs Equipo2_ProyectoFinal_Android.aab
+sm       628 Wed Dec 31 19:00:00 PET 1969 BundleConfig.pb (and 541 more)
+
+      >>> Signer
+      X.509, CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Moviles, O=Universidad Peruana Union, L=Lima, ST=Lima, C=PE
+      Signature algorithm: SHA384withRSA, 2048-bit key
+      [certificate is valid from 11/10/26, 2:22?PM to 3/28/54, 2:22?PM]
+      [Invalid certificate chain: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target]
+
+
+  s = signature was verified 
+  m = entry is listed in manifest
+  k = at least one certificate was found in keystore
+
+- Signed by "CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Moviles, O=Universidad Peruana Union, L=Lima, ST=Lima, C=PE"
+    Digest algorithm: SHA-256
+    Signature algorithm: SHA256withRSA, 2048-bit key
+
+jar verified.
+
+Warning: 
+This jar contains entries whose certificate chain is invalid. Reason: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+This jar contains entries whose signer certificate is self-signed.
+This jar contains signatures that do not include a timestamp. Without a timestamp, users may not be able to validate this jar after any of the signer certificates expire (as early as 2054-03-28).
+
+The signer certificate will expire on 2054-03-28.
+
+$ keytool -printcert -jarfile Equipo2_ProyectoFinal_Android.aab
+Signer #1:
+
+Certificate #1:
+Owner: CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Moviles, O=Universidad Peruana Union, L=Lima, ST=Lima, C=PE
+Issuer: CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Moviles, O=Universidad Peruana Union, L=Lima, ST=Lima, C=PE
+Serial number: d69bede3afdb47c6
+Valid from: Tue Nov 10 14:22:17 PET 2026 until: Sat Mar 28 14:22:17 PET 2054
+Certificate fingerprints:
+	 SHA1: 85:41:DA:35:99:82:CA:DB:5A:BD:4F:67:8C:03:09:E0:36:0E:CE:9D
+	 SHA256: 00:0D:3C:8A:39:15:29:59:17:3B:23:5C:B3:B6:1A:F1:99:77:CF:96:2B:2A:90:D8:97:85:90:D9:05:83:EF:53
+Signature algorithm name: SHA384withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 3
+
+Extensions: 
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: FF 19 D7 BF 21 AF CD EF   24 B4 BD 83 A1 CC 6D 21  ....!...$.....m!
+0010: B7 DA 75 C2                                        ..u.
+]
+]
+
+
