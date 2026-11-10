@@ -143,22 +143,26 @@ def tocar(n):
 
 def teclado_visible():
     salida = sh('dumpsys input_method')
-    return 'mInputShown=true' in salida or 'isInputViewShown=true' in salida
+    return any(m in salida for m in ('mInputShown=true', 'isInputViewShown=true', 'mIsInputViewShown=true'))
 
 
 def ocultar_teclado():
-    if teclado_visible():
-        sh('input keyevent KEYCODE_BACK')
-        time.sleep(0.8)
+    for _ in range(2):
+        if teclado_visible():
+            sh('input keyevent KEYCODE_BACK')
+            time.sleep(0.8)
 
 
 def escribir(campo, texto):
     tocar(campo)
     sh('input keyevent KEYCODE_MOVE_END')
     sh('input keyevent ' + ' '.join(['KEYCODE_DEL'] * 40))
-    seguro = texto.replace(' ', '%s')
-    sh(f"input text '{seguro}'")
+    if texto:
+        seguro = texto.replace(' ', '%s')
+        sh(f"input text '{seguro}'")
     time.sleep(0.6)
+    # Nunca se desliza con el teclado abierto: el gesto caería sobre las teclas.
+    ocultar_teclado()
 
 
 def desplazar(abajo=True):
@@ -413,6 +417,9 @@ def p4_sin_privilegio():
     sigue = esperar(10, desc='Abrir menú') is not None
     cerrar_sesion()
     iniciar_sesion('admin', CLAVE)
+    # El cierre de sesión limpió la base local (hueco 7): se vuelve a descargar el inventario.
+    abrir_productos()
+    exigir('descarga-tras-vendedor', 60, contiene='todo enviado')
     if crear or eliminar or estado != 403 or not sigue:
         raise AssertionError(f'crear={bool(crear)} eliminar={bool(eliminar)} http={estado} sesion={sigue}')
     return ('Vendedor (sin CATALOGO_ESCRIBIR): la pantalla no ofrece Crear, Editar ni Eliminar. El mismo POST /productos '
