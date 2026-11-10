@@ -1,3 +1,32 @@
+## Sesión 14 · Firma y builds de entrega (AAB e IPA)
+
+Rama `feature/builds-14`. Desarrollo completo, evidencias y lista de cotejo en
+[docs/sesion14-builds.md](docs/sesion14-builds.md).
+
+### Configurar la firma (`keystore.properties`)
+
+El almacén de claves del equipo (`equipo2.jks`) y sus contraseñas **no están en el repositorio**: `.gitignore`
+excluye `keystore.properties`, `*.jks` y `*.keystore`. Para compilar la versión de entrega:
+
+1. Pide el archivo `equipo2.jks` al responsable de la entrega y guárdalo **fuera** de la carpeta del proyecto.
+2. Copia `keystore.properties.example` como `keystore.properties` en la raíz del proyecto y completa:
+
+   | Clave | Contenido |
+   |---|---|
+   | `storeFile` | Ruta absoluta al `.jks`, fuera del repositorio (en Windows con `/`). |
+   | `storePassword` | Contraseña del almacén (la entrega el responsable; no se escribe en ningún documento). |
+   | `keyAlias` | `equipo2` |
+   | `keyPassword` | Contraseña de la clave. |
+
+3. Compila:
+   ```bash
+   ./gradlew :androidApp:bundleRelease  -PpharmaApiUrl=http://<IP-de-tu-PC>:8080/api/v1/
+   ./gradlew :androidApp:assembleRelease -PpharmaApiUrl=http://<IP-de-tu-PC>:8080/api/v1/
+   ```
+
+Sin `keystore.properties` el proyecto abre y compila igual en depuración. `-PpharmaApiUrl` es obligatorio para
+un teléfono físico: `10.0.2.2` solo existe dentro del emulador.
+
 ## Persistencia offline-first
 
 Práctica de laboratorio 11, Juan Paredes, 20 de octubre de 2026.

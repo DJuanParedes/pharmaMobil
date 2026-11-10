@@ -1,3 +1,4 @@
+import java.util.Properties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -10,6 +11,14 @@ plugins {
 if (file("google-services.json").exists()) {
     apply(plugin = libs.plugins.googleServices.get().pluginId)
 }
+
+// Sesión 14, paso 3: las credenciales de firma viven en keystore.properties (raíz, ignorado por Git).
+// Quien clona sin ese archivo compila igual: la depuración funciona y solo la entrega queda sin firmar.
+val firma = Properties().apply {
+    val f = rootProject.file("keystore.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+val hayFirma = !firma.getProperty("storeFile").isNullOrBlank()
 
 kotlin {
     compilerOptions {
@@ -37,12 +46,24 @@ android {
     namespace = "pe.edu.upeu.pharmamobil"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    signingConfigs {
+        if (hayFirma) {
+            create("release") {
+                storeFile = file(firma.getProperty("storeFile"))
+                storePassword = firma.getProperty("storePassword")
+                keyAlias = firma.getProperty("keyAlias")
+                keyPassword = firma.getProperty("keyPassword")
+            }
+        }
+    }
+
     defaultConfig {
-        applicationId = "pe.edu.upeu.pharmamobil"
+        // Sesión 14: identificador y versión de la entrega (sección 6 de la guía)
+        applicationId = "pe.upeu.pharmamobil"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // Sesión 14: dirección de PharmaSoft. El emulador usa 10.0.2.2; un teléfono real necesita
         // la IP de la máquina en la red local: ./gradlew ... -PpharmaApiUrl=http://192.168.1.40:8080/api/v1/
@@ -57,7 +78,8 @@ android {
     }
     buildTypes {
         release {
-            isMinifyEnabled = false
+            if (hayFirma) signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

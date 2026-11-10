@@ -67,3 +67,29 @@ de un solo integrante: el archivo y sus contraseñas están guardados en la nube
 carpeta privada, y como *Secrets* cifrados del repositorio en GitHub (`KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`,
 `KEY_ALIAS`, `KEY_PASSWORD`), que GitHub nunca vuelve a mostrar. Si el almacén se pierde no hay recuperación:
 habría que publicar la aplicación con otro identificador.
+
+## Paso 3. Firma configurada sin exponer secretos
+
+1. **`.gitignore`** contiene, antes de cualquier commit con credenciales, las tres líneas de la guía:
+   `keystore.properties`, `*.jks` y `*.keystore`. Comprobado con `git check-ignore -v`:
+   ```
+   .gitignore:26:keystore.properties	keystore.properties
+   .gitignore:27:*.jks	x.jks
+   .gitignore:28:*.keystore	y.keystore
+   ```
+2. **`keystore.properties`** (raíz del proyecto, nunca en Git) tiene cuatro claves: `storeFile`, `storePassword`,
+   `keyAlias`, `keyPassword`. En el repositorio solo está la plantilla
+   [keystore.properties.example](../keystore.properties.example), con asteriscos.
+3. **`androidApp/build.gradle.kts`** lee el archivo con `if (f.exists())` y crea `signingConfigs.release` solo si
+   hay `storeFile`. Así:
+   - quien clona sin el archivo abre y compila el proyecto (`assembleDebug` funciona; la entrega sale sin firmar);
+   - con el archivo, `bundleRelease` y `assembleRelease` firman con la clave del equipo.
+
+   Se agregó una guarda respecto del código de la guía: `file(firma.getProperty("storeFile"))` lanza una
+   excepción si la propiedad no existe, y el proyecto no abriría para quien no tiene el archivo. La guarda
+   `hayFirma` evita ese fallo (criterio 4 de la lista de cotejo).
+4. `defaultConfig`: `applicationId = "pe.upeu.pharmamobil"`, `versionCode = 1`, `versionName = "1.0.0"`.
+   `buildTypes.release`: firma del equipo, `isMinifyEnabled = true` y `proguard-android-optimize.txt` +
+   `proguard-rules.pro`. El `namespace` del código sigue siendo `pe.edu.upeu.pharmamobil` (no cambia paquetes).
+5. **En GitHub Actions** el workflow escribe `keystore.properties` en tiempo de ejecución desde los *Secrets*
+   del repositorio y lo borra al terminar; el registro de Actions enmascara los valores.

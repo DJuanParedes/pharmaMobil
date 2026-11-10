@@ -22,14 +22,15 @@ captures
 node_modules/
 
 # Secrets and signing material
+# Sesión 14: el almacén de claves y sus contraseñas nunca entran al repositorio
+keystore.properties
+*.jks
+*.keystore
 .env
 .env.*
 !.env.example
-*.jks
-*.keystore
 *.p12
 *.pfx
-keystore.properties
 secrets.properties
 google-services.json
 
