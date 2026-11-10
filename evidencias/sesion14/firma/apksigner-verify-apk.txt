@@ -16,3 +16,4 @@ V3.0 Signer: key algorithm: RSA
 V3.0 Signer: key size (bits): 2048
 V3.0 Signer: public key SHA-256 digest: b067e27cf0f91fd0cd22a259195d7cffac2f35d5addd2381b88c60cf25d1d231
 V3.0 Signer: public key SHA-1 digest: dd99b6eb06231090c5e22ff4ab2adb4ce87c9b01
+V3.0 Signer: public key MD5 digest: 2d9927f321629f797edfb5679d5b19e5

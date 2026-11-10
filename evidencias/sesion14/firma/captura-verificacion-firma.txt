@@ -19,3 +19,7 @@ Owner: CN=Juan Paredes Cardenas, OU=Equipo 2 - Desarrollo de Aplicaciones Movile
 
 juan@pharmamobil:~/entrega$ jarsigner -verify Equipo2_ProyectoFinal_Android.aab
 jar verified.
+
+juan@pharmamobil:~/entrega$ sha256sum Equipo2_ProyectoFinal_Android.apk Equipo2_ProyectoFinal_Android.aab
+39eaa1ad887da014a5650e6894277e72b83673c145222ff181dd6aa3f0387761  Equipo2_ProyectoFinal_Android.apk
+7f2fcf6357b1a8a5c74975888c53d29eca56bbb353c4cf6c4ea89347dc3a7150  Equipo2_ProyectoFinal_Android.aab

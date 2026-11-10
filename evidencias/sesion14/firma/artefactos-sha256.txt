@@ -1,8 +1,9 @@
 SHA-256 de los artefactos entregados (10/11/2026)
-8d9cc3943f378caf351cf8f12b173f162f2fa2197a370e702adc8da80845db42  Equipo2_ProyectoFinal_Android.apk
-aad8bef5be5ca3a976579ed3a84e007fb6e711cb5866796d7fe9c664bd18fe02  Equipo2_ProyectoFinal_Android.aab
+39eaa1ad887da014a5650e6894277e72b83673c145222ff181dd6aa3f0387761  Equipo2_ProyectoFinal_Android.apk
+7f2fcf6357b1a8a5c74975888c53d29eca56bbb353c4cf6c4ea89347dc3a7150  Equipo2_ProyectoFinal_Android.aab
 
 URL de PharmaSoft dentro del manifiesto del APK:
-  http://10.40.28.47:8080/api/v1/ presente: True
+  https://pharmasoft-equipo2-upeu.azurewebsites.net/api/v1/ presente: True
 
-Origen: artefactos sin firmar del run 42890970597 (commit 2791574), firmados por el responsable con equipo2.jks
+Origen: artefactos sin firmar del run 42902994003 (commit 1b69cb5), firmados por el responsable con equipo2.jks
+Version anterior (IP local 10.40.28.47, run 42890970597) reemplazada: SHA-256 APK 8d9cc394..., AAB aad8bef5...

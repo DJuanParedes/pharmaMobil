@@ -100,16 +100,18 @@ habría que publicar la aplicación con otro identificador.
 ejecuta en GitHub Actions (Ubuntu, JDK 21, AGP 9.0.1, build-tools 37.0.0) las dos tareas de la guía:
 
 ```bash
-./gradlew :androidApp:bundleRelease  -PpharmaApiUrl=http://10.40.28.47:8080/api/v1/   # → .aab (entregable E3)
-./gradlew :androidApp:assembleRelease -PpharmaApiUrl=http://10.40.28.47:8080/api/v1/   # → .apk (pruebas)
+./gradlew :androidApp:bundleRelease  -PpharmaApiUrl=https://pharmasoft-equipo2-upeu.azurewebsites.net/api/v1/   # → .aab (entregable E3)
+./gradlew :androidApp:assembleRelease -PpharmaApiUrl=https://pharmasoft-equipo2-upeu.azurewebsites.net/api/v1/   # → .apk (pruebas)
 ```
 
-`10.40.28.47` es la IPv4 del Wi-Fi de la PC donde corre PharmaSoft (`ipconfig`), tomada de
-[ci/sesion14/pharma-api-url.txt](../ci/sesion14/pharma-api-url.txt).
+La URL se toma de [ci/sesion14/pharma-api-url.txt](../ci/sesion14/pharma-api-url.txt). Primero se compiló con la
+IPv4 de la PC en el Wi-Fi de la universidad (`http://10.40.28.47:8080/api/v1/`, run `42890970597`); como esa red
+(10.40.x.x) no garantiza que el teléfono alcance la PC, PharmaSoft se publicó en Azure App Service
+(ver «Servicio en Azure» más abajo) y el APK definitivo apunta a `https://pharmasoft-equipo2-upeu.azurewebsites.net/api/v1/`.
 
 **Quién firma.** Con `keystore.properties` presente (PC del responsable o *Secrets* de GitHub), Gradle firma al
 compilar. En esta entrega no se cargaron los *Secrets* en GitHub, así que el workflow publica los dos artefactos
-**sin firmar** (rama `evidencias-s14-ci`, carpeta `entrega/sin-firmar`, run `42890970597`, commit `2791574`) junto
+**sin firmar** (rama `evidencias-s14-ci`, carpeta `entrega/sin-firmar`, run `42902994003`, commit `1b69cb5`) junto
 con `apksigner.jar` de build-tools 37.0.0, y el responsable los firmó fuera del repositorio con `equipo2.jks`
 mediante [scripts/firmar-entrega.sh](../scripts/firmar-entrega.sh): `apksigner sign` para el APK (esquemas v2 y
 v3) y `jarsigner` SHA256withRSA para el AAB, que es el mecanismo con que Gradle firma un paquete de aplicación.
@@ -128,8 +130,8 @@ compilación; esos archivos no se entregan.
 | `jarsigner -verify` (AAB) | `jar verified.` con el mismo titular y huella (`keytool -printcert -jarfile`) |
 | `bundletool validate` y `build-apks --mode=universal` | El AAB se valida y produce `universal.apk`, que instala y abre en el emulador (`evidencias-ci/emulador/00-universal-desde-aab.png`) |
 | Alineación del APK | 0 entradas sin comprimir desalineadas |
-| SHA-256 del APK | `8d9cc3943f378caf351cf8f12b173f162f2fa2197a370e702adc8da80845db42` |
-| SHA-256 del AAB | `aad8bef5be5ca3a976579ed3a84e007fb6e711cb5866796d7fe9c664bd18fe02` |
+| SHA-256 del APK | `39eaa1ad887da014a5650e6894277e72b83673c145222ff181dd6aa3f0387761` |
+| SHA-256 del AAB | `7f2fcf6357b1a8a5c74975888c53d29eca56bbb353c4cf6c4ea89347dc3a7150` |
 
 La contraseña no aparece en ningún registro ni documento. Ficha de versión: `applicationId pe.upeu.pharmamobil`,
 `versionCode 1`, `versionName 1.0.0` (leídos del APK instalado con `dumpsys package`, ver paso 5).

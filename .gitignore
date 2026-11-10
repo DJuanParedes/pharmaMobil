@@ -45,3 +45,7 @@ tmp/pdfs/
 androidApp/google-services.json
 iosApp/iosApp/GoogleService-Info.plist
 build-informe/
+
+# Caché de Python
+__pycache__/
+*.pyc
