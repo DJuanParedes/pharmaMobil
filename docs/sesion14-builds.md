@@ -239,3 +239,61 @@ Las cinco corridas anteriores del recorrido fallaron **por el script, no por la 
 `test(sesion14)`: la pantalla de login borra la contraseña después de un error; los gestos de desplazamiento caían
 sobre el teclado abierto; las tarjetas quedaban fuera de la pantalla; y «todo enviado» significa 0 pendientes, no
 «ya descargó». Ninguna de ellas fue un fallo de R8.
+
+## Paso 7. Pruebas en dispositivos reales y registro de defectos
+
+Matriz completa y registro de defectos: [docs/sesion14-matriz-pruebas.md](sesion14-matriz-pruebas.md).
+Guía para instalar y probar (actividad autónoma): [docs/sesion14-guia-instalacion.md](sesion14-guia-instalacion.md).
+
+- **E1, emulador de referencia:** 8/8 pasos recorridos con el APK de entrega minificado; D-01 y D-02 registrados.
+- **R1 y R2, teléfonos reales:** el responsable instaló el APK firmado (que apunta a Azure) desde el archivo, sin
+  Android Studio. Los resultados se transcriben en la matriz con marca, modelo, versión de Android y capturas.
+- **Tercer dispositivo:** queda para la actividad autónoma, como indica la guía.
+
+## Versionado y nomenclatura de la entrega (sección 6 de la guía)
+
+| Dato | Declarado | Leído del archivo |
+|---|---|---|
+| versionCode | 1 | `versionCode='1'` (`aapt2 dump badging`) · `versionCode=1` (`dumpsys package`) |
+| versionName | 1.0.0 | `versionName='1.0.0'` · iOS `CFBundleShortVersionString 1.0.0` |
+| applicationId | `pe.upeu.pharmamobil` | `package: name='pe.upeu.pharmamobil'` · iOS `CFBundleIdentifier pe.upeu.pharmamobil` |
+| Etiqueta de Git | `v1.0-final` | Sobre `1b69cb5`, el commit del que se compilaron el APK y el AAB entregados |
+| Archivos | `Equipo2_ProyectoFinal_Android.aab`, `Equipo2_ProyectoFinal_Android.apk`, `Equipo2_ProyectoFinal_iOS.xcarchive.zip` | Ver SHA-256 en el paso 4 |
+
+Los commits posteriores a `1b69cb5` solo tocan documentación, evidencias y scripts de CI. No cambian
+`androidApp/`, `shared/` ni `gradle/` (`git diff 1b69cb5 HEAD -- androidApp shared gradle` vacío), así que la
+etiqueta sigue apuntando al código exacto del build entregado.
+
+## Limitaciones declaradas y trabajo futuro
+
+| Id | Limitación | Motivo | Qué haría falta |
+|---|---|---|---|
+| L-1 | No se avisa antes de cerrar sesión con cambios pendientes; se descartan (D-02) | Diálogo nuevo, fuera del alcance congelado | Diálogo con `contarPendientes()` y opción «Sincronizar y salir» |
+| L-2 | Si el token vence a mitad de un formulario, se pierde lo escrito | Funcionalidad nueva | Guardar el borrador antes de redirigir al login |
+| L-3 | Un reintento de POST podría duplicar si se pierde la respuesta | Requiere cambiar PharmaSoft | Cabecera `Idempotency-Key` en cliente y servidor |
+| L-4 | iOS sin permisos ni telemetría reales | `GestorPermisosIos` stub, `TelemetriaNula` | Implementación en `iosMain` con `UNUserNotificationCenter` y GitLive |
+| L-5 | iOS sin firma, sin `.ipa` y sin prueba en iPhone | No hay Mac ni cuenta de Apple | Apple ID en Xcode 26 y distribución *Development*; URL de Azure en `HttpClientFactory.ios.kt` |
+| L-6 | Sincronizar al volver la red requiere pulsar «Sincronizar ahora» (D-01) | Observador de conectividad nuevo, fuera del alcance | `NetworkCallback` que dispare `SincronizarUseCase` |
+| L-7 | Los *Secrets* de firma no están en GitHub; la firma se hizo fuera del repositorio con `scripts/firmar-entrega.sh` | El responsable no pudo crearlos en la sesión | Cargar `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` y `KEY_PASSWORD`: el workflow ya los usa |
+
+**Trabajo futuro (descartado del alcance, no pendiente):** escaneo de códigos de barras con cámara (hueco 12) y
+base de datos administrada (Azure Database for MySQL) en lugar de H2 en archivo.
+
+## Lista de cotejo
+
+| N.º | Criterio observable | Cumple | Evidencia |
+|---|---|---|---|
+| 1 | Ficha de integración de la sesión 13 cerrada y alcance congelado por escrito | Sí | Paso 1 |
+| 2 | El almacén del equipo existe y hay una copia fuera del equipo de un solo integrante | Sí | Paso 2. Copia entregada al responsable para su nube privada; el original queda fuera del repositorio |
+| 3 | Ni el almacén ni sus contraseñas están en el repositorio, y `.gitignore` lo impide | Sí | `git check-ignore`; [sin-secretos-en-git.txt](../evidencias/sesion14/ci/sin-secretos-en-git.txt): «En el historial: ninguno» |
+| 4 | El proyecto sigue abriendo y compilando sin el archivo de propiedades | Sí | [compila-sin-propiedades.txt](../evidencias/sesion14/ci/compila-sin-propiedades.txt): `BUILD SUCCESSFUL` |
+| 5 | El paquete de aplicación firmado se generó sin errores | Sí | Paso 4: `jarsigner -verify` → `jar verified.`; `bundletool validate` |
+| 6 | El instalable de entrega se generó y se instaló en un dispositivo real | Sí | Paso 4 (apksigner) · matriz R1/R2 |
+| 7 | La verificación muestra el titular y la huella del certificado del equipo | Sí | [captura-verificacion-firma.png](../evidencias/sesion14/firma/captura-verificacion-firma.png) |
+| 8 | La versión de entrega se recorrió completa y la serialización y la inyección funcionan | Sí | Paso 5: 8/8 pasos, registro sin excepciones |
+| 9 | Si la minificación quedó desactivada, la decisión está escrita | No aplica | La minificación quedó **activada** |
+| 10 | iOS con firma configurada y archivo generado, o su límite documentado | Sí | Paso 6: `ARCHIVE SUCCEEDED` y L-5 |
+| 11 | Probado en al menos dos dispositivos reales distintos | Ver matriz | R1 y R2 en [la matriz](sesion14-matriz-pruebas.md) |
+| 12 | Cada defecto tiene identificador, pasos, severidad y estado | Sí | D-01, D-02 en la matriz |
+| 13 | versionCode, versionName e identificador declarados y coinciden con el archivo | Sí | Sección de versionado |
+| 14 | Commits con convención y distribuidos a lo largo de la sesión | Sí | `git log develop..feature/builds-14`: commits `fix/build/ci/test/docs(sesion14)` entre las 14:20 y el cierre |

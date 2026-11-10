@@ -1,7 +1,14 @@
 ## Sesión 14 · Firma y builds de entrega (AAB e IPA)
 
-Rama `feature/builds-14`. Desarrollo completo, evidencias y lista de cotejo en
-[docs/sesion14-builds.md](docs/sesion14-builds.md).
+Rama `feature/builds-14`, etiqueta `v1.0-final`. Desarrollo completo, evidencias y lista de cotejo en
+[docs/sesion14-builds.md](docs/sesion14-builds.md) · [matriz de pruebas](docs/sesion14-matriz-pruebas.md) ·
+[guía de instalación y checklist de entrega](docs/sesion14-guia-instalacion.md).
+
+| Entregable | Dónde |
+|---|---|
+| `Equipo2_ProyectoFinal_Android.aab` y `.apk` firmados (huella `00:0D:3C…EF:53`) | Entregados al responsable; los artefactos sin firmar están en la rama `evidencias-s14-ci` |
+| Archivo iOS `Equipo2_ProyectoFinal_iOS.xcarchive.zip` | Rama `evidencias-s14-ios` |
+| PharmaSoft en Azure (para los teléfonos) | `https://pharmasoft-equipo2-upeu.azurewebsites.net` |
 
 ### Configurar la firma (`keystore.properties`)
 
