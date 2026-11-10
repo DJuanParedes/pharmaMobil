@@ -370,7 +370,7 @@ def p3_crud():
     pulsar_crear('S14 Ketoprofeno 100')
     arriba_del_todo()
     en_lista('creado', 40, texto='S14 Ketoprofeno 100')
-    exigir('enviado', 40, contiene='todo enviado')
+    en_lista('enviado', 40, contiene='todo enviado')
     captura('03b-producto-creado')
     creado = [p for p in productos_servidor() if p.get('nombre') == 'S14 Ketoprofeno 100']
     if not creado:
@@ -393,7 +393,7 @@ def p3_crud():
     tocar(exigir('guardar-cambios', 20, contiene='Guardar cambios'))
     time.sleep(5)
     arriba_del_todo()
-    exigir('enviado-2', 40, contiene='todo enviado')
+    en_lista('enviado-2', 40, contiene='todo enviado')
     captura('03d-producto-editado')
     stock = [p.get('stock') for p in productos_servidor() if p.get('nombre') == 'S14 Ketoprofeno 100']
     # Eliminar
@@ -428,7 +428,10 @@ def p4_sin_privilegio():
     iniciar_sesion('admin', CLAVE)
     # El cierre de sesión limpió la base local (hueco 7): se vuelve a descargar el inventario.
     abrir_productos()
-    exigir('descarga-tras-vendedor', 60, contiene='todo enviado')
+    if not esperar(60, contiene='Actualizado hace'):
+        tocar(exigir('sync-tras-vendedor', 20, texto='Sincronizar ahora'))
+        exigir('descarga-tras-vendedor', 60, contiene='Actualizado hace')
+    en_lista('lista-tras-vendedor', 40, texto='S13 Paracetamol 500')
     if crear or eliminar or estado != 403 or not sigue:
         raise AssertionError(f'crear={bool(crear)} eliminar={bool(eliminar)} http={estado} sesion={sigue}')
     return ('Vendedor (sin CATALOGO_ESCRIBIR): la pantalla no ofrece Crear, Editar ni Eliminar. El mismo POST /productos '
