@@ -167,3 +167,35 @@ por Xcode y la evidencia del proceso. Para cerrarla: en una Mac con Xcode 26, in
 cuenta gratuita basta para un dispositivo propio, con un perfil de 7 días), elegir el equipo en *Signing &
 Capabilities*, volver a archivar y distribuir como *Development*. Además, el cliente iOS apunta a
 `http://localhost:8080` (`HttpClientFactory.ios.kt`); antes de instalarlo hay que cambiarlo a la URL de Azure.
+
+## Servicio PharmaSoft en Azure (para las pruebas en dispositivos reales)
+
+Un teléfono físico no alcanza `10.0.2.2`, y en la red de la universidad (10.40.x.x) no se puede asegurar que el
+teléfono llegue a la PC. Para que las pruebas del paso 7 no dependan de la red local, PharmaSoft se publicó en la
+suscripción **Azure for Students** del responsable:
+
+| Dato | Valor |
+|---|---|
+| URL | `https://pharmasoft-equipo2-upeu.azurewebsites.net` (API en `/api/v1/`, Swagger en `/swagger-ui/index.html`) |
+| Servicio | Azure App Service Linux, plan **F1 (Free)**, sin costo; región `chilecentral` (la política de la suscripción solo permite northcentralus, westus, chilecentral, canadacentral y southcentralus) |
+| Grupo de recursos | `rg-pharmamobil-s14` · aplicación `pharmasoft-equipo2-upeu` · plan `plan-pharmasoft-f1` |
+| Runtime | Java SE 21 (`JAVA:21-java21`) |
+| Artefacto | `pharmasoft-azure.jar`, generado por [`.github/workflows/sesion14-backend-azure.yml`](../.github/workflows/sesion14-backend-azure.yml) con [ci/sesion14/preparar_backend_azure.py](../ci/sesion14/preparar_backend_azure.py) (rama `evidencias-s14-backend`) |
+| Base de datos | H2 en archivo persistente `/home/data/pharma` (modo Oracle), con las mismas migraciones Flyway que en CI |
+| Secretos | La llave JWT se generó con `openssl rand` en Cloud Shell y vive solo como *App Setting* `JWT_SECRET`. El jar no lleva secretos. |
+| Comprobación | Desde Cloud Shell: `POST /api/v1/auth/login` (admin) → **HTTP 200** en 2,3 s, token de 403 caracteres; Swagger → HTTP 200. Se creó la categoría 1 «Medicamentos» y 3 productos (HTTP 201). |
+
+Comandos ejecutados en Azure Cloud Shell (10/11/2026):
+
+```bash
+az group create -n rg-pharmamobil-s14 -l brazilsouth            # la región luego fue rechazada por la política
+az appservice plan create -g rg-pharmamobil-s14 -n plan-pharmasoft-f1 --is-linux --sku F1 -l chilecentral
+az webapp create -g rg-pharmamobil-s14 -p plan-pharmasoft-f1 -n pharmasoft-equipo2-upeu --runtime 'JAVA:21-java21'
+az webapp config appsettings set -g rg-pharmamobil-s14 -n pharmasoft-equipo2-upeu \
+   --settings SPRING_PROFILES_ACTIVE=azure WEBSITES_PORT=8080 PORT=8080 JWT_SECRET="$(openssl rand -base64 64 | tr -d '\n')"
+az webapp deploy -g rg-pharmamobil-s14 -n pharmasoft-equipo2-upeu --src-path app.jar --type jar   # Site started successfully
+```
+
+Con el plan gratuito la aplicación se detiene cuando nadie la usa, así que la primera petición después de un rato
+tarda entre 30 y 60 s. El backend local con MySQL (`backend/pharmaSoft`) sigue siendo la referencia del curso; el
+cliente móvil no cambió, solo la URL con la que se compila.
