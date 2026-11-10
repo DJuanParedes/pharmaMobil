@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.presentation.producto.InventarioProductoTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-03T20:56:20.835Z" hostname="runnervmnwato" time="0.001">
+  <properties/>
+  <testcase name="datosSimuladosCoincidenConLaGuia" classname="pe.edu.upeu.pharmamobil.presentation.producto.InventarioProductoTest" time="0.001"/>
+  <testcase name="filtraProductosActivosEInactivos" classname="pe.edu.upeu.pharmamobil.presentation.producto.InventarioProductoTest" time="0.0"/>
+  <testcase name="bajoStockIncluyeCincoPeroNoUnInactivoConStockCero" classname="pe.edu.upeu.pharmamobil.presentation.producto.InventarioProductoTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

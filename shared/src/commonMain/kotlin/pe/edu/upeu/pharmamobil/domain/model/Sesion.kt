@@ -2,6 +2,7 @@ package pe.edu.upeu.pharmamobil.domain.model
 
 data class Credenciales(val usuario: String, val clave: String)
 
+@kotlinx.serialization.Serializable
 data class Sesion(
     val token: String,
     val usuario: String,

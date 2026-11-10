@@ -39,3 +39,8 @@ reports/
 
 # Intermediate PDF renders
 tmp/pdfs/
+
+# Sesión 13: configuración de Firebase propia de cada proyecto (se descarga de la consola)
+androidApp/google-services.json
+iosApp/iosApp/GoogleService-Info.plist
+build-informe/

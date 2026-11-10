@@ -433,6 +433,7 @@ private fun PantallaActiva(
                 onLimpiarMensaje = viewModel::limpiarMensaje,
                 onReintentar = viewModel::cargarProductos,
                 onVerDetalle = { productoDetalleId = it.id },
+                cabeceraSync = { pe.edu.upeu.pharmamobil.presentation.sincronizacion.EstadoSincronizacion() },
                 puedeEscribir = LocalSesion.current?.puede("CATALOGO_ESCRIBIR") == true,
             )
         }

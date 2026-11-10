@@ -12,7 +12,15 @@ class ProductoRepositorioRest(
     private val categoriaPorDefecto: Long,
 ) : ProductoRepository {
     override suspend fun listar(): List<Producto> =
-        ejecutarLlamada { api.listar().contenido.map { it.toDomain() } }.getOrThrow()
+        ejecutarLlamada {
+            val productos = mutableListOf<Producto>()
+            var pagina = 0
+            do {
+                val respuesta = api.listar(pagina = pagina++)
+                productos.addAll(respuesta.contenido.map { it.toDomain() })
+            } while (!respuesta.ultima)
+            productos
+        }.getOrThrow()
 
     override suspend fun obtener(id: Long): Producto =
         ejecutarLlamada { api.obtener(id).toDomain() }.getOrThrow()

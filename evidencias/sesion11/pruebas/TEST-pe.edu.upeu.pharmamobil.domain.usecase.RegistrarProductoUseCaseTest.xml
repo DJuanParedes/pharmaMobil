@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.domain.usecase.RegistrarProductoUseCaseTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-20T19:11:45.273Z" hostname="JUAN_PC" time="0.016">
+  <properties/>
+  <testcase name="rechazaStockConTexto" classname="pe.edu.upeu.pharmamobil.domain.usecase.RegistrarProductoUseCaseTest" time="0.003"/>
+  <testcase name="rechazaNombreVacio" classname="pe.edu.upeu.pharmamobil.domain.usecase.RegistrarProductoUseCaseTest" time="0.002"/>
+  <testcase name="registraProductoValidoYElRepositorioAsignaElId" classname="pe.edu.upeu.pharmamobil.domain.usecase.RegistrarProductoUseCaseTest" time="0.003"/>
+  <testcase name="rechazaStockNegativo" classname="pe.edu.upeu.pharmamobil.domain.usecase.RegistrarProductoUseCaseTest" time="0.002"/>
+  <testcase name="rechazaPrecioConTexto" classname="pe.edu.upeu.pharmamobil.domain.usecase.RegistrarProductoUseCaseTest" time="0.002"/>
+  <testcase name="permiteStockIgualACero" classname="pe.edu.upeu.pharmamobil.domain.usecase.RegistrarProductoUseCaseTest" time="0.002"/>
+  <testcase name="rechazaPrecioIgualACero" classname="pe.edu.upeu.pharmamobil.domain.usecase.RegistrarProductoUseCaseTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

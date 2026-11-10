@@ -1,0 +1,65 @@
+name: Sesion 13 - Actividad autonoma
+on:
+  push:
+    branches: [feature/integrador-13]
+    paths: ['androidApp/src/androidTest/kotlin/pe/edu/upeu/pharmamobil/AutonomaSesion13Test.kt', 'ci/sesion13/**', '.github/workflows/sesion13-autonoma.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Habilitar KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+      - name: Pruebas comunes, APK y APK de instrumentación
+        run: |
+          mkdir -p evidencias-ci
+          chmod +x gradlew
+          ./gradlew :shared:testAndroidHostTest :androidApp:assembleDebug :androidApp:assembleDebugAndroidTest --console=plain 2>&1 | tee evidencias-ci/gradle.txt
+          test ${PIPESTATUS[0]} -eq 0
+      - name: PharmaSoft real con H2
+        run: |
+          python3 -m venv "$RUNNER_TEMP/s13-python"
+          "$RUNNER_TEMP/s13-python/bin/pip" install -q bcrypt
+          nohup "$RUNNER_TEMP/s13-python/bin/python" ci/sesion13/backend_s13.py > evidencias-ci/preparacion-backend.txt 2>&1 &
+          for i in $(seq 1 150); do curl -sf http://127.0.0.1:8099/listo && break; sleep 3; done
+          curl -sf http://127.0.0.1:8099/listo || { cat evidencias-ci/preparacion-backend.txt; tail -50 evidencias-ci/backend.txt; exit 1; }
+      - name: Emulador Android, recorrido de diez pasos
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: bash ci/sesion13/ejecutar_autonoma_s13.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sesion13-autonoma
+          path: |
+            evidencias-ci/
+            shared/build/test-results/
+            shared/build/reports/tests/
+          retention-days: 30
+      - name: Publicar evidencias en la rama evidencias-s13a-ci
+        if: always()
+        run: |
+          mkdir -p pub/pruebas
+          cp -r evidencias-ci pub/ || true
+          find shared/build/test-results -name 'TEST-*.xml' -exec cp {} pub/pruebas/ \; || true
+          cp -r shared/build/reports/tests pub/reporte-html || true
+          cd pub && git init -q && git checkout -q -b evidencias-s13a-ci && git add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "evidencias run ${GITHUB_RUN_ID}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" evidencias-s13a-ci

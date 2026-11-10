@@ -1,6 +1,7 @@
 package pe.edu.upeu.pharmamobil.data.repository
 
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import pe.edu.upeu.pharmamobil.domain.model.Producto
@@ -12,6 +13,12 @@ class ProductoRepositoryEnMemoria(
 ) : ProductoRepository {
     private val mutex = Mutex()
     private val productos = productosIniciales.toMutableList()
+    private val cambios = kotlinx.coroutines.flow.MutableStateFlow(productos.toList())
+    override fun observar(): kotlinx.coroutines.flow.Flow<List<Producto>> = kotlinx.coroutines.flow.flow {
+        delay(latenciaMillis)
+        emitAll(cambios)
+    }
+
     private var siguienteId = (productosIniciales.maxOfOrNull(Producto::id) ?: 0L) + 1L
 
     init {
@@ -32,6 +39,7 @@ class ProductoRepositoryEnMemoria(
                 stock = stock,
             )
             productos += producto
+            cambios.value = productos.toList()
             producto
         }
     }
@@ -54,6 +62,7 @@ class ProductoRepositoryEnMemoria(
             val indice = productos.indexOfFirst { it.id == producto.id }
             require(indice >= 0) { "Producto no encontrado" }
             productos[indice] = producto
+            cambios.value = productos.toList()
             producto
         }
     }
@@ -62,6 +71,7 @@ class ProductoRepositoryEnMemoria(
         delay(latenciaMillis)
         mutex.withLock {
             require(productos.removeAll { it.id == id }) { "Producto no encontrado" }
+            cambios.value = productos.toList()
         }
     }
 }

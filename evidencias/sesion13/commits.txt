@@ -1,0 +1,8 @@
+96a2fc7 docs(sesion13): paso 1 tabla de huecos del flujo completo
+eab4b72 feat(db): paso 2 columnas intentos y ultimoError con migracion 1.sqm
+30830a3 feat(sync): paso 3 ResultadoEnvio y SincronizarUseCase con 5 intentos y espera creciente
+886fad8 feat(ui): paso 4 estado de sincronizacion con pendientes, fallidas y antiguedad
+475c887 feat(permisos): paso 5 GestorPermisos con tres estados, PuentePermisos y manifiestos
+bae80e3 feat(firebase): paso 6 Crashlytics y Messaging de GitLive detras de Telemetria
+4b27da4 test(sync): paso 7 pruebas con MockEngine, base en memoria y gestor de permisos falso
+2251caa docs(sesion13): explicacion por paso, desviaciones y lista de cotejo

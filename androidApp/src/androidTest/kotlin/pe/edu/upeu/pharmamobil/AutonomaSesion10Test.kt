@@ -85,7 +85,7 @@ class AutonomaSesion10Test {
         assertNotNull(device.wait(Until.findObject(By.desc("Abrir menú")),15_000))
         return s
     }
-    private fun productos() {click(By.desc("Abrir menú"));click(By.text("Productos"));assertNotNull(device.wait(Until.findObject(By.text("Inventario conectado")),15_000))}
+    private fun productos() {click(By.desc("Abrir menú"));click(By.text("Productos"));assertNotNull(device.wait(Until.findObject(By.text("Inventario offline-first")),15_000))}
     private fun loginVisible() {assertNotNull(device.wait(Until.findObject(By.text("Inicia sesión para gestionar tu farmacia")),15_000))}
     private fun registro(id:Int,name:String,start:String,r:Pair<Int,String>,visible:String):JSONObject {
         val body=JSONObject(r.second)
@@ -99,7 +99,7 @@ class AutonomaSesion10Test {
         opened().use {
             productos()
             val inicio=Instant.now().toString();val r=request();assertEquals(200,r.first);shot("escenario-1")
-            rows.put(registro(1,"Token válido",inicio,r,"Productos: Inventario conectado"))
+            rows.put(registro(1,"Token válido",inicio,r,"Productos: Inventario offline-first"))
             val token=requireNotNull(store.leerToken())
             val raw=File(context.applicationInfo.dataDir,"shared_prefs/sesion_segura.xml").readText()
             assertFalse(raw.contains(token));assertFalse(raw.contains("Bearer "))
@@ -170,7 +170,7 @@ class AutonomaSesion10Test {
             val r=request();assertEquals(401,r.first)
             device.pressBack();device.pressHome()
             shell("am start -n pe.edu.upeu.pharmamobil/.MainActivity")
-            loginVisible();assertFalse(device.hasObject(By.text("Inventario conectado")))
+            loginVisible();assertFalse(device.hasObject(By.text("Inventario offline-first")))
             shot("atras-sin-sesion")
             export("logout.json",JSONObject().put("token_ausente",store.leerToken()==null).put("http_siguiente",r.first)
                 .put("message",JSONObject(r.second).getString("message")).put("estado_limpio",state.sesion.value==null)
@@ -187,7 +187,7 @@ class AutonomaSesion10Test {
                 click(By.desc("Abrir menú"))
                 val clientes=device.hasObject(By.text("Clientes"));val pedidos=device.hasObject(By.text("Pedidos"))
                 shot("menu-$user");click(By.text("Productos"))
-                assertNotNull(device.wait(Until.findObject(By.text("Inventario conectado")),15_000))
+                assertNotNull(device.wait(Until.findObject(By.text("Inventario offline-first")),15_000))
                 shot("productos-$user")
                 val editar=device.hasObject(By.text("Editar"))
                 assertEquals(user!="vendedor",registrar);assertEquals(user!="vendedor",editar)

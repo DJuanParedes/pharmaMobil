@@ -1,0 +1,6 @@
+{
+ "etiqueta": "compila; sin ejecución en simulador",
+ "resumen": "Framework Shared enlazado para dispositivo iOS (arm64); pruebas en simulador no enlazan (ver sección 3)",
+ "pruebas": "no se ejecutaron: el binario de pruebas no enlazó",
+ "detalle": "Se ejecutó en GitHub Actions el 3/11/2026 (run 41722089220, macOS 15.8.2, Xcode 16.4) la tarea <i>:shared:linkDebugFrameworkIosArm64</i>, que <b>terminó bien</b>: el framework <i>Shared.framework</i> con todo el código común (SQLDelight, Ktor, Koin, sincronización y permisos) compila y enlaza para iPhone. La tarea <i>:shared:iosSimulatorArm64Test</i> <b>falló al enlazar</b>: <font face=\"Courier\" size=\"8.5\">Undefined symbols: _OBJC_CLASS_$_UIViewLayoutRegion</font>, una clase del SDK de iOS 26 que exige Compose Multiplatform 1.11.1 y que Xcode 16.4 no trae. El runner macos-26 con Xcode 26 no estuvo disponible por falta de capacidad de GitHub (el trabajo se canceló tras 15 minutos en cola). Por eso no hay capturas de iOS: no se presenta ninguna evidencia que no se haya ejecutado. <b>Plan:</b> repetir en macos-26 o en una Mac con Xcode 26 y documentar los diez pasos en el simulador en la sesión 14 (10/11/2026)."
+}

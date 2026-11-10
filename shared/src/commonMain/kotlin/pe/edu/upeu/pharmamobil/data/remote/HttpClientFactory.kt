@@ -46,6 +46,7 @@ internal fun crearHttpClientComun(
         json(
             Json {
                 ignoreUnknownKeys = true
+                encodeDefaults = true
                 explicitNulls = false
                 isLenient = true
             },

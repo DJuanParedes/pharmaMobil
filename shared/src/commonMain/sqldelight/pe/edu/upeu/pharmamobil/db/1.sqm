@@ -1,0 +1,8 @@
+-- Migración 1 -> 2 (sesión 13): estado de envío por fila y metadatos de sincronización.
+ALTER TABLE producto ADD COLUMN intentos INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE producto ADD COLUMN ultimoError TEXT;
+
+CREATE TABLE sync_meta (
+    clave TEXT NOT NULL PRIMARY KEY,
+    valor INTEGER NOT NULL
+);

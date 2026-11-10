@@ -51,7 +51,7 @@ class AuthDispositivoTest {
         ActivityScenario.launch(MainActivity::class.java).use { escenario ->
             pulsar(device, By.desc("Abrir menú"))
             pulsar(device, By.text("Productos"))
-            assertNotNull(device.wait(Until.findObject(By.text("Inventario conectado")), 10_000))
+            assertNotNull(device.wait(Until.findObject(By.text("Inventario offline-first")), 10_000))
             // Provocación deliberada por instrumentación: la UI oculta esta acción al vendedor.
             escenario.onActivity { actividad ->
                 val store = actividad.viewModelStore
@@ -78,7 +78,7 @@ class AuthDispositivoTest {
         ActivityScenario.launch(MainActivity::class.java).use { escenario ->
             pulsar(device, By.desc("Abrir menú"))
             pulsar(device, By.text("Productos"))
-            assertNotNull(device.wait(Until.findObject(By.text("Inventario conectado")), 10_000))
+            assertNotNull(device.wait(Until.findObject(By.text("Inventario offline-first")), 10_000))
             // JWT inválido deliberado: provoca un 401 real de una ruta protegida.
             GlobalContext.get().get<AlmacenSeguro>().guardarToken("jwt-invalido-del-laboratorio")
             GlobalContext.get().get<HttpClient>().authProvider<BearerAuthProvider>()?.clearToken()

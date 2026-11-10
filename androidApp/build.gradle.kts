@@ -5,6 +5,12 @@ plugins {
     alias(libs.plugins.composeCompiler)
 }
 
+// Sesión 13: el complemento lee google-services.json (se descarga de la consola de Firebase
+// y va en androidApp/). Sin el archivo el proyecto compila igual y la telemetría queda inactiva.
+if (file("google-services.json").exists()) {
+    apply(plugin = libs.plugins.googleServices.get().pluginId)
+}
+
 kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_11

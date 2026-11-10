@@ -14,11 +14,14 @@ class AlmacenSeguroAndroid(contexto: Context) : AlmacenSeguro {
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
     )
+    override fun guardarPerfil(perfil: String) { check(prefs.edit().putString("perfil", perfil).commit()) }
+    override fun leerPerfil(): String? = prefs.getString("perfil", null)
+    override fun borrarPerfil() { check(prefs.edit().remove("perfil").commit()) }
     override fun guardarToken(token: String) {
         check(prefs.edit().putString("jwt", token).commit()) { "No se pudo guardar la sesión" }
     }
     override fun leerToken(): String? = prefs.getString("jwt", null)
     override fun borrarToken() {
-        check(prefs.edit().remove("jwt").commit()) { "No se pudo borrar la sesión" }
+        check(prefs.edit().remove("jwt").remove("perfil").commit()) { "No se pudo borrar la sesión" }
     }
 }

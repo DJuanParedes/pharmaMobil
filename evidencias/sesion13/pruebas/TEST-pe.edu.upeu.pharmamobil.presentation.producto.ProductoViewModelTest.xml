@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-03T20:56:20.857Z" hostname="runnervmnwato" time="0.012">
+  <properties/>
+  <testcase name="cargaInventarioYExponeStateFlowDeSoloLectura" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelTest" time="0.002"/>
+  <testcase name="actualizaProductoYActualizaElFlow" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelTest" time="0.003"/>
+  <testcase name="muestraLaValidacionDebajoDelCampoNombre" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelTest" time="0.003"/>
+  <testcase name="eliminaProductoYActualizaElFlow" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelTest" time="0.002"/>
+  <testcase name="creaProductoYActualizaElFlow" classname="pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModelTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

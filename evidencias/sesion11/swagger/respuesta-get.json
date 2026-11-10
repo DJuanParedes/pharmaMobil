@@ -1,0 +1,11 @@
+{
+  "id": 8,
+  "nombre": "AA S11 Paredes 141745",
+  "precio": 4.5,
+  "stock": 20,
+  "estado": true,
+  "categoriaId": 1,
+  "categoriaNombre": "S10 Medicamentos",
+  "fechaCreacion": "2026-10-20T14:18:24.457179",
+  "fechaModificacion": null
+}

@@ -1,0 +1,35 @@
+name: Sesion 13 - Estado iOS
+on:
+  push:
+    branches: [feature/integrador-13]
+    paths: ['.github/workflows/sesion13-ios.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: commonTest en simulador iOS y framework para dispositivo
+        run: |
+          mkdir -p evidencias-ios
+          chmod +x gradlew
+          sw_vers > evidencias-ios/entorno.txt; xcodebuild -version >> evidencias-ios/entorno.txt
+          ./gradlew :shared:iosSimulatorArm64Test :shared:linkDebugFrameworkIosArm64 --no-configuration-cache --continue --console=plain 2>&1 | tee evidencias-ios/gradle.txt
+          echo "codigo=${PIPESTATUS[0]}" > evidencias-ios/resultado.txt
+      - name: Publicar resultado iOS en la rama evidencias-s13-ios
+        if: always()
+        run: |
+          mkdir -p pub/pruebas && cp -r evidencias-ios pub/ || true
+          find shared/build/test-results -name 'TEST-*.xml' -exec cp {} pub/pruebas/ \; || true
+          ls shared/build/bin/iosArm64/debugFramework > pub/evidencias-ios/framework.txt 2>&1 || true
+          cd pub && git init -q && git checkout -q -b evidencias-s13-ios && git add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "ios run ${GITHUB_RUN_ID}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" evidencias-s13-ios

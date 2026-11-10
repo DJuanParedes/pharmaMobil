@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
+    alias(libs.plugins.sqldelight)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
@@ -42,6 +43,10 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            // Sesión 13: SDK de Firebase solo en la capa de datos de Android (ver docs/sesion13-integrador.md)
+            implementation(libs.firebase.crashlytics)
+            implementation(libs.firebase.messaging)
+            implementation(libs.sqldelight.android)
             implementation("androidx.security:security-crypto:1.1.0")
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
@@ -49,9 +54,12 @@ kotlin {
             implementation(libs.ktor.client.cio)
         }
         iosMain.dependencies {
+            implementation(libs.sqldelight.native)
             implementation(libs.ktor.client.darwin)
         }
         commonMain.dependencies {
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.sqldelight.coroutines)
             implementation("io.ktor:ktor-client-auth:${libs.versions.ktor.get()}")
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.compose.runtime)
@@ -72,6 +80,7 @@ kotlin {
             implementation(libs.ktor.serialization.json)
             implementation(libs.kotlinx.serialization.json)
         }
+        getByName("androidHostTest").dependencies { implementation(libs.sqldelight.jvm) }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
@@ -83,3 +92,5 @@ kotlin {
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
+
+sqldelight { databases { create("PharmaDb") { packageName.set("pe.edu.upeu.pharmamobil.db") } } }
