@@ -184,6 +184,18 @@ def arriba_del_todo():
         desplazar(abajo=False)
 
 
+def en_lista(nombre, timeout=40, **kw):
+    """Busca un elemento recorriendo la lista desde arriba (las tarjetas pueden quedar fuera de la pantalla)."""
+    limite = time.time() + timeout
+    while time.time() < limite:
+        arriba_del_todo()
+        n = desplazar_hasta(10, **kw)
+        if n:
+            return n
+        time.sleep(2)
+    return exigir(nombre, 1, **kw)
+
+
 def captura(nombre):
     time.sleep(1.0)
     with open(OUT / f'{nombre}.png', 'wb') as f:
@@ -351,13 +363,13 @@ def p2_login():
 def p3_crud():
     abrir_productos()
     exigir('en-linea', 60, contiene='todo enviado')
-    exigir('lista', 40, texto='S13 Paracetamol 500')
+    en_lista('lista', 40, texto='S13 Paracetamol 500')
     captura('03a-listado-desde-servidor')
     # Crear
     llenar_producto('S14 Ketoprofeno 100', '8.90', '30')
     pulsar_crear('S14 Ketoprofeno 100')
     arriba_del_todo()
-    exigir('creado', 40, texto='S14 Ketoprofeno 100')
+    en_lista('creado', 40, texto='S14 Ketoprofeno 100')
     exigir('enviado', 40, contiene='todo enviado')
     captura('03b-producto-creado')
     creado = [p for p in productos_servidor() if p.get('nombre') == 'S14 Ketoprofeno 100']
@@ -428,7 +440,7 @@ def p5_modo_avion():
     reabrir_app()
     exigir('menu-offline', 60, desc='Abrir menú')
     abrir_productos()
-    exigir('datos-offline', 30, texto='S13 Paracetamol 500')
+    en_lista('datos-offline', 30, texto='S13 Paracetamol 500')
     if not esperar(15, contiene='Sin conexión'):
         tocar(exigir('sync-offline', 20, texto='Sincronizar ahora'))
         exigir('sin-conexion-barra', 40, contiene='Sin conexión')
@@ -436,7 +448,7 @@ def p5_modo_avion():
     llenar_producto('S14 Loratadina 10', '5.20', '18')
     pulsar_crear('S14 Loratadina 10')
     arriba_del_todo()
-    exigir('pendiente', 40, contiene='S14 Loratadina 10: pendiente')
+    en_lista('pendiente', 40, contiene='S14 Loratadina 10: pendiente')
     exigir('cambio-por-enviar', 40, contiene='1 cambio por enviar')
     captura('05b-modo-avion-alta-pendiente')
     avion = sh('settings get global airplane_mode_on').strip()
@@ -500,7 +512,7 @@ def p8_cierre():
     llenar_producto('S14 Cetirizina 10', '3.80', '12')
     pulsar_crear('S14 Cetirizina 10')
     arriba_del_todo()
-    exigir('pendiente-p8', 40, contiene='S14 Cetirizina 10: pendiente')
+    en_lista('pendiente-p8', 40, contiene='S14 Cetirizina 10: pendiente')
     cerrar_sesion()
     reabrir_app()
     exigir('login-reabierta', 60, texto='Inicia sesión para gestionar tu farmacia')
