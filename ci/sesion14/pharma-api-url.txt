@@ -1,2 +1,3 @@
 # URL de PharmaSoft en la red local para el APK de entrega (se usa si no existe el Secret PHARMA_API_URL)
-http://10.0.2.2:8080/api/v1/
+# IP IPv4 del Wi-Fi de la PC del responsable (ipconfig), 10/11/2026
+http://10.40.28.47:8080/api/v1/
