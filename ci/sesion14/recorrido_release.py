@@ -452,7 +452,7 @@ def p5_modo_avion():
     pulsar_crear('S14 Loratadina 10')
     arriba_del_todo()
     en_lista('pendiente', 40, contiene='S14 Loratadina 10: pendiente')
-    exigir('cambio-por-enviar', 40, contiene='1 cambio por enviar')
+    en_lista('cambio-por-enviar', 40, contiene='1 cambio por enviar')
     captura('05b-modo-avion-alta-pendiente')
     avion = sh('settings get global airplane_mode_on').strip()
     return (f'airplane_mode_on={avion}. Reabierta sin red: restaura la sesión guardada y muestra el inventario local. '
@@ -461,10 +461,11 @@ def p5_modo_avion():
 
 def p6_sincronizar():
     modo_avion(False)
+    arriba_del_todo()
     sola = esperar(45, contiene='todo enviado') is not None
     if not sola:
-        tocar(exigir('sync-ahora', 20, texto='Sincronizar ahora'))
-        exigir('enviado-3', 60, contiene='todo enviado')
+        tocar(en_lista('sync-ahora', 20, texto='Sincronizar ahora'))
+        en_lista('enviado-3', 60, contiene='todo enviado')
     arriba_del_todo()
     captura('06-sincronizado')
     veces = nombres_servidor().count('S14 Loratadina 10')
