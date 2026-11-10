@@ -221,7 +221,14 @@ def iniciar_sesion(usuario, clave, esperar_menu=True):
         exigir('menu-' + usuario, 60, desc='Abrir menú')
 
 
+def asegurar_sesion():
+    """Si un paso anterior falló y la app quedó en el inicio de sesión, entra como admin para no arrastrar el fallo."""
+    if buscar(texto='Inicia sesión para gestionar tu farmacia'):
+        iniciar_sesion('admin', CLAVE)
+
+
 def ir_a(seccion):
+    asegurar_sesion()
     tocar(exigir('menu', 30, desc='Abrir menú'))
     tocar(exigir('drawer-' + seccion, 20, texto=seccion))
 
@@ -313,6 +320,8 @@ def p2_login():
     exigir('sin-conexion', 40, contiene='Sin conexión con PharmaSoft')
     captura('02b-login-sin-conexion')
     modo_avion(False)
+    # La app limpia la contraseña después de cada error: se vuelve a escribir.
+    c = campos(); escribir(c[1], CLAVE); ocultar_teclado()
     tocar(exigir('boton-login-3', texto='Iniciar sesión'))
     exigir('menu-admin', 60, desc='Abrir menú')
     captura('02c-sesion-iniciada')
@@ -491,8 +500,18 @@ def p8_cierre():
 
 
 def revisar_registro():
-    salida = adb('logcat', '-d', timeout=120)
-    (OUT / 'logcat.txt').write_text(salida)
+    """Solo cuenta excepciones de la app (su paquete, Ktor, Koin, kotlinx.serialization o SQLDelight) y el búfer de fallos;
+    el emulador registra ClassNotFoundException propias de Ajustes que no tienen relación con PharmaMobil."""
+    completo = adb('logcat', '-d', timeout=120)
+    (OUT / 'logcat.txt').write_text(completo)
+    fallos = adb('logcat', '-d', '-b', 'crash', timeout=60)
+    (OUT / 'logcat-crash.txt').write_text(fallos)
+    marcas = ('pe.upeu.pharmamobil', 'pe.edu.upeu.pharmamobil', 'io.ktor', 'org.koin', 'kotlinx.serialization', 'app.cash.sqldelight')
+    lineas = completo.splitlines()
+    propias = [l for i, l in enumerate(lineas)
+               if any(m in ' '.join(lineas[max(0, i - 3):i + 4]) for m in marcas) and ('Exception' in l or 'FATAL' in l)]
+    salida = '\n'.join(propias) + '\n' + fallos
+    (OUT / 'logcat-app.txt').write_text(salida)
     patrones = ['FATAL EXCEPTION', 'SerializationException', 'NoBeanDefFoundException', 'ClassNotFoundException',
                 'NoSuchMethodException', 'NoSuchFieldException', 'InstanceCreationException', 'MissingFieldException']
     conteo = {p: salida.count(p) for p in patrones}

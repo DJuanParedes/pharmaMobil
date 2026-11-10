@@ -1,0 +1,2 @@
+# URL de PharmaSoft en la red local para el APK de entrega (se usa si no existe el Secret PHARMA_API_URL)
+http://10.0.2.2:8080/api/v1/

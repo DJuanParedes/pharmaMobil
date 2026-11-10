@@ -37,6 +37,23 @@ jobs:
           ./gradlew :shared:testAndroidHostTest --console=plain 2>&1 | tee evidencias-ci/pruebas.txt
           test ${PIPESTATUS[0]} -eq 0
 
+      - name: Artefactos de entrega SIN firmar con la URL de la PC (los firma el responsable con equipo2.jks)
+        env:
+          PHARMA_API_URL: ${{ secrets.PHARMA_API_URL }}
+        run: |
+          URL="${PHARMA_API_URL:-$(grep -v '^#' ci/sesion14/pharma-api-url.txt | head -1)}"
+          echo "URL del servicio en la entrega: $URL" | tee evidencias-ci/firma/url-servicio.txt
+          ./gradlew :androidApp:bundleRelease :androidApp:assembleRelease -PpharmaApiUrl="$URL" --console=plain 2>&1 | tee evidencias-ci/build-sin-firmar.txt
+          test ${PIPESTATUS[0]} -eq 0
+          mkdir -p entrega/sin-firmar herramientas
+          cp androidApp/build/outputs/bundle/release/*.aab entrega/sin-firmar/Equipo2_ProyectoFinal_Android-sin-firmar.aab
+          cp androidApp/build/outputs/apk/release/*.apk entrega/sin-firmar/Equipo2_ProyectoFinal_Android-sin-firmar.apk
+          cp androidApp/build/outputs/mapping/release/mapping.txt entrega/mapping-r8.txt || true
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          cp "$BT/lib/apksigner.jar" "$BT/zipalign" herramientas/ && basename "$BT" > herramientas/build-tools-version.txt
+          ls -la entrega/sin-firmar herramientas
+          ./gradlew :androidApp:clean --console=plain -q
+
       - name: keystore.properties desde Secrets (se borra al terminar)
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
@@ -133,7 +150,7 @@ jobs:
         if: always()
         run: |
           mkdir -p pub/pruebas
-          cp -r evidencias-ci entrega pub/ 2>/dev/null || true
+          cp -r evidencias-ci entrega herramientas pub/ 2>/dev/null || true
           rm -f pub/entrega/universal.apk
           find shared/build/test-results -name 'TEST-*.xml' -exec cp {} pub/pruebas/ \; || true
           echo "run=${GITHUB_RUN_ID} commit=${GITHUB_SHA} firma=${FIRMA:-?}" > pub/RUN.txt
